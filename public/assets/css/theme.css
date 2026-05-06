@@ -1,0 +1,608 @@
+/* =========================
+   THEME VARIABLES
+========================= */
+:root {
+    --bg: #0b0c12;
+    --bg-soft: #0f111a;
+    --text: #ffffff;
+    --muted: rgba(255, 255, 255, 0.6);
+    --card: rgba(255, 255, 255, 0.04);
+    --border: rgba(255, 255, 255, 0.08);
+    --primary: #9146ff;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    --header-bg: rgba(11, 12, 20, 0.82);
+    --header-border: rgba(255, 255, 255, 0.07);
+}
+
+/* =========================
+   LIGHT MODE
+========================= */
+html.light-mode,
+body.light-mode {
+    --bg: #f4f6fb;
+    --bg-soft: #ffffff;
+    --text: #111318;
+    --muted: rgba(0, 0, 0, 0.55);
+    --card: #ffffff;
+    --border: rgba(0, 0, 0, 0.10);
+    --primary: #6a2fff;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --header-bg: rgba(255, 255, 255, 0.92);
+    --header-border: rgba(0, 0, 0, 0.08);
+}
+
+html.dark-mode,
+body.dark-mode {
+    --bg: #0b0d14;
+    --bg-soft: #0f121c;
+    --text: #ffffff;
+    --muted: rgba(255, 255, 255, 0.65);
+    --card: rgba(255, 255, 255, 0.04);
+    --border: rgba(255, 255, 255, 0.08);
+    --primary: #9146ff;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    --header-bg: rgba(11, 12, 20, 0.82);
+    --header-border: rgba(255, 255, 255, 0.07);
+}
+
+/* =========================
+   GLOBAL
+========================= */
+html, body {
+    height: 100%;
+    background: var(--bg) !important;
+    color: var(--text) !important;
+    transition: background .25s ease, color .25s ease;
+}
+
+* {
+    transition: background .25s ease, color .25s ease, border-color .25s ease;
+}
+
+/* =========================
+   LAYOUT WRAPPERS
+========================= */
+#kt_app_body,
+.app-wrapper,
+.app-container,
+.app-main,
+#kt_app_content,
+#kt_app_footer,
+#kt_app_main {
+    background: var(--bg) !important;
+}
+
+.app-container {
+    max-width: 1400px !important;
+}
+
+/* =========================
+   HEADER  (search + switch + butonlar)
+========================= */
+.app-header,
+.modern-header {
+    background: var(--header-bg) !important;
+    border-bottom: 1px solid var(--header-border) !important;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    z-index: 999;
+    transition: background .25s ease, border-color .25s ease;
+}
+
+/* =========================
+   HEADER — SEARCH
+========================= */
+.search-box {
+    position: relative;
+    max-width: 420px;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+}
+
+.search-input {
+    padding-left: 40px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    transition: background .25s ease, border-color .25s ease, color .25s ease;
+}
+
+.search-input::placeholder {
+    color: var(--muted);
+}
+
+.search-input:focus {
+    background: var(--card) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(145, 70, 255, 0.15) !important;
+    outline: none;
+}
+
+/* =========================
+   HEADER — ICON BUTTONS  (theme switch dahil)
+========================= */
+.modern-icon {
+    background: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.modern-icon i,
+.modern-icon svg {
+    color: var(--text) !important;
+    transition: color .25s ease;
+}
+
+.modern-icon:hover {
+    background: rgba(145, 70, 255, 0.15) !important;
+    border-color: rgba(145, 70, 255, 0.35) !important;
+    transform: translateY(-1px);
+}
+
+/* NOTIFICATION DOT */
+.notif-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    background: #ff3b3b;
+    border-radius: 50%;
+}
+
+/* =========================
+   HEADER — GİRİŞ / ÜYE OL BUTONLARI
+========================= */
+.btn-header-login {
+    height: 38px;
+    padding: 0 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    background: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.btn-header-login:hover {
+    background: rgba(145, 70, 255, 0.12) !important;
+    border-color: rgba(145, 70, 255, 0.4) !important;
+    transform: translateY(-1px);
+}
+
+.btn-header-register {
+    height: 38px;
+    padding: 0 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    background: var(--primary) !important;
+    border: none !important;
+    color: #fff !important;
+    box-shadow: 0 4px 18px rgba(145, 70, 255, 0.35);
+    transition: opacity .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.btn-header-register:hover {
+    opacity: .9;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(145, 70, 255, 0.45);
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+#kt_app_sidebar,
+.app-sidebar {
+    background: var(--bg-soft) !important;
+    border-right: 1px solid var(--border) !important;
+    transition: background .25s ease, border-color .25s ease;
+}
+
+/* =========================
+   SIDEBAR LINKS
+========================= */
+.sidebar-title {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 16px 10px 8px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border-radius: 12px;
+    color: var(--text) !important;
+    text-decoration: none;
+    transition: background .18s ease, transform .18s ease;
+}
+
+.sidebar-link i {
+    font-size: 18px;
+    color: var(--muted) !important;
+    transition: color .18s ease;
+}
+
+.sidebar-link:hover {
+    background: rgba(145, 70, 255, 0.12);
+    transform: translateX(4px);
+}
+
+/* AKTİF SAYFA — hem dark hem light modda okunur */
+.sidebar-link.active {
+    background: rgba(145, 70, 255, 0.18);
+    color: var(--primary) !important;
+    box-shadow: inset 0 0 0 1px rgba(145, 70, 255, 0.3);
+}
+
+.sidebar-link.active i {
+    color: var(--primary) !important;
+}
+
+/* SIDEBAR USER */
+.sidebar-user {
+    border-top: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.06);
+}
+
+/* SIDEBAR DROPDOWN */
+.sidebar-dropdown {
+    background: var(--bg-soft) !important;
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border) !important;
+    border-radius: 14px;
+    padding: 8px;
+    min-width: 240px;
+}
+
+.sidebar-dropdown-header {
+    padding: 10px 12px;
+    margin-bottom: 6px;
+}
+
+.sidebar-dropdown-header .name {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.sidebar-dropdown-header .email {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.sidebar-dropdown .dropdown-item {
+    border-radius: 10px;
+    padding: 10px 12px;
+    color: var(--text) !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background .15s ease, transform .15s ease;
+}
+
+.sidebar-dropdown .dropdown-item:hover {
+    background: rgba(145, 70, 255, 0.12) !important;
+    transform: translateX(3px);
+}
+
+.sidebar-dropdown i {
+    font-size: 16px;
+    color: var(--muted) !important;
+}
+
+.sidebar-dropdown .dropdown-divider {
+    border-color: var(--border);
+}
+
+/* =========================
+   MENU LINKS (METRONIC)
+========================= */
+.menu-link {
+    border-radius: 10px !important;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.menu-link:hover {
+    background: rgba(145, 70, 255, 0.12) !important;
+    transform: translateX(3px);
+}
+
+.menu-item.active > .menu-link {
+    background: rgba(145, 70, 255, 0.18) !important;
+    color: var(--primary) !important;
+    box-shadow: 0 0 20px rgba(145, 70, 255, 0.15);
+}
+
+/* =========================
+   DROPDOWNS
+========================= */
+.modern-dropdown,
+.dropdown-menu {
+    background: var(--bg-soft) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 14px;
+    overflow: hidden;
+    min-width: 280px;
+    padding: 0;
+    backdrop-filter: blur(16px);
+    box-shadow: var(--shadow);
+    transition: background .25s ease, border-color .25s ease;
+}
+
+.dropdown-item {
+    color: var(--text) !important;
+    padding: 10px 14px;
+    transition: background .15s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(145, 70, 255, 0.12) !important;
+    color: var(--primary) !important;
+}
+
+/* USER BOX */
+.user-box {
+    padding: 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+}
+
+/* =========================
+   CARDS
+========================= */
+.card,
+.card-body,
+.card-header {
+    background: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 14px !important;
+    color: var(--text) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+}
+
+/* =========================
+   AUCTION CARD  (light modda metin sorunu çözüldü)
+========================= */
+.auction-card {
+    background: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    backdrop-filter: blur(10px);
+}
+
+.auction-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(145, 70, 255, 0.4) !important;
+}
+
+/* auction-card içindeki TÜM metin var(--text) kullanır */
+.auction-card,
+.auction-card * {
+    color: var(--text) !important;
+}
+
+.auction-img {
+    height: 180px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.price {
+    color: var(--primary) !important;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.meta {
+    font-size: 12px;
+    color: var(--muted) !important;
+}
+
+.section-title {
+    color: var(--text);
+    font-weight: 700;
+    margin: 30px 0 15px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn-primary {
+    background: linear-gradient(135deg, #9146ff, #6a2fff) !important;
+    border: none !important;
+    color: #fff !important;
+    box-shadow: var(--shadow);
+}
+
+.modern-btn {
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+/* =========================
+   TEXT HELPERS
+========================= */
+.text-muted {
+    color: var(--muted) !important;
+}
+
+.text-white,
+.text-light {
+    color: var(--text) !important;
+}
+
+/* =========================
+   ALERTS
+========================= */
+.alert {
+    background: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    backdrop-filter: blur(10px);
+    color: var(--text) !important;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.app-footer {
+    background: transparent !important;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+::-webkit-scrollbar { width: 8px; }
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(145, 70, 255, 0.7);
+}
+
+/* =========================
+   HERO
+========================= */
+.hero {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    padding: 60px;
+    background: linear-gradient(135deg, rgba(145, 70, 255, 0.12), rgba(0, 0, 0, 0.7)),
+                url('https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+}
+
+.hero h1 {
+    font-weight: 800;
+    color: #fff;
+    font-size: 34px;
+}
+
+.hero p {
+    color: rgba(255, 255, 255, 0.65);
+    max-width: 520px;
+}
+
+/* =========================
+   LIVE BADGE
+========================= */
+.live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 50px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.live i {
+    width: 8px;
+    height: 8px;
+    background: #ff3b3b;
+    border-radius: 50%;
+    animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+    0%   { transform: scale(1);   opacity: 1; }
+    50%  { transform: scale(1.7); opacity: 0.4; }
+    100% { transform: scale(1);   opacity: 1; }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 991px) {
+    .search-box { max-width: 180px; }
+}
+
+.loading {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+.loading svg { display: none; }
+
+.loading::after {
+    content: "";
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-right-color: #00d4ff;
+    animation: spin 0.9s linear infinite;
+    box-shadow: 0 0 25px rgba(145, 70, 255, 0.25);
+}
+
+.loading::before {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(145,70,255,0.2), transparent 70%);
+    filter: blur(20px);
+    animation: glow-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes glow-pulse {
+    0%, 100% { transform: scale(1);   opacity: 0.6; }
+    50%       { transform: scale(1.2); opacity: 1; }
+}
+
+body.loaded .loading {
+    opacity: 0;
+    visibility: hidden;
+    transition: all .35s ease;
+}
