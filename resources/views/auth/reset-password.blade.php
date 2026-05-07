@@ -1,39 +1,92 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
+@extends('auth.layouts.master')
+@section('title', 'Şifre Sıfırlama')
+
+@section('content')
+
+    @php
+        $token = $request->route('token');
+    @endphp
+
+    <form class="form w-100" method="POST" action="{{ route('password.store') }}">
         @csrf
 
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+        <input type="hidden" name="token" value="{{ $token }}">
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="text-center mb-10">
+            <h1 class="text-muted fw-bolder mb-3">Yeni Şifre Oluştur</h1>
+            <div class="text-gray-500 fw-semibold fs-6">
+                Hesabın için güçlü bir şifre belirle
+            </div>
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        @if (session('status'))
+            <div class="alert alert-success mb-6">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <div class="form-floating mb-4">
+            <input type="email" name="email" class="form-control auth-input @error('email') is-invalid @enderror"
+                placeholder="E-Posta" value="{{ old('email', $request->email) }}" required>
+
+            <label>E-posta adresi</label>
+
+            @error('email')
+                <div class="invalid-feedback d-block text-danger small">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+        <div class="form-floating mb-4 position-relative" data-kt-password-meter="true">
+            <input type="password" name="password" class="form-control pe-10 @error('password') is-invalid @enderror"
+                placeholder="Şifre" value="{{old('password')}}" required>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
+            <label>Şifre</label>
+              @error('password')
+                <div class="invalid-feedback d-block text-danger small">
+                    {{ $message }}
+                </div>
+            @enderror
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+            <span
+                class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 {{ $errors->has('password') ? 'pb-5' : '' }}"
+                data-kt-password-meter-control="visibility">
+                <i class="bi bi-eye-slash fs-2"></i>
+                <i class="bi bi-eye fs-2 d-none"></i>
+            </span>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
+        <div class="form-floating mb-4 position-relative" data-kt-password-meter="true">
+            <input type="password" name="password_confirmation" class="form-control pe-10" placeholder="Şifre tekrar" value="{{old('password_confirmation')}}"
+                required>
+
+            <label>Şifre Tekrar</label>
+              @error('password_confirmation')
+                <div class="invalid-feedback d-block text-danger small">
+                    {{ $message }}
+                </div>
+            @enderror
+            <span
+                class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 {{ $errors->has('password_confirmation') ? 'pb-5' : '' }}"
+                data-kt-password-meter-control="visibility">
+                <i class="bi bi-eye-slash fs-2"></i>
+                <i class="bi bi-eye fs-2 d-none"></i>
+            </span>
         </div>
+
+        <div class="d-grid mb-4">
+            <button class="btn btn-auth-primary btn-lg fw-bold" type="submit">
+                Şifreyi Güncelle
+            </button>
+        </div>
+
+        <div class="d-grid">
+            <a href="{{ route('login') }}" class="btn btn-auth-outline btn-lg">
+                ← Geri Dön
+            </a>
+        </div>
+
     </form>
-</x-guest-layout>
+
+@endsection

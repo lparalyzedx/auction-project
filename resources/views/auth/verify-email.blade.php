@@ -1,31 +1,61 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+@extends('auth.layouts.master')
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+@section('content')
+
+    <div class="auth-form w-100">
+
+        <div class="text-center mb-10">
+
+            <div class="badge bg-primary px-4 py-2 mb-4">
+                EMAIL VERIFICATION
+            </div>
+
+            <h1 class="fw-bold fs-2 mb-2">
+                E-posta adresini doğrula
+            </h1>
+
+            <p class="text-muted fs-6">
+                Hesabını kullanabilmek için e-posta doğrulaması gerekiyor
+            </p>
+
         </div>
-    @endif
 
-    <div class="mt-4 flex items-center justify-between">
+        <div class="alert alert-info mb-6">
+            Kayıt olurken gönderilen doğrulama linkine tıklaman gerekiyor. Eğer mail gelmediyse tekrar gönderebilirsin.
+        </div>
+
+        @if (session('status') == 'verification-link-sent')
+            <div class="alert alert-success mb-6">
+                Yeni doğrulama linki e-posta adresine gönderildi.
+            </div>
+        @endif
+
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
 
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
+            <div class="d-grid mb-4">
+                <button type="submit" class="btn btn-auth-primary btn-lg">
+                Tekrar Gönder
+                </button>
             </div>
         </form>
 
         <form method="POST" action="{{ route('logout') }}">
             @csrf
 
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
-            </button>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-auth-outline btn-lg">
+                    Çıkış Yap
+                </button>
+            </div>
         </form>
+
+        <div class="text-center mt-6">
+            <span class="text-muted fs-7">
+                Mail gelmediyse spam klasörünü kontrol et
+            </span>
+        </div>
+
     </div>
-</x-guest-layout>
+
+@endsection

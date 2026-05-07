@@ -7,7 +7,7 @@
             <h1 class="text-muted fw-bolder mb-3">Şifrenizi mi unuttunuz?</h1>
             <div class="text-gray-500 fw-semibold fs-6">Şifrenizi sıfırlamak için e-posta adresinizi girin.</div>
         </div>
-        @if (session()->has('success'))
+        @if (session()->has('status'))
             <div class="alert alert-success d-flex align-items-center p-5 mb-10">
                 <span class="svg-icon svg-icon-2hx svg-icon-success me-4">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,7 +41,7 @@
 
         <div class="d-grid mb-4">
             <button class="btn btn-auth-primary btn-lg fw-bold" type="submit">
-                Şifre Sıfırlama Linki Gönder
+                Gönder
             </button>
         </div>
 

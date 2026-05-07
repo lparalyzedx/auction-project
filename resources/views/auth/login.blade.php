@@ -20,7 +20,7 @@
 
         </div>
 
-        <div class="form-floating mb-5">
+        <div class="form-floating mb-4">
             <input type="email" name="email"
                 id="email"
                 class="form-control auth-input @error('email') is-invalid @enderror"
@@ -37,7 +37,7 @@
             @enderror
         </div>
 
-        <div class="form-floating mb-5 position-relative" data-kt-password-meter="true">
+        <div class="form-floating mb-4 position-relative" data-kt-password-meter="true">
             <input type="password" name="password"
                 id="password"
                 class="form-control auth-input pe-5 @error('password') is-invalid @enderror"
@@ -74,7 +74,7 @@
         </div>
 
         <div class="d-grid mb-4">
-            <button type="submit" class="btn btn-auth-primary btn-lg fw-bold">
+            <button type="submit" class="btn btn-auth-primary btn-lg">
                 Giriş Yap
             </button>
         </div>

@@ -87,7 +87,7 @@ body { overflow: hidden; }
 
 html.light-mode .auth-left::before,
 html.light-mode .auth-left::after {
-    opacity: 0.07;
+    opacity: 0.3;
 }
 
 @media (max-width: 768px) {
@@ -324,4 +324,76 @@ body.loaded .loading {
     background: rgba(145, 70, 255, 0.12) !important;
     border-color: var(--primary) !important;
     color: var(--text) !important;
+}
+
+html.dark-mode .form-check-input:checked[type=checkbox] {
+    --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 11' fill='none'%3e%3cpath d='M11.0426 1.02893C11.3258 0.695792 11.8254 0.655283 12.1585 0.938451C12.4917 1.22162 12.5322 1.72124 12.249 2.05437L5.51985 9.97104C5.23224 10.3094 4.72261 10.3451 4.3907 10.05L0.828197 6.88335C0.50141 6.59288 0.471975 6.09249 0.762452 5.7657C1.05293 5.43891 1.55332 5.40948 1.88011 5.69995L4.83765 8.32889L11.0426 1.02893Z' fill='%23ffffff'/%3e%3c/svg%3e");
+}
+
+/* LIGHT MODE (tik siyah olsun) */
+html.light-mode .form-check-input:checked[type=checkbox] {
+    --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 11' fill='none'%3e%3cpath d='M11.0426 1.02893C11.3258 0.695792 11.8254 0.655283 12.1585 0.938451C12.4917 1.22162 12.5322 1.72124 12.249 2.05437L5.51985 9.97104C5.23224 10.3094 4.72261 10.3451 4.3907 10.05L0.828197 6.88335C0.50141 6.59288 0.471975 6.09249 0.762452 5.7657C1.05293 5.43891 1.55332 5.40948 1.88011 5.69995L4.83765 8.32889L11.0426 1.02893Z' fill='%23111318'/%3e%3c/svg%3e");
+}
+
+/* =========================
+   ROLE CARD SYSTEM (THEME SAFE)
+========================= */
+
+/* BASE */
+.role-card {
+    background: var(--card) !important;
+    border: 1px dashed var(--border) !important;
+    transition: all .25s ease;
+}
+
+/* TEXT FIX */
+.role-card .role-label {
+    color: var(--text) !important;
+}
+
+.role-card .text-muted {
+    color: var(--muted) !important;
+}
+
+/* ICON WRAP */
+.role-icon-wrap {
+    background: var(--card) !important;
+}
+
+/* ICON */
+.role-card i {
+    color: var(--muted) !important;
+}
+
+/* =========================
+   SELECTED STATE (RADIO CHECKED)
+========================= */
+
+.role-radio:checked + .role-card {
+    border-color: var(--primary) !important;
+    background: rgba(145,70,255,0.12) !important;
+}
+
+/* ICON ACTIVE */
+.role-radio:checked + .role-card .role-icon-wrap {
+    background: var(--primary) !important;
+}
+
+/* ICON ACTIVE COLOR */
+.role-radio:checked + .role-card i {
+    color: #fff !important;
+}
+
+/* TITLE ACTIVE */
+.role-radio:checked + .role-card .role-label {
+    color: var(--primary) !important;
+}
+
+/* =========================
+   HOVER EFFECT
+========================= */
+
+.role-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
 }
