@@ -9,17 +9,40 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserIsVerified
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
 
-        if ($user && !$user->is_verified) {
-            return response()->view('auth.pending-approval');
+        if (! $user) {
+            return redirect()->route('login');
+        }
+
+        if ($user->hasRole('buyer')) {
+            return $next($request);
+        }
+
+        if ($user->hasRole('admin')) {
+            return $next($request);
+        }
+
+        if ($user->hasRole('seller')) {
+            $profile = $user->sellerProfile;
+
+            if (! $profile) {
+                Auth::logout();
+                return redirect()->route('login')
+                    ->withErrors(['email' => 'Hesabınızda bir sorun oluştu, lütfen tekrar kayıt olun.']);
+            }
+
+            if ($profile->isPending()) {
+                return response()->view('auth.pending-approval');
+            }
+
+            if ($profile->isRejected()) {
+                return response()->view('auth.rejected', [
+                    'reason' => $profile->rejection_reason
+                ]);
+            }
         }
 
         return $next($request);

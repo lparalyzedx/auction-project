@@ -47,7 +47,8 @@
 
         <div class="d-grid">
             <a href="{{ route('login') }}" class="btn btn-auth-outline btn-lg">
-                ← Geri Dön
+                
+<svg xmlns="http://www.w3.org/2000/svg" height="12px" viewBox="0 -960 960 960" width="15px" fill="#e3e3e3"><path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z"/></svg> Geri dön
             </a>
         </div>
     </form>

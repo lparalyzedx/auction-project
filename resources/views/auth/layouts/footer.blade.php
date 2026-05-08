@@ -3,7 +3,7 @@
 </div>
 </div>
 
-<div id="authBg" class="d-flex flex-lg-row-fluid w-lg-50 position-relative order-1 order-lg-2"
+<div class="d-flex flex-lg-row-fluid w-lg-50 position-relative order-1 order-lg-2"
     style="background: url('https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
 
     <div class="position-absolute top-0 start-0 w-100 h-100"
@@ -58,25 +58,6 @@
 
 <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
 <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
-<script>
-const images = [
-    "https://picsum.photos/500/300?random=2",
-    "https://picsum.photos/500/300?random=3",
-    "https://picsum.photos/500/300?random=4",
-    "https://picsum.photos/500/300?random=5"
-];
-
-let index = 0;
-const el = document.getElementById("authBg");
-
-setInterval(() => {
-    index = (index + 1) % images.length;
-
-    el.style.backgroundImage = `url('${images[index]}')`;
-    el.style.backgroundSize = "cover";
-    el.style.backgroundPosition = "center";
-}, 10000);
-</script>
 @stack('scripts')
 
 </body>

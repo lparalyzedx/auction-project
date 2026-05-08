@@ -2,27 +2,20 @@
 @section('title', 'Profilim')
 @section('content')
 
-    <div class="profile-toolbar animate-in">
-        <div class="d-flex align-items-center justify-content-between position-relative">
-            <div>
-                <h2 class="text-white fw-bolder fs-4 mb-1">Hesap Ayarları</h2>
-                <div class="d-flex align-items-center gap-2">
-                    <a href="{{ route('dashboard') }}" class="text-white opacity-60 fs-7 fw-semibold">
-                        Ana Sayfa
-                    </a>
-                    <i class="ki-duotone ki-right fs-8 text-white opacity-40"><span class="path1"></span><span
-                            class="path2"></span></i>
-                    <span class="text-white opacity-80 fs-7 fw-semibold">Profilim</span>
-                </div>
-            </div>
-            <div class="d-flex align-items-center gap-3">
-                <div class="d-flex align-items-center gap-2 bg-white bg-opacity-10 rounded-pill px-4 py-2">
-                    <span class="bullet bullet-dot bg-success h-8px w-8px"></span>
-                    <span class="text-white fs-8 fw-semibold">Çevrimiçi</span>
-                </div>
-            </div>
+    <div class="admin-toolbar">
+    <div class="d-flex align-items-center justify-content-between position-relative">
+        <div>
+            <div class="toolbar-title">Hesap Ayarları</div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 mt-1">
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Anasayfa</a></li>
+                    <li class="breadcrumb-item active">Profilim</li>
+                </ol>
+            </nav>
         </div>
+        
     </div>
+</div>
 
     <div class="row g-6">
 
@@ -39,12 +32,12 @@
                         <div class="text-white opacity-60 fs-7 mb-3">{{ $user->email }}</div>
 
                         @php
-                            $roleClass = match ($user->role) {
+                            $roleClass = match ($user->roles->first()->name) {
                                 'admin' => 'role-badge-admin',
                                 'seller' => 'role-badge-seller',
                                 default => 'role-badge-buyer',
                             };
-                            $roleLabel = match ($user->role) {
+                            $roleLabel = match ($user->roles->first()->name) {
                                 'admin' => '👑 Admin',
                                 'seller' => '🏪 Satıcı',
                                 default => '🛍️ Alıcı',
@@ -240,15 +233,12 @@
                         </div>
 
                         <div class="px-8 pb-8 d-flex justify-content-end gap-3">
-                            <button type="reset" class="btn-au-ghost">Sıfırla</button>
-                            <button type="submit" class="btn btn-primary" id="btnProfileSave">
+                            <button type="reset" class="btn-admin-sec">Sıfırla</button>
+                            <button type="submit" class="btn-admin-pri">
                                 <span class="indicator-label">
                                     <i class="ki-duotone ki-check fs-5 me-1"><span class="path1"></span><span
                                             class="path2"></span></i>
                                     Değişiklikleri Kaydet
-                                </span>
-                                <span class="indicator-progress d-none">
-                                    <span class="spinner-border spinner-border-sm me-2"></span>Kaydediliyor...
                                 </span>
                             </button>
                         </div>
@@ -350,8 +340,8 @@
                                         </div>
                                     </div>
                                     <div class="d-flex gap-3">
-                                        <button type="submit" class="btn btn-primary">E-postayı Güncelle</button>
-                                        <button type="button" class="btn-au-ghost" id="cancelEmail">Vazgeç</button>
+                                        <button type="submit" class="btn-admin-pri">E-postayı Güncelle</button>
+                                        <button type="button" class="btn-admin-sec" id="cancelEmail">Vazgeç</button>
                                     </div>
                                 </form>
                             </div>
@@ -464,8 +454,8 @@
                                         En az 8 karakter, büyük/küçük harf ve sembol içermelidir.
                                     </div>
                                     <div class="d-flex gap-3">
-                                        <button type="submit" class="btn btn-primary">Şifreyi Güncelle</button>
-                                        <button type="button" class="btn-au-ghost" id="cancelPassword">Vazgeç</button>
+                                        <button type="submit" class="btn-admin-pri">Şifreyi Güncelle</button>
+                                        <button type="button" class="btn-admin-sec" id="cancelPassword">Vazgeç</button>
                                     </div>
                                 </form>
                             </div>
@@ -550,16 +540,5 @@
                 chevron.style.transform = 'rotate(0deg)';
             });
         });
-
-        // PROFILE SUBMIT LOADING
-        document.querySelector('form[action="{{ route('profile.update') }}"]')
-            ?.addEventListener('submit', function() {
-                const btn = document.getElementById('btnProfileSave');
-                if (!btn) return;
-
-                btn.querySelector('.indicator-label')?.classList.add('d-none');
-                btn.querySelector('.indicator-progress')?.classList.remove('d-none');
-                btn.disabled = true;
-            });
     </script>
 @endpush

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\Notifications\CustomResetPassword;
 use App\Notifications\CustomVerifyEmail;
 use Database\Factories\UserFactory;
@@ -12,38 +10,26 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role',
         'phone',
         'avatar',
         'is_verified',
         'bio',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
 
     public function auctions()
     {
@@ -70,14 +56,33 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Order::class, 'seller_id');
     }
 
+    public function sellerProfile()
+    {
+        return $this->hasOne(SellerProfile::class);
+    }
+
+    // Spatie rolleri kullanıyoruz artık ama eski
+    // isSeller() / isAdmin() helper'ları da bırakıyoruz
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->hasRole('admin');
     }
 
     public function isSeller(): bool
     {
-        return in_array($this->role, ['admin', 'seller']);
+        return $this->hasRole('seller');
+    }
+
+    public function isBuyer(): bool
+    {
+        return $this->hasRole('buyer');
+    }
+
+    public function isSellerApproved(): bool
+    {
+        return $this->hasRole('seller')
+            && $this->sellerProfile
+            && $this->sellerProfile->verification_status === 'approved';
     }
 
     public function getProfileImgAttribute(): string
@@ -98,20 +103,12 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new CustomResetPassword($token));
     }
 
-
-
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'is_verified'       => 'boolean',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
     }
 }

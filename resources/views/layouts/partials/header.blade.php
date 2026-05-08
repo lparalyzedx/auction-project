@@ -27,11 +27,12 @@
             </button>
 
             @auth
-
+            @role('seller')
                 <a href="#create-auction" class="btn btn-primary btn-sm modern-btn">
                     <i class="bi bi-plus-lg me-1"></i>
                     İlan Ver
                 </a>
+                @endrole
 
                 <div class="dropdown">
                     <button class="btn modern-icon position-relative" data-bs-toggle="dropdown">
@@ -77,8 +78,7 @@
                             <div class="text-muted fs-8">{{ auth()->user()->email }}</div>
                         </div>
 
-                        <a class="dropdown-item" href="/profile">Profil</a>
-                        <a class="dropdown-item" href="/profile/edit">Profil Düzenle</a>
+                        <a class="dropdown-item" href="{{route('profile.edit')}}">Profil</a>
                         <a class="dropdown-item" href="/my-listings">İlanlarım</a>
                         <a class="dropdown-item" href="/my-bids">Tekliflerim</a>
                         <form method="POST" action="{{route('logout')}}">
