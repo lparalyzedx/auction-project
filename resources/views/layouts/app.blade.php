@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }} — @yield('title', 'Müzayede')</title>
+    <link rel="icon" href="{{ asset('assets/media/logos/favicon.svg') }}" type="image/x-icon" />
 
     <link rel="stylesheet" href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.bundle.css') }}" />
@@ -45,25 +46,22 @@
             });
 
         });
+
     </script>
 
 
     @stack('styles')
 </head>
 
-<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true"
-    data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true"
-    data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true"
-    data-kt-app-sidebar-push-footer="true">
-    
+<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true">
+
     <div class="loading">
-    <svg width="48" height="48" viewBox="0 0 48 48">
-        <g fill="none">
-            <path fill="#9146ff"
-                d="M24,48 C10.7,48 0,37.2 0,24 C0,10.7 10.7,0 24,0 C37.2,0 48,10.7 48,24 C48,37.2 37.2,48 24,48 Z"/>
-        </g>
-    </svg>
-</div>
+        <svg width="48" height="48" viewBox="0 0 48 48">
+            <g fill="none">
+                <path fill="#9146ff" d="M24,48 C10.7,48 0,37.2 0,24 C0,10.7 10.7,0 24,0 C37.2,0 48,10.7 48,24 C48,37.2 37.2,48 24,48 Z" />
+            </g>
+        </svg>
+    </div>
 
     <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
         <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
@@ -80,37 +78,31 @@
                             <div id="kt_app_content_container" class="app-container container-xxl">
 
                                 @if (session('success'))
-                                    <div class="alert alert-success d-flex align-items-center p-5 mt-5">
-                                        <i class="ki-duotone ki-shield-tick fs-2hx text-success me-4">
-                                            <span class="path1"></span><span class="path2"></span>
-                                        </i>
-                                        <div class="d-flex flex-column">
-                                            <span>{{ session('success') }}</span>
-                                        </div>
-                                        <button type="button"
-                                            class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
-                                            data-bs-dismiss="alert">
-                                            <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i>
-                                        </button>
+                                <div class="alert alert-success d-flex align-items-center p-5 mt-5">
+                                    <i class="ki-duotone ki-shield-tick fs-2hx text-success me-4">
+                                        <span class="path1"></span><span class="path2"></span>
+                                    </i>
+                                    <div class="d-flex flex-column">
+                                        <span>{{ session('success') }}</span>
                                     </div>
+                                    <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
+                                        <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>
+                                    </button>
+                                </div>
                                 @endif
 
                                 @if (session('error'))
-                                    <div class="alert alert-danger d-flex align-items-center p-5 mt-5">
-                                        <i class="ki-duotone ki-cross-circle fs-2hx text-danger me-4">
-                                            <span class="path1"></span><span class="path2"></span>
-                                        </i>
-                                        <div class="d-flex flex-column">
-                                            <span>{{ session('error') }}</span>
-                                        </div>
-                                        <button type="button"
-                                            class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
-                                            data-bs-dismiss="alert">
-                                            <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span
-                                                    class="path2"></span></i>
-                                        </button>
+                                <div class="alert alert-danger d-flex align-items-center p-5 mt-5">
+                                    <i class="ki-duotone ki-cross-circle fs-2hx text-danger me-4">
+                                        <span class="path1"></span><span class="path2"></span>
+                                    </i>
+                                    <div class="d-flex flex-column">
+                                        <span>{{ session('error') }}</span>
                                     </div>
+                                    <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
+                                        <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>
+                                    </button>
+                                </div>
                                 @endif
 
                                 @yield('content')
@@ -119,14 +111,37 @@
                         </div>
                     </div>
 
-                    {{-- Footer --}}
                     <div id="kt_app_footer" class="app-footer">
-                        <div
-                            class="app-container container-xxl d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
-                            <div class="text-dark order-2 order-md-1">
-                                <span class="text-muted fw-semibold me-1">{{ date('Y') }} &copy;</span>
-                                <a href="#" class="text-gray-800 text-hover-primary">Müzayede</a>
+                        <div class="app-container container-xxl d-flex flex-column flex-md-row align-items-center justify-content-between py-4">
+
+                            <div class="d-flex align-items-center text-gray-500 fw-semibold fs-7">
+                                <span>{{ date('Y') }} ©</span>
+
+                                <a href="https://artirdim.com" target="_blank" class="mx-2 text-gray-800 text-hover-primary fw-bold fs-6 text-decoration-none">
+                                    Artirdim.com
+                                </a>
+
+                                <span class="text-muted">
+                                    Tüm hakları saklıdır.
+                                </span>
                             </div>
+
+                            <div class="d-flex align-items-center gap-4 mt-3 mt-md-0">
+
+                                <a href="/hakkimizda" class="text-muted text-hover-primary text-decoration-none fw-semibold fs-7">
+                                    Hakkımızda
+                                </a>
+
+                                <a href="/iletisim" class="text-muted text-hover-primary text-decoration-none fw-semibold fs-7">
+                                    İletişim
+                                </a>
+
+                                <a href="/gizlilik-politikasi" class="text-muted text-hover-primary text-decoration-none fw-semibold fs-7">
+                                    Gizlilik Politikası
+                                </a>
+
+                            </div>
+
                         </div>
                     </div>
 

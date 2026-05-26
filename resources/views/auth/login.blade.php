@@ -6,19 +6,32 @@
 
         <div class="text-center mb-10">
 
-            <div class="badge bg-primary px-4 py-2 mb-4">
-                LIVE AUCTION
-            </div>
+    <div class="mb-6">
 
-            <h1 class="fw-bold fs-2 mb-2">
-                Tekrar Hoşgeldin
-            </h1>
+        <img
+            src="{{ asset('assets/media/logos/logo-light.svg') }}"
+            class="logo-light auth-logo"
+            alt="Artirdim"
+        >
 
-            <p class="text-muted fs-6">
-                Hesabına giriş yap ve canlı müzayedelere katıl
-            </p>
+        <img
+            src="{{ asset('assets/media/logos/logo-dark.svg') }}"
+            class="logo-dark auth-logo"
+            alt="Artirdim"
+        >
 
-        </div>
+    </div>
+
+
+    <h1 class="fw-bold fs-2 mb-2">
+        Tekrar Hoşgeldin
+    </h1>
+
+    <p class="text-muted fs-6">
+        Hesabına giriş yap ve canlı müzayedelere katıl
+    </p>
+
+</div>
         <!--
         <div class="d-grid mb-4">
             <a href="£" class="btn btn-light btn-lg border">

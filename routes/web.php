@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('index');
+
+
 
 
 
@@ -27,21 +29,25 @@ Route::get('/email/verify', function () {
 
 Route::middleware(['auth'])->group(function () {
 
-   
+
     Route::middleware(['verified.account'])->group(function () {
 
-       
+
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('dashboard');
 
-        
+
+
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::put('/profile/email', [ProfileController::class, 'updateEmail'])->name('profile.email');
         Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+        Route::get('notifications',function(){
+            return view('general.notifications');
+        });
 
-       
+
         Route::middleware('role:admin')
             ->prefix('admin')
             ->name('admin.')
@@ -60,6 +66,11 @@ Route::middleware(['auth'])->group(function () {
                     ->name('users.unverify');
             });
     });
+
+        Route::get('/{any}', function () {
+    return view('profile.show')->with('user', auth()->user());
+});
+
 });
 
 

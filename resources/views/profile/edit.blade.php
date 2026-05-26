@@ -13,7 +13,7 @@
                 </ol>
             </nav>
         </div>
-        
+
     </div>
 </div>
 
@@ -151,17 +151,20 @@
                         @method('PUT')
 
                         <div class="p-8">
-                            @if (session('profile_success'))
-                                <div class="alert-au success">
-                                    <i class="ki-duotone ki-shield-tick fs-2 text-success mt-1">
-                                        <span class="path1"></span><span class="path2"></span>
-                                    </i>
-                                    <div>
-                                        <div class="fw-bold text-success fs-7">Başarıyla Güncellendi</div>
-                                        <div class="text-muted fs-8">{{ session('profile_success') }}</div>
-                                    </div>
-                                </div>
-                            @endif
+                           @if (session('profile_success'))
+    <div class="alert d-flex align-items-start gap-3 bg-success bg-opacity-10 border border-success border-opacity-20 p-4 rounded-3 mb-6 shadow-sm">
+        <div class="d-flex align-items-center justify-content-center bg-success bg-opacity-15 rounded-circle p-2" style="width: 36px; height: 36px; shrink: 0;">
+            <i class="ki-duotone ki-shield-tick fs-3 text-success">
+                <span class="path1"></span><span class="path2"></span>
+            </i>
+        </div>
+
+        <div class="flex-grow-1">
+            <div class="fw-bolder text-success fs-6 mb-0.5">Başarıyla Güncellendi</div>
+            <div class="text-white opacity-60 fs-8 fw-medium">{{ session('profile_success') }}</div>
+        </div>
+    </div>
+@endif
                             <div class="mb-7">
                                 <div class="section-label">Profil Fotoğrafı</div>
                                 <label for="profile_image" class="avatar-upload-zone d-flex">

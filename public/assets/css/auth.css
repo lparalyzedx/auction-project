@@ -397,3 +397,20 @@ html.light-mode .form-check-input:checked[type=checkbox] {
     border-color: var(--primary);
     transform: translateY(-2px);
 }
+
+.auth-logo {
+    height: 70px;
+    width: auto;
+}
+
+.logo-dark {
+    display: none;
+}
+
+html.dark-mode .logo-light {
+    display: none !important;
+}
+
+html.dark-mode .logo-dark {
+    display: inline-block !important;
+}

@@ -4,13 +4,23 @@
 @section('content')
 <form class="form w-100" id="kt_sign_up_form" method="post"
     action="{{ route('register') }}" enctype="multipart/form-data">
+    <div class="auth-header text-center mb-8">
+
+    <img
+        src="{{ asset('assets/media/logos/logo-light.svg') }}"
+        class="logo-light auth-logo"
+        alt="Artirdim"
+    >
+
+    <img
+        src="{{ asset('assets/media/logos/logo-dark.svg') }}"
+        class="logo-dark auth-logo"
+        alt="Artirdim"
+    >
+
+</div>
     @csrf
     <div id="step_1">
-        <div class="text-center mb-10">
-            <h1 class="text-dark fw-bold mb-2">Kayıt Ol</h1>
-            <div class="text-muted fs-6">Müzayedeye katılmak için hesabını oluştur</div>
-        </div>
-
         <div class="mb-6">
             <label class="form-label text-muted fs-7 fw-semibold mb-3">Hesap Türü</label>
             <div class="row g-3">
@@ -116,16 +126,6 @@
             </div>
         @endif
 
-        <div class="text-center mb-8">
-            <div class="mb-4">
-                <span class="badge badge-light-primary fs-7 px-4 py-2">
-                    <i class="ki-duotone ki-shop fs-6 me-1"><span class="path1"></span><span class="path2"></span></i>
-                    Satıcı Bilgileri
-                </span>
-            </div>
-            <h1 class="text-dark fw-bold mb-2">İşletme Bilgileri</h1>
-            <div class="text-muted fs-6">Bilgileriniz admin onayına gönderilecek</div>
-        </div>
 
         <div class="d-flex justify-content-between mb-1">
             <span class="text-muted fs-8">Adım 2 / 3</span>
@@ -182,7 +182,7 @@
                 Geri
             </button>
             <button type="button" id="btn_next_2" class="btn btn-auth-primary btn-lg py-3 fw-semibold flex-grow-1">
-                Devam et 
+                Devam et
 <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="15px" fill="#e3e3e3"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg>
             </button>
         </div>
@@ -197,17 +197,6 @@
                 </ul>
             </div>
         @endif
-
-        <div class="text-center mb-8">
-            <div class="mb-4">
-                <span class="badge badge-light-success fs-7 px-4 py-2">
-                    <i class="ki-duotone ki-shield-tick fs-6 me-1"><span class="path1"></span><span class="path2"></span></i>
-                    Son Adım
-                </span>
-            </div>
-            <h1 class="text-dark fw-bold mb-2">Şifre Oluştur</h1>
-            <div class="text-muted fs-6">Hesabını güvende tut</div>
-        </div>
 
         <div class="d-flex justify-content-between mb-1">
             <span class="text-muted fs-8" id="step_label">Adım 2 / 2</span>
@@ -229,6 +218,13 @@
                     <i class="bi bi-eye fs-2 d-none"></i>
                 </span>
             </div>
+        </div>
+
+         <div class="mb-4">
+            <div style="height:4px;border-radius:2px;background:var(--border,#e4e6ef);overflow:hidden;margin-bottom:5px">
+                <div id="password_strength_bar" style="height:100%;width:0;border-radius:2px;transition:width .3s,background .3s"></div>
+            </div>
+            <span id="password_strength_text" style="font-size:11px;font-weight:600"></span>
         </div>
 
         <div class="fv-row mb-6">

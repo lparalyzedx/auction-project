@@ -11,9 +11,10 @@
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/auth.css') }}" rel="stylesheet" />
+    <link rel="icon" href="{{ asset('assets/media/logos/favicon.svg') }}" type="image/x-icon" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <script>
-   
+
     (function () {
         const t = localStorage.getItem("theme") || "dark";
         document.documentElement.classList.add(t + "-mode");

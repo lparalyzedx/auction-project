@@ -4,13 +4,13 @@ namespace App\Models;
 
 use App\Notifications\CustomResetPassword;
 use App\Notifications\CustomVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -34,6 +34,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function auctions()
     {
         return $this->hasMany(Auction::class);
+    }
+
+   public function isOnline(): bool
+    {
+        return Cache::has('user-is-online-' . $this->id);
     }
 
     public function bids()
@@ -61,8 +66,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(SellerProfile::class);
     }
 
-    // Spatie rolleri kullanıyoruz artık ama eski
-    // isSeller() / isAdmin() helper'ları da bırakıyoruz
     public function isAdmin(): bool
     {
         return $this->hasRole('admin');
