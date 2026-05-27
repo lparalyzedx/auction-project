@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -55,15 +56,29 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('users/{user}/unverify', [UserController::class, 'unverify'])
                     ->name('users.unverify');
 
-                 Route::resource('categories', CategoryController::class);
+                Route::resource('categories', CategoryController::class);
 
                 Route::post('categories/{category}/toggle', [CategoryController::class, 'toggle'])
                     ->name('categories.toggle');
 
                 Route::post('categories/reorder', [CategoryController::class, 'reorder'])
-                     ->name('categories.reorder');
-                        });
-                });
+                    ->name('categories.reorder');
+
+                     Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+        Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
+        Route::post('settings/test-mail', [SettingsController::class, 'testMail'])->name('settings.test-mail');
+
+        // Önbellek
+        Route::post('settings/cache/clear', [SettingsController::class, 'cacheClear'])->name('settings.cache.clear');
+        Route::post('settings/cache/config', [SettingsController::class, 'cacheConfig'])->name('settings.cache.config');
+        Route::post('settings/cache/route', [SettingsController::class, 'cacheRoute'])->name('settings.cache.route');
+        Route::post('settings/cache/view', [SettingsController::class, 'cacheView'])->name('settings.cache.view');
+        Route::post('settings/storage/link', [SettingsController::class, 'storageLink'])->name('settings.storage.link');
+        Route::post('settings/optimize', [SettingsController::class, 'optimize'])->name('settings.optimize');
+            });
+
+
+    });
 
 });
 

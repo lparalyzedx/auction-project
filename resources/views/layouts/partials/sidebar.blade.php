@@ -121,11 +121,13 @@
             <i class="bi bi-person"></i>
             Profilim
         </a>
+         @role('admin')
 
-        <a href="/profile/edit" class="sidebar-link">
+        <a href="{{ route('admin.settings.index') }}" class="sidebar-link {{ request()->is('admin/settings') ? 'active' : '' }}">
             <i class="bi bi-gear"></i>
             Ayarlar
         </a>
+        @endrole
 
         @endauth
 

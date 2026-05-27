@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+        $this->call([SettingsSeeder::class]);
         $adminRole  = Role::firstOrCreate(['name' => 'admin',  'guard_name' => 'web']);
         $sellerRole = Role::firstOrCreate(['name' => 'seller', 'guard_name' => 'web']);
         $buyerRole  = Role::firstOrCreate(['name' => 'buyer',  'guard_name' => 'web']);
