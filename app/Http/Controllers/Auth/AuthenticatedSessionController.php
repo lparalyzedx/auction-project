@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -22,9 +24,45 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->validate([
+            'email' => ['required', 'string'],
+            'password' => ['required', 'string'],
+        ]);
+
+        $this->ensureIsNotRateLimited($request);
+
+        $login = trim($request->email);
+
+        if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+
+            $field = 'email';
+
+        } elseif (preg_match('/^[0-9+\s\-\(\)]+$/', $login)) {
+
+            $field = 'phone';
+
+        } else {
+
+            $field = 'username';
+        }
+
+        $credentials = [
+            $field => $login,
+            'password' => $request->password,
+        ];
+
+        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
+
+            RateLimiter::hit($this->throttleKey($request));
+
+            throw ValidationException::withMessages([
+                'email' => 'Bilgiler hatalı.',
+            ]);
+        }
+
+        RateLimiter::clear($this->throttleKey($request));
 
         $request->session()->regenerate();
 
@@ -43,5 +81,27 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+
+    protected function ensureIsNotRateLimited(Request $request): void
+    {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey($request), 5)) {
+            return;
+        }
+
+        $seconds = RateLimiter::availableIn($this->throttleKey($request));
+
+        throw ValidationException::withMessages([
+            'email' => "Çok fazla deneme yaptın. {$seconds} saniye sonra tekrar dene.",
+        ]);
+    }
+
+
+    protected function throttleKey(Request $request): string
+    {
+        return Str::transliterate(
+            Str::lower($request->input('login')) . '|' . $request->ip()
+        );
     }
 }

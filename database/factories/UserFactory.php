@@ -26,11 +26,23 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'username' =>  $this->generateUsername(fake()->name()),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
+    }
+
+    private function generateUsername(string $name): string
+    {
+        $base = Str::lower($name);
+        $base = preg_replace('/[^a-z0-9]+/i', '.', $base);
+        $base = trim($base, '.');
+
+        $base = Str::limit($base, 20, '');
+
+        return $base.rand(10, 9999);
     }
 
     /**

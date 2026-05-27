@@ -1,18 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/', function () {
     return view('welcome');
 })->name('index');
-
-
-
-
 
 Route::get('/email/verify', function () {
 
@@ -24,29 +20,23 @@ Route::get('/email/verify', function () {
 
 })->middleware('auth')->name('verification.notice');
 
-
-
-
 Route::middleware(['auth'])->group(function () {
 
-
     Route::middleware(['verified.account'])->group(function () {
-
 
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('dashboard');
 
-
-
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::put('/profile/email', [ProfileController::class, 'updateEmail'])->name('profile.email');
-        Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
-        Route::get('notifications',function(){
+        Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::put('profile/email', [ProfileController::class, 'email'])->name('profile.email');
+        Route::put('profile/password', [ProfileController::class, 'password'])->name('profile.password');
+        Route::put('profile/privacy', [ProfileController::class, 'privacy'])->name('profile.privacy');
+        Route::put('profile/social', [ProfileController::class, 'social'])->name('profile.social');
+        Route::get('notifications', function () {
             return view('general.notifications');
         });
-
 
         Route::middleware('role:admin')
             ->prefix('admin')
@@ -64,14 +54,21 @@ Route::middleware(['auth'])->group(function () {
 
                 Route::post('users/{user}/unverify', [UserController::class, 'unverify'])
                     ->name('users.unverify');
-            });
-    });
 
-        Route::get('/{any}', function () {
-    return view('profile.show')->with('user', auth()->user());
+                 Route::resource('categories', CategoryController::class);
+
+                Route::post('categories/{category}/toggle', [CategoryController::class, 'toggle'])
+                    ->name('categories.toggle');
+
+                Route::post('categories/reorder', [CategoryController::class, 'reorder'])
+                     ->name('categories.reorder');
+                        });
+                });
+
 });
 
-});
+Route::get('/u/{username}', [ProfileController::class, 'show'])
+    ->where('username', '[a-z0-9._]+')
+    ->name('profile.public');
 
-
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

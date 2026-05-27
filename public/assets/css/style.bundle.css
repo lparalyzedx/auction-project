@@ -47186,11 +47186,6 @@ label.rating-label:hover ~ .rating-label > i, label.rating-label:hover ~ .rating
   cursor: move;
 }
 
-i.bi, i[class^=fonticon-], i[class*=" fonticon-"], i[class^=fa-], i[class*=" fa-"], i[class^=la-], i[class*=" la-"] {
-  line-height: 1;
-  font-size: 1rem;
-  color: var(--bs-text-muted);
-}
 
 a {
   transition: color 0.2s ease;
@@ -50503,7 +50498,7 @@ body,
 
 #loading-spinner {
     animation: loading-spinner 1s linear infinite; }
-  
+
   @keyframes loading-spinner {
     from {
       transform: rotate(0deg); }

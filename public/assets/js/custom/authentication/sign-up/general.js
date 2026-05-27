@@ -44,6 +44,13 @@ const rules = {
         if (v.trim().length < 2) return 'En az 2 karakter olmalı.';
         return true;
     },
+    username(v) {
+        if (!v.trim()) return 'Kullanıcı adı zorunludur.';
+        if (v.trim().length < 3) return 'En az 3 karakter olmalı.';
+        if (v.trim().length > 30) return 'En fazla 30 karakter olabilir.';
+        if (!/^[a-z0-9_.]+$/.test(v.trim())) return 'Sadece harf, rakam, nokta ve alt çizgi kullanılabilir.';
+        return true;
+    },
     email(v) {
         if (!v.trim()) return 'E-posta zorunludur.';
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())) return 'Geçerli bir e-posta girin.';
@@ -87,6 +94,11 @@ form.querySelectorAll('input[name]').forEach(input => {
     input.addEventListener('input', function () {
         if (this.classList.contains('is-invalid')) clearState(this);
 
+        if (this.name === 'username') {
+            const pos = this.selectionStart;
+            this.value = this.value.toLowerCase().replace(/[^a-z0-9_.]/g, '');
+            try { this.setSelectionRange(pos, pos); } catch(e) {}
+        }
         if (this.name === 'iban') {
             const pos = this.selectionStart;
             this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -105,6 +117,7 @@ form.querySelectorAll('input[name]').forEach(input => {
     });
 });
 
+
 document.querySelectorAll('.role-radio').forEach(radio => {
     radio.addEventListener('change', function () {
         document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
@@ -112,15 +125,13 @@ document.querySelectorAll('.role-radio').forEach(radio => {
     });
 });
 document.querySelectorAll('.role-radio').forEach(radio => {
-    if (radio.checked) {
-        radio.closest('label').querySelector('.role-card').classList.add('selected');
-    }
+    if (radio.checked) radio.closest('label').querySelector('.role-card').classList.add('selected');
 });
 
+
 document.getElementById('btn_next_1')?.addEventListener('click', function () {
-    const fields = ['name', 'email', 'phone'];
-    let ok = true;
-    let first = null;
+    const fields = ['name', 'username', 'email', 'phone'];
+    let ok = true, first = null;
 
     fields.forEach(name => {
         const el = getField(name);
@@ -138,11 +149,11 @@ document.getElementById('btn_next_1')?.addEventListener('click', function () {
     }
 });
 
+
 document.getElementById('btn_back_2')?.addEventListener('click', () => showStep(1));
 
 document.getElementById('btn_next_2')?.addEventListener('click', function () {
-    let ok = true;
-    let first = null;
+    let ok = true, first = null;
 
     ['tax_number', 'iban'].forEach(name => {
         const el = getField(name);
@@ -186,9 +197,11 @@ document.getElementById('btn_next_2')?.addEventListener('click', function () {
     showStep(3);
 });
 
+// Adım 3
 document.getElementById('btn_back_3')?.addEventListener('click', function () {
     showStep(getRole() === 'seller' ? 2 : 1);
 });
+
 
 document.querySelectorAll('.eye-toggle').forEach(btn => {
     btn.addEventListener('click', function () {
@@ -199,6 +212,7 @@ document.querySelectorAll('.eye-toggle').forEach(btn => {
         this.querySelector('.eye-on').classList.toggle('d-none');
     });
 });
+
 
 function getStrength(pass) {
     let s = 0;
@@ -223,9 +237,9 @@ const strengthLevels = [
 
 document.getElementById('password')?.addEventListener('input', function () {
     const score = getStrength(this.value);
-    const lvl = strengthLevels[Math.min(score, 6)];
-    const bar  = document.getElementById('password_strength_bar');
-    const txt  = document.getElementById('password_strength_text');
+    const lvl   = strengthLevels[Math.min(score, 6)];
+    const bar   = document.getElementById('password_strength_bar');
+    const txt   = document.getElementById('password_strength_text');
 
     if (bar) { bar.style.width = lvl.pct + '%'; bar.style.background = lvl.color; }
     if (txt) { txt.textContent = lvl.label; txt.style.color = lvl.color; }
@@ -235,9 +249,9 @@ document.getElementById('password')?.addEventListener('input', function () {
 });
 
 function checkMatch() {
-    const pass  = document.getElementById('password');
-    const conf  = document.getElementById('password_confirmation');
-    const err   = document.getElementById('password_mismatch_error');
+    const pass = document.getElementById('password');
+    const conf = document.getElementById('password_confirmation');
+    const err  = document.getElementById('password_mismatch_error');
     if (!conf.value) return true;
 
     if (pass.value !== conf.value) {
@@ -254,12 +268,11 @@ function checkMatch() {
 
 document.getElementById('password_confirmation')?.addEventListener('input', checkMatch);
 
+
 form.addEventListener('submit', function (e) {
-    const pass  = document.getElementById('password');
-    const conf  = document.getElementById('password_confirmation');
-    const terms = document.getElementById('terms_check');
+    const pass     = document.getElementById('password');
+    const terms    = document.getElementById('terms_check');
     const termsErr = document.getElementById('terms_error');
-    const mismatch = document.getElementById('password_mismatch_error');
     let ok = true;
 
     const passResult = rules.password(pass.value);
@@ -282,11 +295,11 @@ form.addEventListener('submit', function (e) {
     if (btn) btn.disabled = true;
 });
 
+
 form.querySelectorAll('input').forEach(input => {
     input.addEventListener('keydown', function (e) {
         if (e.key !== 'Enter') return;
         e.preventDefault();
-
         const visible = [step1, step2, step3].findIndex(s => s && s.style.display !== 'none') + 1;
         const map = { 1: 'btn_next_1', 2: 'btn_next_2' };
         const btnId = map[visible];

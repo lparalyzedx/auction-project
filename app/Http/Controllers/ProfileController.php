@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 
 class ProfileController extends Controller
@@ -15,25 +16,43 @@ class ProfileController extends Controller
         return view('profile.edit', ['user' => auth()->user()]);
     }
 
-    // Ad, telefon, avatar güncelle
+    /**
+     * Ad, kullanıcı adı, telefon, bio, avatar güncelle
+     */
     public function update(Request $request)
     {
         $user = auth()->user();
 
         $request->validate([
             'name'          => ['required', 'string', 'max:255'],
+            'username'      => [
+                'required',
+                'string',
+                'min:3',
+                'max:30',
+                'regex:/^[a-zA-Z0-9_.]+$/',
+                'unique:users,username,' . $user->id,
+            ],
             'phone'         => ['required', 'string', 'max:20'],
+            'bio'           => ['nullable', 'string', 'max:300'],
             'profile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ], [
-            'name.required'  => 'Ad Soyad zorunludur.',
-            'phone.required' => 'Telefon zorunludur.',
+            'name.required'     => 'Ad Soyad zorunludur.',
+            'username.required' => 'Kullanıcı adı zorunludur.',
+            'username.min'      => 'Kullanıcı adı en az 3 karakter olmalı.',
+            'username.max'      => 'Kullanıcı adı en fazla 30 karakter olabilir.',
+            'username.unique'   => 'Bu kullanıcı adı zaten alınmış.',
+            'username.regex'    => 'Sadece harf, rakam, nokta ve alt çizgi kullanılabilir.',
+            'phone.required'    => 'Telefon zorunludur.',
+            'bio.max'           => 'Bio en fazla 300 karakter olabilir.',
         ]);
 
-        $user->name  = $request->name;
-        $user->phone = $request->phone;
+        $user->name     = $request->name;
+        $user->username = Str::lower($request->username);
+        $user->phone    = $request->phone;
+        $user->bio      = $request->bio;
 
         if ($request->hasFile('profile_image')) {
-            // Eski avatarı sil
             if ($user->avatar) {
                 Storage::disk('public')->delete($user->avatar);
             }
@@ -45,8 +64,7 @@ class ProfileController extends Controller
         return back()->with('profile_success', 'Profil bilgileriniz güncellendi.');
     }
 
-    // E-posta güncelle
-    public function updateEmail(Request $request)
+    public function email(Request $request)
     {
         $user = auth()->user();
 
@@ -63,19 +81,19 @@ class ProfileController extends Controller
             return back()->withErrors(['confirmemailpassword' => 'Şifreniz hatalı.']);
         }
 
-        $user->email                = $request->email;
-        $user->email_verified_at    = null;
+        $user->email             = $request->email;
+        $user->email_verified_at = null;
         $user->save();
 
         return back()->with('email_success', 'E-posta adresiniz güncellendi.');
     }
 
-    // Şifre güncelle
-    public function updatePassword(Request $request)
+
+    public function password(Request $request)
     {
         $request->validate([
-            'currentpassword'       => ['required'],
-            'password'              => ['required', 'confirmed', Rules\Password::defaults()],
+            'currentpassword' => ['required'],
+            'password'        => ['required', 'confirmed', Rules\Password::defaults()],
         ], [
             'currentpassword.required' => 'Mevcut şifrenizi girin.',
             'password.required'        => 'Yeni şifre zorunludur.',
@@ -92,5 +110,24 @@ class ProfileController extends Controller
         $user->save();
 
         return back()->with('password_success', 'Şifreniz başarıyla güncellendi.');
+    }
+
+    public function show(string $username)
+    {
+
+        $username = ltrim($username, '@');
+
+        $user = User::with('roles')
+            ->where('username', strtolower($username))
+            ->firstOrFail();
+
+        $auctions = $user->auctions()
+            ->latest()
+            ->get();
+
+        $isOwner    = auth()->check() && auth()->id() === $user->id;
+        $isFollowing = false;
+
+        return view('profile.show', compact('user', 'auctions', 'isOwner', 'isFollowing'));
     }
 }

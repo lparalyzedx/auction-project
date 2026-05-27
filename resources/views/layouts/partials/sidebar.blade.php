@@ -2,10 +2,10 @@
 
     <div class="px-6 py-5 d-flex align-items-center gap-3">
         <a href="{{ route('index') }}">
-        <img src="{{ asset('assets/media/logos/logo-dark.svg') }}" class="logo-dark" alt="Artirdim Light Logo" height="50">
+            <img src="{{ asset('assets/media/logos/logo-dark.svg') }}" class="logo-dark" alt="Artirdim Light Logo" height="50">
 
-        <img src="{{ asset('assets/media/logos/logo-light.svg') }}" class="logo-light" alt="Artirdim Dark Logo" height="50">
-</a>
+            <img src="{{ asset('assets/media/logos/logo-light.svg') }}" class="logo-light" alt="Artirdim Dark Logo" height="50">
+        </a>
     </div>
 
     <div class="px-3 py-3" style="height:calc(100vh - 160px); overflow-y:auto;">
@@ -45,6 +45,11 @@
         <a href="{{ route('admin.users.index') }}" class="sidebar-link {{ request()->is('admin/users*') ? 'active' : '' }}">
             <i class="bi bi-people"></i>
             Kullanıcılar
+        </a>
+
+        <a href="{{ route('admin.categories.index') }}" class="sidebar-link {{ request()->is('admin/categories*') ? 'active' : '' }}">
+            <i class="bi bi-box"></i>
+            Kategoriler
         </a>
 
         <a href="#" class="sidebar-link">

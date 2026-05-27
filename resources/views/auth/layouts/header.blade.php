@@ -2,7 +2,7 @@
 <html lang="tr">
 
 <head>
-    <title>{{ config('app.name') }} - @yield('title', 'Giriş Yap')</title>
+    <title>{{ config('app.name') }} | @yield('title', 'Giriş Yap')</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="og:locale" content="tr_TR" />

@@ -1,221 +1,289 @@
 @extends('layouts.app')
 @section('title', $user->name . ' — Detay')
 @section('content')
-<div class="admin-fade">
 
-<div class="admin-toolbar">
-    <div class="d-flex align-items-center justify-content-between position-relative">
-        <div>
-            <div class="toolbar-title">Kullanıcı Detayı</div>
+@php
+    $roleKey   = $user->roles->first()?->name ?? 'user';
+    $roleLabel = match($roleKey) { 'admin' => '👑 Admin', 'seller' => '🏪 Onaylı Satıcı', default => '🛍️ Üye' };
+@endphp
+
+<div class="pf-root">
+
+    {{-- TOP HERO --}}
+    <div class="pf-top">
+
+        <div class="pf-cover"></div>
+
+        <div class="pf-identity">
+            <div class="pf-avatar-wrap">
+                <div class="pf-avatar-outer">
+                    @if($user->avatar)
+                        <img src="{{ Storage::url($user->avatar) }}" alt="{{ $user->name }}" class="pf-avatar-img">
+                    @else
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=7c3aed&color=fff&size=256"
+                             alt="{{ $user->name }}" class="pf-avatar-img">
+                    @endif
+                </div>
+            </div>
+
+            <div class="pf-identity-right">
+                <div>
+                    <div class="pf-uname-row">
+                        <span class="pf-uname">{{ $user->name }}</span>
+                        <span class="pf-role-badge">{{ $roleLabel }}</span>
+                    </div>
+                    @if($user->username)
+                        <div class="pf-handle">{{ "@" . $user->username }}</div>
+                    @endif
+                    <div class="pf-bio">{{ $user->email }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pf-stats-row">
+            <div class="pf-stat">
+                <div class="pf-stat-num">{{ $user->auctions_count }}</div>
+                <div class="pf-stat-label">İLAN</div>
+            </div>
+            <div class="pf-stat">
+                <div class="pf-stat-num">{{ $user->bids_count }}</div>
+                <div class="pf-stat-label">TEKLİF</div>
+            </div>
+            <div class="pf-stat">
+                <div class="pf-stat-num">{{ $user->watchlist_count }}</div>
+                <div class="pf-stat-label">TAKİP</div>
+            </div>
+            <div class="pf-stat">
+                <div class="pf-stat-num status-indicator {{ $user->is_verified ? 'verified' : 'pending' }}">
+                    {{ $user->is_verified ? '✓' : '⏳' }}
+                </div>
+                <div class="pf-stat-label">DURUM</div>
+            </div>
+        </div>
+
+        {{-- Breadcrumb + Actions --}}
+        <div class="pf-action-row breadcrumb-action-row">
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0 mt-1">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Admin</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('admin.users.index') }}">Kullanıcılar</a></li>
-                    <li class="breadcrumb-item active">{{ $user->name }}</li>
+                <ol class="breadcrumb mb-0 pf-breadcrumb-list">
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="pf-link-primary">Admin</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.users.index') }}" class="pf-link-primary">Kullanıcılar</a></li>
+                    <li class="breadcrumb-item active pf-text-muted">{{ $user->name }}</li>
                 </ol>
             </nav>
-        </div>
-        <div style="display:flex;gap:8px">
-            <a href="{{ route('admin.users.edit', $user) }}" class="btn-admin-pri">
-                <i class="ki-duotone ki-pencil fs-5"><span class="path1"></span><span class="path2"></span></i>
-                Düzenle
-            </a>
-            <a href="{{ route('admin.users.index') }}" class="btn-admin-sec">
-                <i class="ki-duotone ki-left fs-5"><span class="path1"></span><span class="path2"></span></i>
-                Geri
-            </a>
+            <div class="pf-action-buttons">
+                <a href="{{ route('admin.users.edit', $user) }}" class="pf-btn-save pf-btn-edit-custom">
+                    <i class="bi bi-pencil"></i> Düzenle
+                </a>
+                <a href="{{ route('admin.users.index') }}" class="pf-btn-reset pf-btn-back-custom">
+                    <i class="bi bi-arrow-left"></i> Geri
+                </a>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="row g-5">
+    {{-- CONTENT --}}
+    <div class="pf-content-area">
+        <div class="pf-tab-bar">
+            <button class="pf-ptab active" onclick="switchPTab('bilgiler',this)">
+                <i class="bi bi-person me-1"></i> Bilgiler
+            </button>
+            <button class="pf-ptab" onclick="switchPTab('ilanlar',this)">
+                <i class="bi bi-grid-3x3-gap-fill me-1"></i> İlanlar
+            </button>
+            <button class="pf-ptab" onclick="switchPTab('teklifler',this)">
+                <i class="bi bi-graph-up me-1"></i> Teklifler
+            </button>
+            <button class="pf-ptab" onclick="switchPTab('islemler',this)">
+                <i class="bi bi-gear me-1"></i> İşlemler
+            </button>
+        </div>
 
-<div class="col-xl-4">
-    <div class="admin-card mb-4">
-
-        <div class="admin-hero">
-            <div style="position:relative;z-index:1">
-                <div class="avatar-ring" style="width:88px;height:88px;margin:0 auto 12px">
-                    @if($user->avatar)
-                        <img src="{{ Storage::url($user->avatar) }}" alt="{{ $user->name }}">
-                    @else
-                        <div style="width:100%;height:100%;border-radius:50%;background:#1a2e45;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#818cf8">
-                            {{ strtoupper(substr($user->name,0,1)) }}
+        {{-- BİLGİLER --}}
+        <div id="pc-bilgiler">
+            <div class="pf-edit-drawer open info-drawer-clean">
+                <div class="pf-epanel active info-panel-custom">
+                    @foreach([
+                        ['icon'=>'bi-hash',          'lbl'=>'Kullanıcı ID',  'val'=>'#' . $user->id],
+                        ['icon'=>'bi-envelope',       'lbl'=>'E-posta',       'val'=>$user->email],
+                        ['icon'=>'bi-phone',          'lbl'=>'Telefon',       'val'=>$user->phone ?? '—'],
+                        ['icon'=>'bi-calendar3',      'lbl'=>'Üyelik Tarihi', 'val'=>$user->created_at->format('d M Y, H:i')],
+                        ['icon'=>'bi-shield-check',   'lbl'=>'Doğrulama',     'val'=>$user->is_verified ? 'Doğrulanmış ✓' : 'Beklemede'],
+                        ['icon'=>'bi-person-badge',   'lbl'=>'Kullanıcı Adı', 'val'=>$user->username ? '@'.$user->username : '—'],
+                    ] as $row)
+                    <div class="pf-sec-item pf-sec-item-spacing">
+                        <div class="pf-sec-icon">
+                            <i class="bi {{ $row['icon'] }} pf-icon-color"></i>
                         </div>
-                    @endif
+                        <div class="pf-sec-info">
+                            <div class="pf-sec-title">{{ $row['lbl'] }}</div>
+                            <div class="pf-sec-sub pf-sec-val-text">{{ $row['val'] }}</div>
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
-                <div style="font-size:17px;font-weight:700;color:#fff;margin-bottom:4px">{{ $user->name }}</div>
-                <div style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:10px">{{ $user->email }}</div>
-                @foreach($user->roles as $role)
-                    <span class="a-badge {{ $role->name }}" style="font-size:12px;padding:5px 14px">
-                        {{ ucfirst($role->name) }}
-                    </span>
-                @endforeach
             </div>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)">
-            @foreach([['num'=>$user->auctions_count,'lbl'=>'İlan'],['num'=>$user->bids_count,'lbl'=>'Teklif'],['num'=>$user->watchlist_count,'lbl'=>'Takip']] as $s)
-            <div style="background:var(--bg-soft);padding:14px 8px;text-align:center">
-                <div style="font-size:20px;font-weight:800;color:var(--text)">{{ $s['num'] }}</div>
-                <div style="font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);margin-top:3px">{{ $s['lbl'] }}</div>
-            </div>
-            @endforeach
-        </div>
-
-        <div style="padding:18px 20px">
-            @foreach([
-                ['icon'=>'ki-phone',        'lbl'=>'Telefon',   'val'=>$user->phone ?? '—'],
-                ['icon'=>'ki-sms',          'lbl'=>'E-posta',   'val'=>$user->email],
-                ['icon'=>'ki-calendar',     'lbl'=>'Üyelik',    'val'=>$user->created_at->format('d M Y')],
-            ] as $row)
-            <div class="admin-info-row">
-                <div class="admin-info-icon">
-                    <i class="ki-duotone {{ $row['icon'] }} fs-5"><span class="path1"></span><span class="path2"></span></i>
+        {{-- İLANLAR --}}
+        <div id="pc-ilanlar" class="pf-tab-content-hidden">
+            @if($user->auctions->count() > 0)
+                <div class="pf-grid">
+                    @foreach($user->auctions as $auction)
+                        <a href="#" class="pf-auction-card">
+                            <div class="pf-card-img-wrap">
+                                <img src="{{ $auction->featured_img ?? asset('assets/media/placeholder.png') }}"
+                                     alt="{{ $auction->title }}">
+                                <div class="pf-card-price">
+                                    {{ number_format($auction->current_price ?? 0, 0, ',', '.') }} ₺
+                                </div>
+                                <div class="pf-card-badge">
+                                    @php
+                                        $statusLabel = match($auction->status) {
+                                            'active'    => 'Aktif',
+                                            'draft'     => 'Taslak',
+                                            'ended'     => 'Bitti',
+                                            'cancelled' => 'İptal',
+                                            default     => $auction->status
+                                        };
+                                    @endphp
+                                    @if($auction->status === 'active')<span class="pf-pulse-dot"></span>@endif
+                                    {{ $statusLabel }}
+                                </div>
+                            </div>
+                            <div class="pf-card-body">
+                                <div class="pf-card-title">{{ $auction->title }}</div>
+                                <div class="pf-card-meta">
+                                    <span><i class="bi bi-calendar3 me-1"></i>{{ $auction->created_at->format('d M Y') }}</span>
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
                 </div>
-                <div>
-                    <div class="admin-info-lbl">{{ $row['lbl'] }}</div>
-                    <div class="admin-info-val">{{ $row['val'] }}</div>
-                </div>
-            </div>
-            @endforeach
-            <div class="admin-info-row">
-                <div class="admin-info-icon">
-                    <i class="ki-duotone ki-shield-tick fs-5"><span class="path1"></span><span class="path2"></span></i>
-                </div>
-                <div>
-                    <div class="admin-info-lbl">Doğrulama</div>
-                    @if($user->is_verified)
-                        <span class="a-badge success" style="margin-top:4px;display:inline-flex">✓ Doğrulanmış</span>
-                    @else
-                        <span class="a-badge warning" style="margin-top:4px;display:inline-flex">Beklemede</span>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="admin-card mb-5">
-        <div class="admin-card-head">
-            <div class="admin-card-title">
-                <i class="ki-duotone ki-setting-2 fs-4" style="color:var(--primary)">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-                Hızlı İşlemler
-            </div>
-        </div>
-        <div style="padding:16px 18px;display:flex;flex-direction:column;gap:8px">
-            @if($user->is_verified)
-            <form method="POST" action="{{ route('admin.users.unverify', $user) }}" class="verify-form">
-                @csrf
-                <button type="submit" class="btn-admin-danger" style="width:100%;justify-content:center"
-                        data-name="{{ $user->name }}" data-action="unverify">
-                    <i class="ki-duotone ki-shield-cross fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                    Doğrulamayı Kaldır
-                </button>
-            </form>
             @else
-            <form method="POST" action="{{ route('admin.users.verify', $user) }}" class="verify-form">
-                @csrf
-                <button type="submit" class="btn-admin-success" style="width:100%;justify-content:center"
-                        data-name="{{ $user->name }}" data-action="verify">
-                    <i class="ki-duotone ki-shield-tick fs-5"><span class="path1"></span><span class="path2"></span></i>
-                    Hesabı Doğrula
-                </button>
-            </form>
-            @endif
-
-            <a href="{{ route('admin.users.edit', $user) }}" class="btn-admin-pri" style="justify-content:center">
-                <i class="ki-duotone ki-pencil fs-5"><span class="path1"></span><span class="path2"></span></i>
-                Kullanıcıyı Düzenle
-            </a>
-
-            @if($user->id !== auth()->id())
-            <form method="POST" action="{{ route('admin.users.destroy', $user) }}" class="delete-form">
-                @csrf @method('DELETE')
-                <button type="button" class="btn-admin-danger delete-btn" style="width:100%;justify-content:center"
-                        data-name="{{ $user->name }}">
-                    <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
-                    Kullanıcıyı Sil
-                </button>
-            </form>
+                <div class="pf-empty">
+                    <div class="pf-empty-icon"><i class="bi bi-box-seam"></i></div>
+                    <div class="pf-empty-title">Henüz ilan yok</div>
+                    <div class="pf-empty-sub">Bu kullanıcı henüz ilan yayınlamamış.</div>
+                </div>
             @endif
         </div>
-    </div>
-</div>
 
-<div class="col-xl-8">
+        {{-- TEKLİFLER --}}
+        <div id="pc-teklifler" class="pf-tab-content-hidden">
+            @if($user->bids->count() > 0)
+            <div class="pf-table-responsive">
+                <table class="pf-table-clean">
+                    <thead>
+                        <tr class="pf-table-border-bottom">
+                            @foreach(['Müzayede','Tutar','Tarih'] as $th)
+                            <th class="pf-table-th">
+                                {{ $th }}
+                            </th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($user->bids as $bid)
+                        <tr class="pf-table-border-bottom">
+                            <td class="pf-table-td-title">{{ Str::limit($bid->auction->title ?? '—', 55) }}</td>
+                            <td class="pf-table-td-amount">{{ number_format($bid->amount, 2) }} ₺</td>
+                            <td class="pf-table-td-date">{{ $bid->created_at->diffForHumans() }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @else
+                <div class="pf-empty">
+                    <div class="pf-empty-icon"><i class="bi bi-graph-up"></i></div>
+                    <div class="pf-empty-title">Teklif bulunamadı</div>
+                    <div class="pf-empty-sub">Bu kullanıcı henüz teklif vermemiş.</div>
+                </div>
+            @endif
+        </div>
 
-    <div class="admin-card mb-4">
-        <div class="admin-card-head">
-            <div class="admin-card-title">
-                <i class="ki-duotone ki-price-tag fs-4" style="color:#10b981">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-                Son İlanlar
-                <span class="a-badge info">{{ $user->auctions_count }} toplam</span>
+        {{-- İŞLEMLER --}}
+        <div id="pc-islemler" class="pf-tab-content-hidden pf-actions-tab-padding">
+            <div class="pf-toggle-list">
+
+                @if($user->is_verified)
+                <div class="pf-trow pf-trow-border">
+                    <div class="pf-trow-info">
+                        <div class="pf-trow-title">Doğrulama Durumu</div>
+                        <div class="pf-trow-desc">Hesap şu an doğrulanmış</div>
+                    </div>
+                    <form method="POST" action="{{ route('admin.users.unverify', $user) }}" class="verify-form">
+                        @csrf
+                        <button type="submit"
+                                data-name="{{ $user->name }}" data-action="unverify"
+                                class="pf-btn-status-unverify">
+                            <i class="bi bi-shield-x"></i> Doğrulamayı Kaldır
+                        </button>
+                    </form>
+                </div>
+                @else
+                <div class="pf-trow pf-trow-border">
+                    <div class="pf-trow-info">
+                        <div class="pf-trow-title">Doğrulama Durumu</div>
+                        <div class="pf-trow-desc">Hesap henüz doğrulanmamış</div>
+                    </div>
+                    <form method="POST" action="{{ route('admin.users.verify', $user) }}" class="verify-form">
+                        @csrf
+                        <button type="submit"
+                                data-name="{{ $user->name }}" data-action="verify"
+                                class="pf-btn-status-verify">
+                            <i class="bi bi-shield-check"></i> Hesabı Doğrula
+                        </button>
+                    </form>
+                </div>
+                @endif
+
+                <div class="pf-trow pf-trow-border">
+                    <div class="pf-trow-info">
+                        <div class="pf-trow-title">Kullanıcıyı Düzenle</div>
+                        <div class="pf-trow-desc">Ad, e-posta, rol ve şifre güncelle</div>
+                    </div>
+                    <a href="{{ route('admin.users.edit', $user) }}" class="pf-btn-save pf-btn-action-edit">
+                        <i class="bi bi-pencil"></i> Düzenle
+                    </a>
+                </div>
+
+                @if($user->id !== auth()->id())
+                <div class="pf-trow pf-trow-padding">
+                    <div class="pf-trow-info">
+                        <div class="pf-trow-title pf-text-danger">Hesabı Sil</div>
+                        <div class="pf-trow-desc">Tüm veriler kalıcı olarak silinir</div>
+                    </div>
+                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}" class="delete-form">
+                        @csrf @method('DELETE')
+                        <button type="button" class="delete-btn pf-btn-action-delete" data-name="{{ $user->name }}">
+                            <i class="bi bi-trash"></i> Kullanıcıyı Sil
+                        </button>
+                    </form>
+                </div>
+                @endif
+
             </div>
         </div>
-        <table class="admin-table">
-            <thead>
-                <tr><th>İlan</th><th>Fiyat</th><th>Durum</th><th>Tarih</th></tr>
-            </thead>
-            <tbody>
-                @forelse($user->auctions as $auction)
-                <tr>
-                    <td style="font-weight:500;font-size:13px">{{ Str::limit($auction->title,45) }}</td>
-                    <td style="font-weight:700;color:#10b981">{{ number_format($auction->current_price,2) }} ₺</td>
-                    <td>
-                        <span class="a-badge {{ match($auction->status){'active'=>'success','draft'=>'warning','ended'=>'info','cancelled'=>'danger',default=>'info'} }}">
-                            {{ match($auction->status){'active'=>'Aktif','draft'=>'Taslak','ended'=>'Bitti','cancelled'=>'İptal',default=>$auction->status} }}
-                        </span>
-                    </td>
-                    <td style="color:var(--muted);font-size:12px">{{ $auction->created_at->format('d M Y') }}</td>
-                </tr>
-                @empty
-                <tr><td colspan="4" style="text-align:center;padding:28px;color:var(--muted)">İlan yok</td></tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
 
-    <div class="admin-card">
-        <div class="admin-card-head">
-            <div class="admin-card-title">
-                <i class="ki-duotone ki-graph-up fs-4" style="color:var(--primary)">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-                Son Teklifler
-                <span class="a-badge info">{{ $user->bids_count }} toplam</span>
-            </div>
-        </div>
-        <table class="admin-table">
-            <thead>
-                <tr><th>Müzayede</th><th>Tutar</th><th>Tarih</th></tr>
-            </thead>
-            <tbody>
-                @forelse($user->bids as $bid)
-                <tr>
-                    <td style="font-size:13px">{{ Str::limit($bid->auction->title ?? '—',50) }}</td>
-                    <td style="font-weight:700;color:#10b981">{{ number_format($bid->amount,2) }} ₺</td>
-                    <td style="color:var(--muted);font-size:12px">{{ $bid->created_at->diffForHumans() }}</td>
-                </tr>
-                @empty
-                <tr><td colspan="3" style="text-align:center;padding:28px;color:var(--muted)">Teklif yok</td></tr>
-                @endforelse
-            </tbody>
-        </table>
     </div>
 </div>
 
-</div>
-</div>
 @endsection
 
 @push('scripts')
 <script>
+function switchPTab(key, btn) {
+    document.querySelectorAll('.pf-ptab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    ['bilgiler', 'ilanlar', 'teklifler', 'islemler'].forEach(k => {
+        const el = document.getElementById('pc-' + k);
+        if (el) el.style.display = k === key ? 'block' : 'none';
+    });
+}
+
 document.querySelectorAll('.delete-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
         const name = this.dataset.name;
         const form = this.closest('form');
         Swal.fire({
@@ -226,14 +294,15 @@ document.querySelectorAll('.delete-btn').forEach(btn => {
             confirmButtonText: 'Evet, sil',
             cancelButtonText: 'Vazgeç',
             reverseButtons: true,
+            heightAuto: false,
         }).then(r => { if (r.isConfirmed) form.submit(); });
     });
 });
 
 document.querySelectorAll('.verify-form button').forEach(btn => {
-    btn.addEventListener('click', function(e) {
+    btn.addEventListener('click', function (e) {
         e.preventDefault();
-        const form = this.closest('form');
+        const form     = this.closest('form');
         const isVerify = this.dataset.action === 'verify';
         Swal.fire({
             title: isVerify ? 'Hesabı doğrula?' : 'Doğrulamayı kaldır?',

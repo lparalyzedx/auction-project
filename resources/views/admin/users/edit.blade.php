@@ -1,278 +1,334 @@
 @extends('layouts.app')
 @section('title', 'Düzenle — ' . $user->name)
 @section('content')
-<div class="admin-fade">
 
-<div class="admin-toolbar">
-    <div class="d-flex align-items-center justify-content-between position-relative">
-        <div>
-            <div class="toolbar-title">Kullanıcı Düzenle</div>
+@php
+    $roleKey   = $user->roles->first()?->name ?? 'user';
+    $roleLabel = match($roleKey) { 'admin' => '👑 Admin', 'seller' => '🏪 Onaylı Satıcı', default => '🛍️ Üye' };
+@endphp
+
+<div class="pf-root">
+
+    <div class="pf-top">
+        <div class="pf-cover"></div>
+
+        <div class="pf-identity">
+            <div class="pf-avatar-wrap">
+                <div class="pf-avatar-outer">
+                    <img src="{{ $user->avatar ? Storage::url($user->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&background=7c3aed&color=fff&size=256' }}"
+                         alt="{{ $user->name }}"
+                         id="heroAvatar"
+                         class="pf-avatar-img">
+                </div>
+            </div>
+            <div class="pf-identity-right">
+                <div>
+                    <div class="pf-uname-row">
+                        <span class="pf-uname" id="heroName">{{ $user->name }}</span>
+                        <span class="pf-role-badge">{{ $roleLabel }}</span>
+                    </div>
+                    <div class="pf-bio" id="heroEmail">{{ $user->email }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pf-stats-row">
+            <div class="pf-stat">
+                <div class="pf-stat-num">{{ $user->auctions()->count() }}</div>
+                <div class="pf-stat-label">İLAN</div>
+            </div>
+            <div class="pf-stat">
+                <div class="pf-stat-num">{{ $user->bids()->count() }}</div>
+                <div class="pf-stat-label">TEKLİF</div>
+            </div>
+            <div class="pf-stat">
+                <div class="pf-stat-num">#{{ $user->id }}</div>
+                <div class="pf-stat-label">ID</div>
+            </div>
+            <div class="pf-stat">
+                <div class="pf-stat-num">{{ $user->created_at->format('Y') }}</div>
+                <div class="pf-stat-label">KAYIT</div>
+            </div>
+        </div>
+
+        <div class="pf-action-row" style="justify-content:space-between;flex-wrap:wrap;gap:10px;">
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0 mt-1">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Admin</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('admin.users.index') }}">Kullanıcılar</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('admin.users.show',$user) }}">{{ $user->name }}</a></li>
-                    <li class="breadcrumb-item active">Düzenle</li>
+                <ol class="breadcrumb mb-0" style="font-size:12px;">
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" style="color:var(--primary)">Admin</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.users.index') }}" style="color:var(--primary)">Kullanıcılar</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.users.show', $user) }}" style="color:var(--primary)">{{ $user->name }}</a></li>
+                    <li class="breadcrumb-item active" style="color:var(--muted)">Düzenle</li>
                 </ol>
             </nav>
-        </div>
-        <a href="{{ route('admin.users.show', $user) }}" class="btn-admin-sec">
-            <i class="ki-duotone ki-left fs-5"><span class="path1"></span><span class="path2"></span></i>
-            Geri
-        </a>
-    </div>
-</div>
-
-<div class="row g-5">
-
-<div class="col-xl-4">
-    <div class="admin-card">
-        <div class="admin-hero">
-            <div style="position:relative;z-index:1">
-                <div class="avatar-ring" style="width:80px;height:80px;margin:0 auto 12px" id="avatarRing">
-                    @if($user->avatar)
-                        <img src="{{ Storage::url($user->avatar) }}" alt="{{ $user->name }}" id="avatarPreview">
-                    @else
-                        <div id="avatarPreview" style="width:100%;height:100%;border-radius:50%;background:#1a2e45;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#818cf8">
-                            {{ strtoupper(substr($user->name,0,1)) }}
-                        </div>
-                    @endif
-                </div>
-                <div id="previewName" style="font-size:16px;font-weight:700;color:#fff;margin-bottom:3px">{{ $user->name }}</div>
-                <div id="previewEmail" style="font-size:12px;color:rgba(255,255,255,.5)">{{ $user->email }}</div>
-            </div>
-        </div>
-        <div style="padding:18px 20px">
-            @foreach([
-                ['icon'=>'ki-fingerprint-scanning','lbl'=>'ID',     'val'=>'#'.$user->id],
-                ['icon'=>'ki-calendar',            'lbl'=>'Kayıt',  'val'=>$user->created_at->format('d M Y')],
-                ['icon'=>'ki-price-tag',           'lbl'=>'İlan',   'val'=>$user->auctions()->count().' adet'],
-                ['icon'=>'ki-graph-up',            'lbl'=>'Teklif', 'val'=>$user->bids()->count().' adet'],
-            ] as $row)
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px">
-                <div style="display:flex;align-items:center;gap:8px;color:var(--muted)">
-                    <i class="ki-duotone {{ $row['icon'] }} fs-5"><span class="path1"></span><span class="path2"></span></i>
-                    {{ $row['lbl'] }}
-                </div>
-                <span style="font-weight:600;color:var(--text)">{{ $row['val'] }}</span>
-            </div>
-            @endforeach
+            <a href="{{ route('admin.users.show', $user) }}" class="pf-btn-reset" style="height:36px;padding:0 14px;display:flex;align-items:center;gap:6px;">
+                <i class="bi bi-arrow-left"></i> Geri
+            </a>
         </div>
     </div>
-</div>
 
-<div class="col-xl-8">
-    <div class="admin-card">
-        <div class="admin-card-head">
-            <div class="admin-card-title">
-                <i class="ki-duotone ki-pencil fs-4" style="color:var(--primary)">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-                Bilgileri Güncelle
-            </div>
+    <div class="pf-edit-drawer open">
+
+        <div class="pf-edit-tabs">
+            <button class="pf-etab active" onclick="switchETab('genel',this)">
+                <i class="bi bi-person me-1"></i> Genel
+            </button>
+            <button class="pf-etab" onclick="switchETab('guvenlik',this)">
+                <i class="bi bi-shield me-1"></i> Güvenlik
+            </button>
+            <button class="pf-etab" onclick="switchETab('rol',this)">
+                <i class="bi bi-person-badge me-1"></i> Rol & Durum
+            </button>
         </div>
 
-        <form method="POST" action="{{ route('admin.users.update', $user) }}" enctype="multipart/form-data">
-            @csrf @method('PUT')
-            <div style="padding:26px">
+        <div id="ep-genel" class="pf-epanel active">
 
-                @if($errors->any())
-                <div class="alert-au danger mb-5">
-                    <i class="ki-duotone ki-cross-circle fs-3" style="color:#f87171"><span class="path1"></span><span class="path2"></span></i>
-                    <div>
-                        @foreach($errors->all() as $err)
-                            <div style="color:var(--text);font-size:13px">{{ $err }}</div>
-                        @endforeach
-                    </div>
+            @if($errors->any())
+                <div class="pf-alert-success" style="background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.3);margin-bottom:16px;">
+                    <i class="bi bi-exclamation-circle-fill" style="color:#f87171;"></i>
+                    <span style="color:#f87171;">
+                        @foreach($errors->all() as $err){{ $err }}@if(!$loop->last) · @endif @endforeach
+                    </span>
                 </div>
-                @endif
+            @endif
 
-                <div style="margin-bottom:22px">
-                    <label class="admin-flabel">Profil Fotoğrafı</label>
-                    <label for="avatar" class="admin-upload">
-                        @if($user->avatar)
-                            <img src="{{ Storage::url($user->avatar) }}" id="avatarPreviewSm"
-                                 style="width:54px;height:54px;border-radius:10px;object-fit:cover;border:1px solid var(--border);flex-shrink:0" alt="">
-                        @else
-                            <div id="avatarPreviewSm" style="width:54px;height:54px;border-radius:10px;background:rgba(145,70,255,.12);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--primary);flex-shrink:0">
-                                {{ strtoupper(substr($user->name,0,1)) }}
-                            </div>
-                        @endif
-                        <div>
-                            <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px">Fotoğraf yükle</div>
-                            <div style="font-size:12px;color:var(--muted);margin-bottom:8px">PNG, JPG, WEBP · Maks. 2MB</div>
-                            <div style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);font-size:13px;font-weight:600;color:var(--text);pointer-events:none">
-                                <i class="ki-duotone ki-folder-up fs-5"><span class="path1"></span><span class="path2"></span></i>
-                                Seç
-                            </div>
-                        </div>
+            <form method="POST" action="{{ route('admin.users.update', $user) }}" enctype="multipart/form-data">
+                @csrf @method('PUT')
+
+                <div class="pf-avatar-upload-row">
+                    <label for="avatar" class="pf-upload-avatar" style="cursor:pointer;" title="Fotoğraf değiştir">
+                        <img src="{{ $user->avatar ? Storage::url($user->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&background=7c3aed&color=fff&size=256' }}"
+                             alt="{{ $user->name }}" id="avatarPreviewSmall"
+                             style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
                         <input type="file" id="avatar" name="avatar" accept=".png,.jpg,.jpeg,.webp" class="d-none">
                     </label>
-                </div>
-
-                <div class="row g-4 mb-4">
-                    <div class="col-md-6">
-                        <label class="admin-flabel">Ad Soyad <span class="req">*</span></label>
-                        <div class="admin-fwrap">
-                            <i class="ki-duotone ki-profile-user fs-4 admin-ficon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
-                            <input type="text" name="name" id="inputName"
-                                   class="admin-finput @error('name') is-invalid @enderror"
-                                   value="{{ old('name',$user->name) }}" placeholder="Ad Soyad">
-                        </div>
-                        @error('name')<div class="admin-ferr">{{ $message }}</div>@enderror
-                    </div>
-                    <div class="col-md-6">
-                        <label class="admin-flabel">E-posta <span class="req">*</span></label>
-                        <div class="admin-fwrap">
-                            <i class="ki-duotone ki-sms fs-4 admin-ficon"><span class="path1"></span><span class="path2"></span></i>
-                            <input type="email" name="email" id="inputEmail"
-                                   class="admin-finput @error('email') is-invalid @enderror"
-                                   value="{{ old('email',$user->email) }}" placeholder="eposta@domain.com">
-                        </div>
-                        @error('email')<div class="admin-ferr">{{ $message }}</div>@enderror
-                    </div>
-                </div>
-
-                <div class="row g-4 mb-4">
-                    <div class="col-md-6">
-                        <label class="admin-flabel">Telefon</label>
-                        <div class="admin-fwrap">
-                            <i class="ki-duotone ki-phone fs-4 admin-ficon"><span class="path1"></span><span class="path2"></span></i>
-                            <input type="tel" name="phone" class="admin-finput"
-                                   value="{{ old('phone',$user->phone) }}" placeholder="05xx xxx xx xx" maxlength="20">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="admin-flabel">Rol <span class="req">*</span></label>
-                        <div class="admin-fwrap">
-                            <i class="ki-duotone ki-crown fs-4 admin-ficon"><span class="path1"></span><span class="path2"></span></i>
-                            <select name="role" class="admin-fselect @error('role') is-invalid @enderror">
-                                @foreach($roles as $role)
-                                    <option value="{{ $role->name }}"
-                                        {{ old('role',$user->roles->first()?->name)===$role->name?'selected':'' }}>
-                                        {{ ucfirst($role->name) }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @error('role')<div class="admin-ferr">{{ $message }}</div>@enderror
-                    </div>
-                </div>
-
-                <div class="row g-4 mb-5">
-                    <div class="col-md-6">
-                        <label class="admin-flabel">
-                            Yeni Şifre
-                            <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(boş = değişmez)</span>
-                        </label>
-                        <div class="admin-fwrap">
-                            <i class="ki-duotone ki-lock fs-4 admin-ficon"><span class="path1"></span><span class="path2"></span></i>
-                            <input type="password" name="password" id="pw1"
-                                   class="admin-finput @error('password') is-invalid @enderror"
-                                   placeholder="Yeni şifre" style="padding-right:44px">
-                            <button type="button" onclick="togglePw('pw1',this)"
-                                    style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;padding:4px">
-                                <i class="ki-duotone ki-eye-slash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                            </button>
-                        </div>
-                        @error('password')<div class="admin-ferr">{{ $message }}</div>@enderror
-                    </div>
-                    <div class="col-md-6">
-                        <label class="admin-flabel">Şifre Tekrar</label>
-                        <div class="admin-fwrap">
-                            <i class="ki-duotone ki-lock fs-4 admin-ficon"><span class="path1"></span><span class="path2"></span></i>
-                            <input type="password" name="password_confirmation" id="pw2"
-                                   class="admin-finput" placeholder="Şifre tekrar" style="padding-right:44px">
-                            <button type="button" onclick="togglePw('pw2',this)"
-                                    style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;padding:4px">
-                                <i class="ki-duotone ki-eye-slash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--bg-soft);border:1px solid var(--border);border-radius:12px">
                     <div>
-                        <div style="font-size:14px;font-weight:600;color:var(--text)">Hesap Doğrulaması</div>
-                        <div style="font-size:12px;color:var(--muted);margin-top:2px">Kullanıcıyı manuel doğrula</div>
+                        <div class="pf-upload-title">Profil fotoğrafı</div>
+                        <div class="pf-upload-desc">PNG, JPG, WEBP · Maks. 2MB</div>
+                        <label for="avatar" class="pf-btn-photo mt-2 d-inline-flex align-items-center gap-1" style="cursor:pointer;">
+                            <i class="bi bi-upload"></i> Fotoğraf yükle
+                        </label>
                     </div>
-                    <label class="admin-toggle">
-                        <input type="checkbox" name="is_verified" value="1"
-                               {{ old('is_verified',$user->is_verified)?'checked':'' }}>
-                        <span class="admin-toggle-slider"></span>
+                </div>
+
+                <div class="pf-two-col">
+                    <div class="pf-field">
+                        <label class="pf-label">Ad Soyad <span class="pf-req">*</span></label>
+                        <input class="pf-input" type="text" name="name" id="inputName"
+                               value="{{ old('name', $user->name) }}" placeholder="Ad Soyad">
+                        @error('name') <div class="pf-error">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="pf-field">
+                        <label class="pf-label">E-posta <span class="pf-req">*</span></label>
+                        <input class="pf-input" type="email" name="email" id="inputEmail"
+                               value="{{ old('email', $user->email) }}" placeholder="eposta@domain.com">
+                        @error('email') <div class="pf-error">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+
+                <div class="pf-two-col">
+                    <div class="pf-field">
+                        <label class="pf-label">Telefon</label>
+                        <div class="pf-input-pre">
+                            <span class="pf-pre-label">+90</span>
+                            <input type="tel" name="phone"
+                                   value="{{ old('phone', $user->phone) }}"
+                                   maxlength="15" placeholder="5xx xxx xx xx">
+                        </div>
+                        @error('phone') <div class="pf-error">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="pf-field">
+                        <label class="pf-label">Kullanıcı Adı</label>
+                        <div class="pf-input-pre">
+                            <span class="pf-pre-label">@</span>
+                            <input type="text" name="username"
+                                   value="{{ old('username', $user->username) }}"
+                                   maxlength="30" placeholder="kullanici_adi">
+                        </div>
+                        @error('username') <div class="pf-error">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+
+                <div class="pf-field">
+                    <label class="pf-label">Hakkında</label>
+                    <div style="position:relative;">
+                        <textarea class="pf-input" name="bio" rows="3" maxlength="300">{{ old('bio', $user->bio) }}</textarea>
+                    </div>
+                    @error('bio') <div class="pf-error">{{ $message }}</div> @enderror
+                </div>
+
+                <div class="pf-footer">
+                    <span class="pf-save-info">
+                        <i class="bi bi-person-gear"></i> Admin düzenlemesi
+                    </span>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('admin.users.show', $user) }}" class="pf-btn-reset">İptal</a>
+                        <button type="submit" class="pf-btn-save" id="saveBtn">
+                            <i class="bi bi-floppy me-1"></i> Kaydet
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="ep-guvenlik" class="pf-epanel">
+            <form method="POST" action="{{ route('admin.users.update', $user) }}" enctype="multipart/form-data">
+                @csrf @method('PUT')
+                <input type="hidden" name="name"  value="{{ $user->name }}">
+                <input type="hidden" name="email" value="{{ $user->email }}">
+
+                <div class="pf-sec-item">
+                    <div class="pf-sec-icon" style="background:rgba(99,102,241,.12);">
+                        <i class="bi bi-lock" style="color:#818cf8;"></i>
+                    </div>
+                    <div class="pf-sec-info">
+                        <div class="pf-sec-title">Şifre Değiştir</div>
+                        <div class="pf-sec-sub">Boş bırakırsan şifre değişmez</div>
+                    </div>
+                </div>
+
+                <div class="pf-two-col" style="margin-top:16px;">
+                    <div class="pf-field">
+                        <label class="pf-label">Yeni Şifre</label>
+                        <div style="position:relative;">
+                            <input class="pf-input" type="password" name="password" id="pw1"
+                                   placeholder="••••••••" style="padding-right:40px;">
+                            <button type="button" onclick="togglePw('pw1',this)"
+                                    style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;">
+                                <i class="bi bi-eye-slash" id="pw1-icon"></i>
+                            </button>
+                        </div>
+                        <div class="pf-pass-bars">
+                            <div class="pf-pbar" id="pb1"></div>
+                            <div class="pf-pbar" id="pb2"></div>
+                            <div class="pf-pbar" id="pb3"></div>
+                            <div class="pf-pbar" id="pb4"></div>
+                        </div>
+                        @error('password') <div class="pf-error">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="pf-field">
+                        <label class="pf-label">Tekrar</label>
+                        <div style="position:relative;">
+                            <input class="pf-input" type="password" name="password_confirmation" id="pw2"
+                                   placeholder="••••••••" style="padding-right:40px;">
+                            <button type="button" onclick="togglePw('pw2',this)"
+                                    style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;">
+                                <i class="bi bi-eye-slash" id="pw2-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pf-hint mb-4">En az 8 karakter, büyük/küçük harf ve sembol içermeli.</div>
+
+                <div class="pf-footer">
+                    <span></span>
+                    <button type="submit" class="pf-btn-save">
+                        <i class="bi bi-floppy me-1"></i> Şifreyi Güncelle
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div id="ep-rol" class="pf-epanel">
+            <form method="POST" action="{{ route('admin.users.update', $user) }}" enctype="multipart/form-data">
+                @csrf @method('PUT')
+                <input type="hidden" name="name"  value="{{ $user->name }}">
+                <input type="hidden" name="email" value="{{ $user->email }}">
+
+                <div class="pf-field">
+                    <label class="pf-label">Rol <span class="pf-req">*</span></label>
+                    <select name="role" class="pf-input">
+                        @foreach($roles as $role)
+                            <option value="{{ $role->name }}"
+                                {{ old('role', $user->roles->first()?->name) === $role->name ? 'selected' : '' }}>
+                                {{ ucfirst($role->name) }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('role') <div class="pf-error">{{ $message }}</div> @enderror
+                </div>
+
+                <div class="pf-toggle-list mt-3">
+                    <label class="pf-trow" style="border-bottom:none;">
+                        <div class="pf-trow-info">
+                            <div class="pf-trow-title">Hesap Doğrulaması</div>
+                            <div class="pf-trow-desc">Kullanıcıyı manuel olarak doğrula</div>
+                        </div>
+                        <input type="hidden" name="is_verified" value="0">
+                        <input type="checkbox" name="is_verified" value="1" class="pf-tog-input"
+                               {{ old('is_verified', $user->is_verified) ? 'checked' : '' }}>
                     </label>
                 </div>
 
-            </div>
+                <div class="pf-footer" style="margin-top:20px;">
+                    <span class="pf-save-info">
+                        <i class="bi bi-shield-lock"></i> Rol değişikliği anında aktif olur
+                    </span>
+                    <button type="submit" class="pf-btn-save">
+                        <i class="bi bi-floppy me-1"></i> Kaydet
+                    </button>
+                </div>
+            </form>
+        </div>
 
-            <div style="padding:18px 26px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px">
-                <a href="{{ route('admin.users.show',$user) }}" class="btn-admin-sec">İptal</a>
-                <button type="submit" class="btn-admin-pri" id="saveBtn">
-                    <span class="s-lbl">
-                        <i class="ki-duotone ki-save-2 fs-5"><span class="path1"></span><span class="path2"></span></i>
-                        Kaydet
-                    </span>
-                    <span class="s-ldg d-none">
-                        <span class="spinner-border spinner-border-sm me-1"></span>Kaydediliyor...
-                    </span>
-                </button>
-            </div>
-        </form>
     </div>
-</div>
 
 </div>
-</div>
+
 @endsection
 
 @push('scripts')
 <script>
-function togglePw(id, btn) {
-    const inp = document.getElementById(id);
-    const icon = btn.querySelector('i');
-    inp.type = inp.type === 'password' ? 'text' : 'password';
-    icon.className = inp.type === 'password'
-        ? 'ki-duotone ki-eye-slash fs-5'
-        : 'ki-duotone ki-eye fs-5';
-    icon.innerHTML = '<span class="path1"></span><span class="path2"></span><span class="path3"></span>';
+function switchETab(key, btn) {
+    document.querySelectorAll('.pf-etab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.pf-epanel').forEach(p => p.classList.remove('active'));
+    document.getElementById('ep-' + key).classList.add('active');
 }
 
-document.getElementById('avatar')?.addEventListener('change', function() {
-    if (!this.files[0]) return;
+function togglePw(id, btn) {
+    const inp  = document.getElementById(id);
+    const icon = document.getElementById(id + '-icon');
+    inp.type   = inp.type === 'password' ? 'text' : 'password';
+    if (icon) icon.className = inp.type === 'password' ? 'bi bi-eye-slash' : 'bi bi-eye';
+}
+
+function passStrength(el) {
+    const v = el.value;
+    const s = [v.length >= 8, /[A-Z]/.test(v), /[0-9]/.test(v), /[^a-z0-9]/i.test(v)].filter(Boolean).length;
+    const col = ['', '#ef4444', '#f59e0b', '#10b981', '#6366f1'];
+    for (let i = 1; i <= 4; i++) {
+        const bar = document.getElementById('pb' + i);
+        if (bar) bar.style.background = i <= s ? col[s] : 'var(--border)';
+    }
+}
+
+document.getElementById('pw1')?.addEventListener('input', function() { passStrength(this); });
+
+document.getElementById('avatar')?.addEventListener('change', function () {
+    if (!this.files?.[0]) return;
     const reader = new FileReader();
     reader.onload = e => {
-        ['avatarPreview','avatarPreviewSm'].forEach(id => {
+        ['heroAvatar', 'avatarPreviewSmall'].forEach(id => {
             const el = document.getElementById(id);
-            if (!el) return;
-            if (el.tagName === 'IMG') {
-                el.src = e.target.result;
-            } else {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.id = id;
-                img.style.cssText = el.style.cssText + 'border-radius:50%;object-fit:cover;width:100%;height:100%;border:3px solid #1a2e45;display:block';
-                el.replaceWith(img);
-            }
+            if (el) el.src = e.target.result;
         });
     };
     reader.readAsDataURL(this.files[0]);
 });
 
-document.getElementById('inputName')?.addEventListener('input', function() {
-    const el = document.getElementById('previewName');
+document.getElementById('inputName')?.addEventListener('input', function () {
+    const el = document.getElementById('heroName');
     if (el) el.textContent = this.value || '{{ addslashes($user->name) }}';
 });
-document.getElementById('inputEmail')?.addEventListener('input', function() {
-    const el = document.getElementById('previewEmail');
+
+document.getElementById('inputEmail')?.addEventListener('input', function () {
+    const el = document.getElementById('heroEmail');
     if (el) el.textContent = this.value || '{{ addslashes($user->email) }}';
 });
 
-document.querySelector('form')?.addEventListener('submit', function() {
+document.getElementById('saveBtn')?.closest('form')?.addEventListener('submit', function () {
     const btn = document.getElementById('saveBtn');
-    if (!btn) return;
-    btn.querySelector('.s-lbl').classList.add('d-none');
-    btn.querySelector('.s-ldg').classList.remove('d-none');
-    btn.disabled = true;
+    if (btn) btn.disabled = true;
 });
 </script>
 @endpush

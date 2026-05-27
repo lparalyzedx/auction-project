@@ -1144,7 +1144,7 @@ var KTDialer = function (element, options) {
 
     var _parse = function (val) {
         val = val
-            .replace(/[^0-9.-]/g, '')       // remove chars except number, hyphen, point. 
+            .replace(/[^0-9.-]/g, '')       // remove chars except number, hyphen, point.
             .replace(/(\..*)\./g, '$1')     // remove multiple points.
             .replace(/(?!^)-/g, '')         // remove middle hyphen.
             .replace(/^0+(\d)/gm, '$1');    // remove multiple leading zeros. <-- I added this.
@@ -2782,7 +2782,7 @@ var KTMenu = function (element, options) {
         // Destroy popper(new)
         _destroyDropdownPopper(item);
 
-        // Handle dropdown hidden event 
+        // Handle dropdown hidden event
         KTEventHandler.trigger(the.element, 'kt.menu.dropdown.hidden', item);
     }
 
@@ -3164,7 +3164,7 @@ KTMenu.getInstance = function (element) {
         return KTUtil.data(element).get('menu');
     }
 
-    // Element has .menu parent 
+    // Element has .menu parent
     if (menu = element.closest('.menu')) {
         if (KTUtil.data(menu).has('menu')) {
             return KTUtil.data(menu).get('menu');
@@ -4158,7 +4158,7 @@ var KTSearch = function (element, options) {
     // Default Options
     var defaultOptions = {
         minLength: 2,  // Miniam text lenght to query search
-        keypress: true,  // Enable search on keypress 
+        keypress: true,  // Enable search on keypress
         enter: true,  // Enable search on enter key press
         layout: 'menu',  // Use 'menu' or 'inline' layout options to display search results
         responsive: null, // Pass integer value or bootstrap compatible breakpoint key(sm,md,lg,xl,xxl) to enable reponsive form mode for device width below the breakpoint value
@@ -4245,7 +4245,7 @@ var KTSearch = function (element, options) {
             the.inputElement.addEventListener('keypress', _enter);
         }
 
-        // Clear 
+        // Clear
         if (the.clearElement) {
             the.clearElement.addEventListener('click', _clear);
         }
@@ -4300,7 +4300,7 @@ var KTSearch = function (element, options) {
         the.element.classList.remove('focus');
     }
 
-    // Enter 
+    // Enter
     var _enter = function (e) {
         var key = e.charCode || e.keyCode || 0;
 
@@ -7727,12 +7727,12 @@ var KTLayoutSearch = function () {
             if (number === 3) {
                 // Hide results
                 resultsElement.classList.add('d-none');
-                // Show empty message 
+                // Show empty message
                 emptyElement.classList.remove('d-none');
             } else {
                 // Show results
                 resultsElement.classList.remove('d-none');
-                // Hide empty message 
+                // Hide empty message
                 emptyElement.classList.add('d-none');
             }
 
@@ -7754,7 +7754,7 @@ var KTLayoutSearch = function () {
                 resultsElement.innerHTML = response;
                 // Show results
                 resultsElement.classList.remove('d-none');
-                // Hide empty message 
+                // Hide empty message
                 emptyElement.classList.add('d-none');
 
                 // Complete search
@@ -7763,7 +7763,7 @@ var KTLayoutSearch = function () {
             .catch(function (error) {
                 // Hide results
                 resultsElement.classList.add('d-none');
-                // Show empty message 
+                // Show empty message
                 emptyElement.classList.remove('d-none');
 
                 // Complete search
@@ -7776,7 +7776,7 @@ var KTLayoutSearch = function () {
         mainElement.classList.remove('d-none');
         // Hide results
         resultsElement.classList.add('d-none');
-        // Hide empty message 
+        // Hide empty message
         emptyElement.classList.add('d-none');
     }
 
@@ -8095,7 +8095,7 @@ var KTAppSidebar = function () {
             if (headerMenuObj) {
                 headerMenuObj.disable();
 
-                // Timeout to enable header menu 
+                // Timeout to enable header menu
                 setTimeout(function () {
                     headerMenuObj.enable();
                 }, 1000);
@@ -8104,8 +8104,8 @@ var KTAppSidebar = function () {
 
         // Store sidebar minimize state in cookie
         toggleObj.on('kt.toggle.changed', function () {
-            // In server side check sidebar_minimize_state cookie 
-            // value and add data-kt-app-sidebar-minimize="on" 
+            // In server side check sidebar_minimize_state cookie
+            // value and add data-kt-app-sidebar-minimize="on"
             // attribute to Body tag and "active" class to the toggle button
             var date = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days from now
 

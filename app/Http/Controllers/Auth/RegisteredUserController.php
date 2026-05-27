@@ -10,29 +10,30 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): View
     {
         return view('auth.register');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws ValidationException
-     */
     public function store(Request $request): RedirectResponse
     {
-       $rules = [
+        $rules = [
             'name'     => ['required', 'string', 'max:255'],
+            'username' => [
+                'required',
+                'string',
+                'min:3',
+                'max:30',
+                'unique:users,username',
+                'regex:/^[a-zA-Z0-9_.]+$/',
+            ],
             'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role'     => ['required', 'in:buyer,seller'],
@@ -46,13 +47,19 @@ class RegisteredUserController extends Controller
             $rules['id_document']  = ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5120'];
         }
 
-        $request->validate($rules);
+        $request->validate($rules, [
+            'username.required' => 'Kullanıcı adı zorunludur.',
+            'username.min'      => 'Kullanıcı adı en az 3 karakter olmalı.',
+            'username.max'      => 'Kullanıcı adı en fazla 30 karakter olabilir.',
+            'username.unique'   => 'Bu kullanıcı adı zaten alınmış.',
+            'username.regex'    => 'Sadece harf, rakam, nokta ve alt çizgi kullanılabilir.',
+        ]);
 
         $user = User::create([
             'name'     => $request->name,
+            'username' => Str::lower($request->username),
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'role'     => $request->role,
             'phone'    => $request->phone,
         ]);
 
@@ -63,18 +70,18 @@ class RegisteredUserController extends Controller
                 ->store('seller-documents', 'private');
 
             SellerProfile::create([
-                'user_id'              => $user->id,
-                'company_name'         => $request->company_name,
-                'tax_number'           => $request->tax_number,
-                'iban'                 => $request->iban,
-                'id_document_path'     => $documentPath,
-                'verification_status'  => 'pending',
+                'user_id'             => $user->id,
+                'company_name'        => $request->company_name,
+                'tax_number'          => $request->tax_number,
+                'iban'                => $request->iban,
+                'id_document_path'    => $documentPath,
+                'verification_status' => 'pending',
             ]);
         }
 
         event(new Registered($user));
         Auth::login($user);
 
-       return redirect()->route('verification.notice');
+        return redirect()->route('verification.notice');
     }
 }

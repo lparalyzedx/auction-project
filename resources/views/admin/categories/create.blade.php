@@ -1,0 +1,219 @@
+@extends('layouts.app')
+@section('title', 'Yeni Kategori')
+@section('content')
+
+<div class="pf-root">
+
+    <div class="pf-top pf-top-padding">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <div class="pf-title-text">
+                    Yeni Kategori
+                </div>
+                <nav aria-label="breadcrumb" class="mt-1">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="pf-link-primary">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.categories.index') }}" class="pf-link-primary">Kategoriler</a></li>
+                        <li class="breadcrumb-item active" class="pf-text-muted">Yeni</li>
+                    </ol>
+                </nav>
+            </div>
+            <a href="{{ route('admin.categories.index') }}" class="pf-btn-reset pf-btn-back-custom">
+                <i class="bi bi-arrow-left"></i> Geri
+            </a>
+        </div>
+    </div>
+
+    <div class="pf-edit-drawer open">
+
+        <div class="pf-edit-tabs">
+            <button class="pf-etab active" onclick="switchETab('genel',this)">
+                <i class="bi bi-grid me-1"></i> Genel
+            </button>
+            <button class="pf-etab" onclick="switchETab('gorsel',this)">
+                <i class="bi bi-image me-1"></i> Görsel & Açıklama
+            </button>
+            <button class="pf-etab" onclick="switchETab('ayarlar',this)">
+                <i class="bi bi-sliders me-1"></i> Ayarlar
+            </button>
+        </div>
+
+        <form method="POST" action="{{ route('admin.categories.store') }}" enctype="multipart/form-data" id="categoryForm">
+            @csrf
+
+            @if($errors->any())
+            <div class="pf-alert-success pf-alert-error-custom">
+                <i class="bi bi-exclamation-circle-fill pf-text-danger"></i>
+                <span class="pf-text-danger">
+                    @foreach($errors->all() as $err){{ $err }}@if(!$loop->last) · @endif @endforeach
+                </span>
+            </div>
+            @endif
+
+            <div id="ep-genel" class="pf-epanel active">
+
+                <div class="pf-field">
+                    <label class="pf-label">Kategori Adı <span class="pf-req">*</span></label>
+                    <input class="pf-input" type="text" name="name" id="catName"
+                           value="{{ old('name') }}"
+                           placeholder="Örn: Elektronik"
+                           oninput="autoSlug(this.value)">
+                    @error('name') <div class="pf-error">{{ $message }}</div> @enderror
+                </div>
+
+                <div class="pf-field">
+                    <label class="pf-label">Slug</label>
+                    <div class="pf-input-pre">
+                        <span class="pf-pre-label">/</span>
+                        <input type="text" name="slug" id="catSlug"
+                               value="{{ old('slug') }}"
+                               placeholder="otomatik-uretilir"
+                               maxlength="191">
+                    </div>
+                    <div class="pf-hint">Boş bırakırsan ad'dan otomatik üretilir.</div>
+                    @error('slug') <div class="pf-error">{{ $message }}</div> @enderror
+                </div>
+
+                <div class="pf-field">
+                    <label class="pf-label">Üst Kategori</label>
+                    <select name="parent_id" class="pf-input">
+                        <option value="">— Ana Kategori (yok) —</option>
+                        @foreach($parents as $parent)
+                            <optgroup label="{{ $parent->name }}">
+                                <option value="{{ $parent->id }}" {{ old('parent_id')==$parent->id?'selected':'' }}>
+                                    📁 {{ $parent->name }}
+                                </option>
+                                @foreach($parent->children as $child)
+                                <option value="{{ $child->id }}" {{ old('parent_id')==$child->id?'selected':'' }}>
+                                    &nbsp;&nbsp;&nbsp;📂 {{ $child->name }}
+                                </option>
+                                @endforeach
+                            </optgroup>
+                        @endforeach
+                    </select>
+                    @error('parent_id') <div class="pf-error">{{ $message }}</div> @enderror
+                </div>
+
+            </div>
+
+            <div id="ep-gorsel" class="pf-epanel">
+
+                <div class="pf-avatar-upload-row">
+                    <label for="image" class="pf-upload-avatar pf-category-upload-label" title="Görsel seç">
+                        <img src="https://ui-avatars.com/api/?name=K&background=7c3aed&color=fff&size=128&bold=true"
+                             alt="Önizleme" id="imgPreview" class="pf-category-preview-img">
+                        <input type="file" id="image" name="image" accept=".png,.jpg,.jpeg,.webp" class="d-none">
+                    </label>
+                    <div>
+                        <div class="pf-upload-title">Kategori görseli</div>
+                        <div class="pf-upload-desc">PNG, JPG, WEBP · Maks. 2MB</div>
+                        <label for="image" class="pf-btn-photo mt-2 d-inline-flex align-items-center gap-1 pf-cursor-pointer">
+                            <i class="bi bi-upload"></i> Görsel yükle
+                        </label>
+                    </div>
+                </div>
+                @error('image') <div class="pf-error mt-1">{{ $message }}</div> @enderror
+
+                <div class="pf-field mt-3">
+                    <label class="pf-label">Açıklama</label>
+                    <div class="pf-relative">
+                        <textarea class="pf-input" name="description" rows="4"
+                                  maxlength="1000"
+                                  oninput="descCount(this)"
+                                  placeholder="Kategori hakkında kısa açıklama...">{{ old('description') }}</textarea>
+                        <span id="desc_counter" class="pf-char-cnt">{{ strlen(old('description','')) }}/1000</span>
+                    </div>
+                    @error('description') <div class="pf-error">{{ $message }}</div> @enderror
+                </div>
+
+            </div>
+
+            <div id="ep-ayarlar" class="pf-epanel">
+
+                <div class="pf-field">
+                    <label class="pf-label">Sıralama</label>
+                    <input class="pf-input" type="number" name="sort_order"
+                           value="{{ old('sort_order', 0) }}"
+                           min="0" max="9999" placeholder="0">
+                    <div class="pf-hint">Küçük değer öne gelir. Varsayılan: 0</div>
+                    @error('sort_order') <div class="pf-error">{{ $message }}</div> @enderror
+                </div>
+
+                <div class="pf-toggle-list">
+                    <label class="pf-trow pf-trow-border-none">
+                        <div class="pf-trow-info">
+                            <div class="pf-trow-title">Kategoriyi Yayınla</div>
+                            <div class="pf-trow-desc">Aktif kategoriler sitede görünür</div>
+                        </div>
+                        <input type="hidden" name="is_active" value="0">
+                        <input type="checkbox" name="is_active" value="1" class="pf-tog-input"
+                               {{ old('is_active', '1') == '1' ? 'checked' : '' }}>
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="pf-footer">
+                <span class="pf-save-info">
+                    <i class="bi bi-info-circle"></i> Tüm alanları doldurmak zorunda değilsin.
+                </span>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('admin.categories.index') }}" class="pf-btn-reset">İptal</a>
+                    <button type="submit" class="pf-btn-save" id="saveBtn">
+                        <i class="bi bi-floppy me-1"></i> Kaydet
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+@endsection
+
+
+@push('scripts')
+<script>
+function switchETab(key, btn) {
+    document.querySelectorAll('.pf-etab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.pf-epanel').forEach(p => p.classList.remove('active'));
+    document.getElementById('ep-' + key).classList.add('active');
+}
+
+function autoSlug(val) {
+    const slugEl = document.getElementById('catSlug');
+    if (!slugEl || slugEl.dataset.manual === '1') return;
+    slugEl.value = val
+        .toLowerCase()
+        .replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ş/g,'s')
+        .replace(/ı/g,'i').replace(/ö/g,'o').replace(/ç/g,'c')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+document.getElementById('catSlug')?.addEventListener('input', function () {
+    this.dataset.manual = this.value ? '1' : '0';
+});
+
+function descCount(el) {
+    const c = document.getElementById('desc_counter');
+    if (c) c.textContent = el.value.length + '/1000';
+}
+
+document.getElementById('image')?.addEventListener('change', function () {
+    if (!this.files?.[0]) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        const el = document.getElementById('imgPreview');
+        if (el) el.src = e.target.result;
+    };
+    reader.readAsDataURL(this.files[0]);
+});
+
+document.getElementById('categoryForm')?.addEventListener('submit', function () {
+    const btn = document.getElementById('saveBtn');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Kaydediliyor...'; }
+});
+</script>
+@endpush

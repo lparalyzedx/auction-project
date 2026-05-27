@@ -71,10 +71,10 @@
     -->
 
         <div class="form-floating mb-4">
-            <input type="email" name="email" id="email"
-                class="form-control auth-input @error('email') is-invalid @enderror" placeholder="E-posta"
+            <input type="text" name="email" id="email"
+                class="form-control auth-input @error('email') is-invalid @enderror" placeholder="E-posta adresi veya kullanıcı adı"
                 value="{{ old('email') }}" autocomplete="off" required>
-            <label for="email">E-posta adresi</label>
+            <label for="email">E-posta adresi veya kullanıcı adı</label>
 
             @error('email')
                 <div class="invalid-feedback d-block text-danger small">

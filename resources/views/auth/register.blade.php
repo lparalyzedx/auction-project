@@ -4,23 +4,17 @@
 @section('content')
 <form class="form w-100" id="kt_sign_up_form" method="post"
     action="{{ route('register') }}" enctype="multipart/form-data">
+
     <div class="auth-header text-center mb-8">
+        <img src="{{ asset('assets/media/logos/logo-light.svg') }}" class="logo-light auth-logo" alt="Artirdim">
+        <img src="{{ asset('assets/media/logos/logo-dark.svg') }}" class="logo-dark auth-logo" alt="Artirdim">
+    </div>
 
-    <img
-        src="{{ asset('assets/media/logos/logo-light.svg') }}"
-        class="logo-light auth-logo"
-        alt="Artirdim"
-    >
-
-    <img
-        src="{{ asset('assets/media/logos/logo-dark.svg') }}"
-        class="logo-dark auth-logo"
-        alt="Artirdim"
-    >
-
-</div>
     @csrf
+
+
     <div id="step_1">
+
         <div class="mb-6">
             <label class="form-label text-muted fs-7 fw-semibold mb-3">Hesap Türü</label>
             <div class="row g-3">
@@ -84,6 +78,19 @@
 
         <div class="fv-row mb-4">
             <div class="form-floating">
+                <input type="text" name="username" id="username"
+                    class="form-control @error('username') is-invalid @enderror"
+                    placeholder="kullanici_adi"
+                    value="{{ old('username') }}"
+                    maxlength="30"
+                    autocomplete="username">
+                <label>Kullanıcı Adı</label>
+            </div>
+            @error('username') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+        </div>
+
+        <div class="fv-row mb-4">
+            <div class="form-floating">
                 <input type="email" name="email"
                     class="form-control @error('email') is-invalid @enderror"
                     placeholder="E-posta" value="{{ old('email') }}">
@@ -102,8 +109,7 @@
             @error('phone') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
         </div>
 
-        <button type="button" id="btn_next_1"
-            class="btn btn-auth-primary btn-lg w-100">
+        <button type="button" id="btn_next_1" class="btn btn-auth-primary btn-lg w-100">
             Devam et
             <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="15px" fill="#e3e3e3"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg>
         </button>
@@ -125,7 +131,6 @@
                 </ul>
             </div>
         @endif
-
 
         <div class="d-flex justify-content-between mb-1">
             <span class="text-muted fs-8">Adım 2 / 3</span>
@@ -178,12 +183,10 @@
         </div>
 
         <div class="d-flex gap-3">
-            <button type="button" id="btn_back_2" class="btn btn-auth-outline btn-lg py-3 fw-semibold" style="width:30%">
-                Geri
-            </button>
+            <button type="button" id="btn_back_2" class="btn btn-auth-outline btn-lg py-3 fw-semibold" style="width:30%">Geri</button>
             <button type="button" id="btn_next_2" class="btn btn-auth-primary btn-lg py-3 fw-semibold flex-grow-1">
                 Devam et
-<svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="15px" fill="#e3e3e3"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="15px" fill="#e3e3e3"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg>
             </button>
         </div>
     </div>
@@ -220,7 +223,7 @@
             </div>
         </div>
 
-         <div class="mb-4">
+        <div class="mb-4">
             <div style="height:4px;border-radius:2px;background:var(--border,#e4e6ef);overflow:hidden;margin-bottom:5px">
                 <div id="password_strength_bar" style="height:100%;width:0;border-radius:2px;transition:width .3s,background .3s"></div>
             </div>
@@ -239,9 +242,7 @@
                     <i class="bi bi-eye fs-2 d-none"></i>
                 </span>
             </div>
-            <div id="password_mismatch_error" class="text-danger small mt-1" style="display:none">
-                Şifreler eşleşmiyor.
-            </div>
+            <div id="password_mismatch_error" class="text-danger small mt-1" style="display:none">Şifreler eşleşmiyor.</div>
         </div>
 
         <div class="mb-8">
@@ -251,17 +252,12 @@
                     <a href="#" class="text-primary">Kullanım koşullarını</a> okudum ve kabul ediyorum
                 </span>
             </label>
-            <div id="terms_error" class="text-danger small mt-1" style="display:none">
-                Kullanım koşullarını kabul etmelisiniz.
-            </div>
+            <div id="terms_error" class="text-danger small mt-1" style="display:none">Kullanım koşullarını kabul etmelisiniz.</div>
         </div>
 
         <div class="d-flex gap-3">
-            <button type="button" id="btn_back_3" class="btn btn-auth-outline btn-lg py-3 fw-semibold" style="width:30%">
-                Geri
-            </button>
-            <button type="submit" id="kt_sign_up_submit"
-                class="btn btn-auth-primary btn-lg py-3 fw-semibold flex-grow-1">
+            <button type="button" id="btn_back_3" class="btn btn-auth-outline btn-lg py-3 fw-semibold" style="width:30%">Geri</button>
+            <button type="submit" id="kt_sign_up_submit" class="btn btn-auth-primary btn-lg py-3 fw-semibold flex-grow-1">
                 <span class="indicator-label">Kayıt Ol</span>
                 <span class="indicator-progress">
                     Lütfen bekleyin...
@@ -275,8 +271,14 @@
 @endsection
 
 @push('scripts')
-<script src="{{asset('assets/js/custom/authentication/sign-up/general.js')}}"></script>
+<script src="{{ asset('assets/js/custom/authentication/sign-up/general.js') }}"></script>
 <script>
+    document.getElementById('username')?.addEventListener('input', function () {
+        const pos = this.selectionStart;
+        this.value = this.value.toLowerCase().replace(/[^a-z0-9_.]/g, '');
+        try { this.setSelectionRange(pos, pos); } catch(e) {}
+    });
+
     @if($errors->any())
         @if($errors->hasAny(['tax_number','iban','company_name','id_document']))
             showStep(2);
