@@ -1,184 +1,163 @@
 <!DOCTYPE html>
-<html lang="tr" data-bs-theme="dark"> <head>
+<html lang="tr" data-bs-theme="dark">
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>404 - Sayfa Bulunamadı | artirdim.com</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        /* --- TEMA DEĞİŞKENLERİ --- */
-        /* Bootstrap data-bs-theme mantığına göre CSS seçicileri güncellendi */
-
-        /* Dark Mode (Varsayılan) */
         [data-bs-theme="dark"] {
             --bg-color: #0b0e14;
             --card-bg: #11151d;
             --text-main: #ffffff;
             --text-muted: #788294;
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --border-color: rgba(255, 255, 255, 0.05);
-            --btn-secondary-hover: rgba(255, 255, 255, 0.03);
+            --grad-start: #6366f1;
+            --grad-end: #a855f7;
+            --neon-glow: rgba(168, 85, 247, 0.3);
+            --border-color: rgba(255, 255, 255, 0.06);
+            --btn-ghost-hover: rgba(255, 255, 255, 0.04);
+            --icon-color: #94a3b8;
         }
-
-        /* Light Mode */
         [data-bs-theme="light"] {
-            --bg-color: #f8fafc;
+            --bg-color: #f1f5f9;
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-muted: #64748b;
-            --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            --border-color: rgba(0, 0, 0, 0.06);
-            --btn-secondary-hover: rgba(0, 0, 0, 0.02);
+            --grad-start: #4f46e5;
+            --grad-end: #7c3aed;
+            --neon-glow: rgba(124, 58, 237, 0.18);
+            --border-color: rgba(0, 0, 0, 0.07);
+            --btn-ghost-hover: rgba(0, 0, 0, 0.03);
+            --icon-color: #64748b;
         }
 
-        /* --- GENEL AYARLAR --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        *, *::before, *::after {
+            margin: 0; padding: 0; box-sizing: border-box;
         }
+
+        html, body { height: 100%; }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100dvh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+            padding: env(safe-area-inset-top, 16px) 16px env(safe-area-inset-bottom, 16px);
         }
 
         body::before {
             content: '';
-            position: absolute;
-            width: 450px;
-            height: 450px;
-            background: var(--primary-gradient);
-            filter: blur(160px);
-            opacity: 0.12;
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 50% at 50% 40%, var(--neon-glow) 0%, transparent 70%);
+            pointer-events: none;
             z-index: 0;
-            top: 25%;
-            left: 25%;
         }
 
-        .container {
+        .card {
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 540px;
-            text-align: center;
+            max-width: 460px;
             background: var(--card-bg);
-            padding: 50px 40px;
-            border-radius: 24px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            transition: background 0.3s ease, border 0.3s ease;
+            border-radius: 20px;
+            padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 40px);
+            text-align: center;
         }
 
-        /* --- LOGO ALANI --- */
-        .logo-container {
+        /* Logo */
+        .logo {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
         }
-
-        .logo-icon {
+        .logo-bars {
             display: flex;
             align-items: flex-end;
             gap: 3px;
             height: 20px;
         }
-
-        .logo-icon .wave {
+        .bar {
             width: 3.5px;
-            background: var(--primary-gradient);
+            background: linear-gradient(180deg, var(--grad-start), var(--grad-end));
             border-radius: 10px;
-            display: inline-block;
         }
-        .logo-icon .wave:nth-child(1) { height: 10px; }
-        .logo-icon .wave:nth-child(2) { height: 20px; }
-        .logo-icon .wave:nth-child(3) { height: 14px; }
+        .bar:nth-child(1) { height: 10px; }
+        .bar:nth-child(2) { height: 20px; }
+        .bar:nth-child(3) { height: 14px; }
 
-        .logo-text {
-            font-size: 22px;
+        .logo-name {
+            font-size: clamp(18px, 4.5vw, 22px);
             font-weight: 800;
             letter-spacing: -0.5px;
+            color: var(--text-main);
         }
-        .logo-text span {
-            color: #6366f1;
-            font-weight: 400;
-        }
+        .logo-name span { color: var(--grad-start); font-weight: 400; }
 
-        /* --- 404 NUMARA --- */
+        /* 404 */
         .error-code {
-            font-size: 110px;
+            font-size: clamp(72px, 22vw, 110px);
             font-weight: 900;
             line-height: 1;
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             letter-spacing: -2px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         h2 {
-            font-size: 24px;
+            font-size: clamp(17px, 4.5vw, 22px);
             font-weight: 700;
             line-height: 1.4;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
-        p {
+        .desc {
             color: var(--text-muted);
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 35px;
+            font-size: clamp(13px, 3.5vw, 15px);
+            line-height: 1.65;
+            margin-bottom: 32px;
         }
 
-        /* --- BUTONLAR --- */
-        .action-buttons {
+        /* Buttons */
+        .actions {
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        @media (min-width: 480px) {
-            .action-buttons { flex-direction: row; }
+            gap: 10px;
         }
 
         .btn {
+            flex: 1;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 12px 28px;
-            font-size: 14px;
+            gap: 7px;
+            padding: 13px 16px;
+            font-size: clamp(13px, 3.5vw, 14px);
             font-weight: 600;
             border-radius: 12px;
             text-decoration: none;
-            transition: all 0.2s ease;
-            width: 100%;
-            max-width: 200px;
             cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 48px;
         }
+        .btn:active { transform: scale(0.96); }
 
         .btn-primary {
-            background: var(--primary-gradient);
-            color: #ffffff;
+            background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
+            color: #fff;
             border: none;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.28);
         }
 
         .btn-secondary {
@@ -186,54 +165,50 @@
             color: var(--text-main);
             border: 1px solid var(--border-color);
         }
+        .btn-secondary:hover { background: var(--btn-ghost-hover); }
 
-        .btn-secondary:hover {
-            background: var(--btn-secondary-hover);
-            border-color: var(--text-muted);
-        }
-
-        /* --- TEMA GEÇİŞ BUTONU --- */
-        .theme-toggle {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            width: 44px;
-            height: 44px;
+        /* Theme toggle */
+        .theme-btn {
+            position: fixed;
+            top: max(16px, env(safe-area-inset-top));
+            right: 16px;
+            width: 40px; height: 40px;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: all 0.2s;
-            z-index: 10;
+            z-index: 100;
+            color: var(--icon-color);
+            font-size: 15px;
+            transition: transform 0.2s;
         }
-        .theme-toggle:hover { transform: scale(1.05); }
+        .theme-btn:active { transform: scale(0.92); }
     </style>
 </head>
 <body>
 
-    <div class="theme-toggle" onclick="toggleTheme()">
+    <button class="theme-btn" onclick="toggleTheme()" aria-label="Tema değiştir">
         <i class="fa-solid fa-moon" id="theme-icon"></i>
-    </div>
+    </button>
 
-    <div class="container">
-        <div class="logo-container">
-            <div class="logo-icon">
-                <span class="wave"></span>
-                <span class="wave"></span>
-                <span class="wave"></span>
+    <div class="card">
+        <div class="logo">
+            <div class="logo-bars">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </div>
-            <h1 class="logo-text">artirdim<span>.com</span></h1>
+            <h1 class="logo-name">artirdim<span>.com</span></h1>
         </div>
 
         <div class="error-code">404</div>
         <h2>Aradığınız Sayfa Bulunamadı!</h2>
-        <p>Görünüşe göre bu sayfa yayından kalkmış, adresi değişmiş ya da çekiç yanlış yere vurulmuş.</p>
+        <p class="desc">Görünüşe göre bu sayfa yayından kalkmış, adresi değişmiş ya da çekiç yanlış yere vurulmuş.</p>
 
-        <div class="action-buttons">
+        <div class="actions">
             <a href="/" class="btn btn-primary">
                 <i class="fa-solid fa-gavel"></i> Ana Sayfa
             </a>
@@ -244,41 +219,16 @@
     </div>
 
     <script>
-        // Sayfa yüklenir yüklenmez (DOM hazır olduğunda) temayı kontrol et ve uygula
         document.addEventListener("DOMContentLoaded", () => {
-            // LocalStorage'den 'theme' değerini çek, yoksa varsayılan olarak 'dark' ata
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-
-            // Temayı sisteme uygula
-            applyTheme(savedTheme);
+            applyTheme(localStorage.getItem('theme') || 'dark');
         });
-
-        // Temayı HTML attribute'una basan ve ikonu güncelleyen fonksiyon
         function applyTheme(theme) {
-            const htmlElement = document.documentElement; // <html> etiketini seçer
-            const icon = document.getElementById('theme-icon');
-
-            // Bootstrap uyumlu data-bs-theme değerini set et
-            htmlElement.setAttribute('data-bs-theme', theme);
-
-            // Seçimi LocalStorage'e kaydet/güncelle
+            document.documentElement.setAttribute('data-bs-theme', theme);
             localStorage.setItem('theme', theme);
-
-            // Sağ üstteki ikonu temaya göre güncelle
-            if (theme === 'light') {
-                icon.className = 'fa-solid fa-sun';
-            } else {
-                icon.className = 'fa-solid fa-moon';
-            }
+            document.getElementById('theme-icon').className = theme === 'light' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
         }
-
-        // Butona tıklandığında temayı tersine çeviren fonksiyon
         function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-bs-theme');
-            // Eğer şu an dark ise light yap, light ise dark yap
-            const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
-
-            applyTheme(newTheme);
+            applyTheme(document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark');
         }
     </script>
 </body>

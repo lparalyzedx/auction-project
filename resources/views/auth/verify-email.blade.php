@@ -6,9 +6,10 @@
 
         <div class="text-center mb-10">
 
-            <div class="badge bg-primary px-4 py-2 mb-4">
-                EMAIL VERIFICATION
-            </div>
+            <div class="auth-header text-center mb-8">
+        <img src="{{ asset('assets/media/logos/logo-light.svg') }}" class="logo-light auth-logo" alt="Artirdim">
+        <img src="{{ asset('assets/media/logos/logo-dark.svg') }}" class="logo-dark auth-logo" alt="Artirdim">
+    </div>
 
             <h1 class="fw-bold fs-2 mb-2">
                 E-posta adresini doğrula

@@ -416,7 +416,6 @@ html, body {
     background: linear-gradient(135deg, #9146ff, #6a2fff) !important;
     border: none !important;
     color: #fff !important;
-    font-size: var(--fs-base);
     box-shadow: var(--shadow);
 }
 
@@ -2907,3 +2906,872 @@ body.swal2-shown {
     height: 100% !important;
     overflow-y: scroll !important;
 }
+
+
+/* ═══════════════════════════════════════════════════════════
+   MOBİL RESPONSIVE — Tüm sayfalar için kapsamlı override
+   Bu bloğu mevcut CSS'inin EN SONUNA ekle
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Temel font scale — mobilde küçültülmüş ── */
+@media (max-width: 767.98px) {
+    :root {
+        --fs-xs:   11px;
+        --fs-sm:   12px;
+        --fs-base: 13px;
+        --fs-md:   14px;
+        --fs-lg:   15px;
+        --fs-xl:   18px;
+        --fs-2xl:  22px;
+    }
+
+    /* ── App container ── */
+    .app-container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    /* ── Header ── */
+    .app-header,
+    .modern-header {
+        padding: 0 10px !important;
+        height: 52px !important;
+    }
+
+    .search-box {
+        max-width: 140px !important;
+    }
+
+    .search-input {
+        height: 34px !important;
+        font-size: 12px !important;
+        padding-left: 34px !important;
+    }
+
+    .search-input::placeholder {
+        font-size: 11px !important;
+    }
+
+    .modern-icon {
+        width: 34px !important;
+        height: 34px !important;
+    }
+
+    .btn-header-login,
+    .btn-header-register {
+        height: 34px !important;
+        padding: 0 12px !important;
+        font-size: 12px !important;
+    }
+
+    .mhdr-search-wrap {
+        margin: 0 2px !important;
+    }
+
+    /* ── Hero ── */
+    .hero {
+        padding: 28px 18px !important;
+        border-radius: 12px !important;
+    }
+
+    .hero h1 {
+        font-size: 1.25rem !important;
+        margin-bottom: 8px !important;
+    }
+
+    .hero p {
+        font-size: 12px !important;
+    }
+
+    /* ── Profil Toolbar ── */
+    .profile-toolbar {
+        padding: 16px 14px !important;
+        margin-bottom: 14px !important;
+        border-radius: 12px !important;
+    }
+
+    /* ── Admin Toolbar ── */
+    .admin-toolbar {
+        padding: 14px 14px !important;
+        margin-bottom: 14px !important;
+        border-radius: 12px !important;
+    }
+
+    .admin-toolbar .toolbar-title {
+        font-size: 16px !important;
+        margin-bottom: 2px !important;
+    }
+
+    .admin-toolbar .breadcrumb-item,
+    .admin-toolbar .breadcrumb-item a,
+    .admin-toolbar .breadcrumb-item.active {
+        font-size: 11px !important;
+    }
+
+    /* ── Admin Stat kartları ── */
+    .admin-stat {
+        padding: 12px 12px !important;
+        border-radius: 10px !important;
+        gap: 10px !important;
+    }
+
+    .admin-stat-icon {
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 10px !important;
+    }
+
+    .admin-stat-icon i {
+        font-size: 16px !important;
+    }
+
+    .admin-stat-num {
+        font-size: 20px !important;
+    }
+
+    .admin-stat-lbl {
+        font-size: 11px !important;
+    }
+
+    /* ── Admin Card & Table ── */
+    .admin-card {
+        border-radius: 12px !important;
+    }
+
+    .admin-card-head {
+        padding: 12px 14px !important;
+        gap: 8px !important;
+    }
+
+    .admin-card-title {
+        font-size: 13px !important;
+    }
+
+    .admin-table th {
+        padding: 10px 12px !important;
+        font-size: 10px !important;
+    }
+
+    .admin-table td {
+        padding: 10px 12px !important;
+        font-size: 12px !important;
+    }
+
+    /* ── Admin Filter ── */
+    .admin-filter-input,
+    .admin-filter-select {
+        height: 34px !important;
+        font-size: 12px !important;
+    }
+
+    /* ── Admin Butonlar ── */
+    .btn-admin-pri,
+    .btn-admin-sec,
+    .btn-admin-success,
+    .btn-admin-danger {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        border-radius: 8px !important;
+    }
+
+    /* ── Admin Form ── */
+    .admin-finput,
+    .admin-fselect {
+        height: 42px !important;
+        font-size: 13px !important;
+    }
+
+    .admin-flabel {
+        font-size: 10px !important;
+    }
+
+    /* ── Profil Summary Card ── */
+    .profile-summary-card {
+        border-radius: 12px !important;
+    }
+
+    .avatar-ring {
+        width: 80px !important;
+        height: 80px !important;
+    }
+
+    .stat-pill {
+        padding: 8px 6px !important;
+        border-radius: 10px !important;
+    }
+
+    /* ── PF — Üst kart ── */
+    .pf-root {
+        gap: 6px !important;
+    }
+
+    .pf-top {
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+    }
+
+    .pf-cover {
+        height: 56px !important;
+    }
+
+    .pf-identity {
+        padding: 0 14px 14px !important;
+    }
+
+    .pf-avatar-wrap {
+        top: -28px !important;
+        left: 14px !important;
+    }
+
+    .pf-avatar-outer {
+        width: 56px !important;
+        height: 56px !important;
+    }
+
+    .pf-online-dot {
+        width: 11px !important;
+        height: 11px !important;
+    }
+
+    .pf-identity-right {
+        padding-top: 10px !important;
+        padding-left: 72px !important;
+        min-height: 36px !important;
+    }
+
+    .pf-uname {
+        font-size: 15px !important;
+    }
+
+    .pf-role-badge {
+        font-size: 10px !important;
+        padding: 2px 8px !important;
+    }
+
+    .pf-handle {
+        font-size: 11px !important;
+    }
+
+    .pf-bio {
+        font-size: 12px !important;
+        margin-top: 6px !important;
+    }
+
+    /* ── PF Stats ── */
+    .pf-stats-row {
+        flex-wrap: nowrap !important;
+    }
+
+    .pf-stat {
+        padding: 10px 0 !important;
+    }
+
+    .pf-stat-num {
+        font-size: 16px !important;
+    }
+
+    .pf-stat-label {
+        font-size: 10px !important;
+    }
+
+    /* ── PF Aksiyon satırı ── */
+    .pf-action-row {
+        padding: 8px 12px !important;
+        gap: 6px !important;
+    }
+
+    .pf-btn-primary,
+    .pf-btn-secondary,
+    .pf-btn-edit {
+        padding: 7px !important;
+        font-size: 12px !important;
+        border-radius: 8px !important;
+    }
+
+    .pf-btn-icon {
+        width: 34px !important;
+        font-size: 14px !important;
+    }
+
+    /* ── PF Edit Drawer ── */
+    .pf-edit-drawer {
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+    }
+
+    .pf-etab {
+        padding: 10px 4px !important;
+        font-size: 12px !important;
+    }
+
+    .pf-epanel {
+        padding: 16px 14px !important;
+    }
+
+    .pf-two-col {
+        grid-template-columns: 1fr !important;
+    }
+
+    .pf-input {
+        padding: 8px 12px !important;
+        font-size: 13px !important;
+        border-radius: 8px !important;
+    }
+
+    .pf-label {
+        font-size: 10px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .pf-pre-label {
+        font-size: 12px !important;
+        padding: 0 8px !important;
+        height: 36px !important;
+    }
+
+    .pf-input-pre input {
+        padding: 8px 10px !important;
+        font-size: 13px !important;
+    }
+
+    /* ── PF Avatar upload ── */
+    .pf-avatar-upload-row {
+        gap: 12px !important;
+        margin-bottom: 14px !important;
+        padding-bottom: 14px !important;
+    }
+
+    .pf-upload-avatar {
+        width: 52px !important;
+        height: 52px !important;
+    }
+
+    .pf-upload-title {
+        font-size: 13px !important;
+    }
+
+    .pf-upload-desc {
+        font-size: 11px !important;
+    }
+
+    /* ── PF Footer ── */
+    .pf-footer {
+        padding: 10px 14px !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+
+    .pf-save-info {
+        font-size: 11px !important;
+    }
+
+    .pf-btn-reset,
+    .pf-btn-save {
+        padding: 7px 14px !important;
+        font-size: 12px !important;
+        border-radius: 7px !important;
+    }
+
+    /* ── PF Content Area ── */
+    .pf-content-area {
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+    }
+
+    .pf-ptab {
+        padding: 10px 0 !important;
+        font-size: 12px !important;
+    }
+
+    .pf-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+        padding: 10px !important;
+    }
+
+    .pf-card-title {
+        font-size: 12px !important;
+    }
+
+    .pf-card-meta {
+        font-size: 10px !important;
+    }
+
+    /* ── PF Toolbar ── */
+    .pf-toolbar-title {
+        font-size: 17px !important;
+    }
+
+    .pf-breadcrumb-list {
+        font-size: 11px !important;
+    }
+
+    .pf-btn-with-icon {
+        height: 34px !important;
+        padding: 0 12px !important;
+        font-size: 12px !important;
+    }
+
+    /* ── PF Stat Card ── */
+    .pf-stat-card {
+        padding: 10px 12px !important;
+        gap: 10px !important;
+        border-radius: 10px !important;
+    }
+
+    .pf-stat-icon-wrapper {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 8px !important;
+    }
+
+    .pf-stat-number {
+        font-size: 20px !important;
+    }
+
+    .pf-stat-label {
+        font-size: 10px !important;
+    }
+
+    /* ── PF Table ── */
+    .pf-filter-form {
+        flex-direction: column !important;
+    }
+
+    .pf-search-input-wrapper {
+        min-width: 100% !important;
+    }
+
+    .pf-select-status,
+    .pf-select-type {
+        width: 100% !important;
+        height: 36px !important;
+    }
+
+    .pf-input-search {
+        height: 36px !important;
+    }
+
+    .pf-btn-filter,
+    .pf-btn-clear {
+        height: 36px !important;
+        font-size: 12px !important;
+    }
+
+    .pf-table th {
+        padding: 9px 10px !important;
+        font-size: 10px !important;
+    }
+
+    .pf-table-row td {
+        padding: 10px !important;
+        font-size: 12px !important;
+    }
+
+    .pf-cat-img {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .pf-cat-name {
+        font-size: 12px !important;
+    }
+
+    .pf-cat-slug {
+        font-size: 10px !important;
+    }
+
+    /* ── PF Pagination ── */
+    .pf-pagination-wrapper {
+        padding: 10px 14px !important;
+        gap: 6px !important;
+    }
+
+    .pf-pagination-info {
+        font-size: 11px !important;
+    }
+
+    .pf-pagination-item,
+    .pf-pagination-nav-btn {
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 7px !important;
+        font-size: 11px !important;
+    }
+
+    /* ── PF Güvenlik satırları ── */
+    .pf-sec-item {
+        padding: 12px 0 !important;
+        gap: 10px !important;
+    }
+
+    .pf-sec-icon {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 14px !important;
+    }
+
+    .pf-sec-title {
+        font-size: 13px !important;
+    }
+
+    .pf-sec-sub {
+        font-size: 11px !important;
+    }
+
+    .pf-btn-change {
+        padding: 5px 12px !important;
+        font-size: 11px !important;
+    }
+
+    /* ── PF Toggle list ── */
+    .pf-trow {
+        padding: 12px 0 !important;
+    }
+
+    .pf-trow-title {
+        font-size: 13px !important;
+    }
+
+    .pf-trow-desc {
+        font-size: 11px !important;
+    }
+
+    /* ── Settings Panel (s-*) ── */
+    .s-form {
+        padding: 0.4rem 0 !important;
+    }
+
+    .s-field {
+        margin-bottom: 0.6rem !important;
+    }
+
+    .s-2col {
+        grid-template-columns: 1fr !important;
+        gap: 0.5rem !important;
+    }
+
+    .s-editable {
+        min-height: 140px !important;
+        padding: 0.6rem 0.75rem !important;
+        font-size: 13px !important;
+    }
+
+    .s-toolbar button {
+        padding: 3px 5px !important;
+        font-size: 12px !important;
+    }
+
+    .s-foot {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+
+    .s-foot .btn,
+    .s-foot button {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .s-info-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
+    }
+
+    .s-info-item {
+        padding: 0.55rem 0.7rem !important;
+        border-radius: 8px !important;
+    }
+
+    .s-action-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.4rem !important;
+    }
+
+    .s-action-btn {
+        padding: 0.55rem 0.65rem !important;
+        border-radius: 8px !important;
+        font-size: 12px !important;
+    }
+
+    .s-logo-row {
+        gap: 0.65rem !important;
+    }
+
+    .s-logo-box {
+        width: 52px !important;
+        height: 52px !important;
+    }
+
+    /* ── Bar item (tab bar) ── */
+    .bar-item {
+        padding: 9px 10px !important;
+        font-size: 12px !important;
+    }
+
+    /* ── Genel Card ── */
+    .card,
+    .card-body,
+    .card-header {
+        border-radius: 10px !important;
+    }
+
+    /* ── Auction Card ── */
+    .auction-card {
+        border-radius: 12px !important;
+    }
+
+    .auction-img {
+        height: 140px !important;
+    }
+
+    .price {
+        font-size: 14px !important;
+    }
+
+    .section-title {
+        font-size: 14px !important;
+        margin: 18px 0 10px !important;
+    }
+
+    /* ── Badge & Avatar ── */
+    .a-badge {
+        padding: 3px 8px !important;
+        font-size: 10px !important;
+    }
+
+    .a-avatar,
+    .a-avatar-init {
+        width: 30px !important;
+        height: 30px !important;
+        border-radius: 8px !important;
+    }
+
+    /* ── Admin Pages ── */
+    .admin-pages {
+        gap: 3px !important;
+    }
+
+    .admin-page {
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 7px !important;
+        font-size: 11px !important;
+    }
+
+    /* ── SweetAlert2 ── */
+    .swal2-popup {
+        border-radius: 14px !important;
+        padding: 1.2rem !important;
+    }
+
+    .swal2-title {
+        font-size: 15px !important;
+    }
+
+    .swal2-html-container {
+        font-size: 13px !important;
+    }
+
+    /* ── Overflow scroll için tablo ── */
+    .pf-table-responsive,
+    .admin-table,
+    .table-responsive {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    /* ── Profil action row ── */
+    .pf-action-row-custom {
+        flex-direction: column !important;
+    }
+
+    .pf-btn-gap {
+        flex-wrap: wrap !important;
+    }
+
+    .pf-btn-action-edit,
+    .pf-btn-action-delete,
+    .pf-btn-status-verify,
+    .pf-btn-status-unverify {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        border-radius: 8px !important;
+    }
+
+    /* ── Gizlilik & toggle ── */
+    .pf-tog-input {
+        width: 36px !important;
+        height: 20px !important;
+    }
+
+    .pf-tog-input::after {
+        width: 16px !important;
+        height: 16px !important;
+    }
+
+    .pf-tog-input:checked::after {
+        left: 16px !important;
+    }
+
+    /* ── Admin info row ── */
+    .admin-info-row {
+        padding: 9px 0 !important;
+        gap: 8px !important;
+    }
+
+    .admin-info-icon {
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 7px !important;
+    }
+
+    .admin-info-lbl {
+        font-size: 10px !important;
+    }
+
+    .admin-info-val {
+        font-size: 12px !important;
+    }
+
+    /* ── Profil info row ── */
+    .profile-info-row {
+        padding: 8px 0 !important;
+        gap: 8px !important;
+    }
+
+    .profile-info-row .icon-wrap {
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 7px !important;
+    }
+
+    /* ── Admin upload ── */
+    .admin-upload {
+        padding: 10px 12px !important;
+        gap: 10px !important;
+        border-radius: 10px !important;
+    }
+
+    /* ── Empty state ── */
+    .pf-empty {
+        padding: 36px 16px !important;
+    }
+
+    .pf-empty-icon {
+        width: 46px !important;
+        height: 46px !important;
+        font-size: 18px !important;
+    }
+
+    .pf-empty-title {
+        font-size: 15px !important;
+    }
+
+    .pf-empty-sub {
+        font-size: 12px !important;
+    }
+
+    /* ── Sidebar dropdown ── */
+    .sidebar-dropdown {
+        min-width: 200px !important;
+        border-radius: 10px !important;
+    }
+
+    .sidebar-dropdown .dropdown-item {
+        padding: 8px 10px !important;
+        font-size: 12px !important;
+        border-radius: 8px !important;
+    }
+
+    /* ── Wrapping bar düzeltme ── */
+    .wraping {
+        gap: 4px !important;
+    }
+
+    /* ── Info panel ── */
+    .info-panel-custom,
+    .pf-panel-custom {
+        padding: 16px !important;
+        border-radius: 12px !important;
+    }
+
+    /* ── Drawer ── */
+    .pf-inline-form {
+        padding: 14px !important;
+        border-radius: 8px !important;
+    }
+
+    /* ── Top padding ── */
+    .pf-top-padding {
+        padding: 16px 14px 14px !important;
+    }
+
+    /* ── Sosyal linkler ── */
+    .pf-social-row {
+        gap: 6px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .pf-social-icon {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 7px !important;
+        font-size: 14px !important;
+    }
+
+    /* ── Alert ── */
+    .alert {
+        font-size: 12px !important;
+        padding: 10px 12px !important;
+        border-radius: 10px !important;
+    }
+
+    .pf-alert-success {
+        padding: 9px 12px !important;
+        font-size: 12px !important;
+        border-radius: 7px !important;
+    }
+}
+
+/* ── Tablet arası (768–991px) ── */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    :root {
+        --fs-xs:   11px;
+        --fs-sm:   13px;
+        --fs-base: 14px;
+        --fs-md:   15px;
+        --fs-lg:   16px;
+        --fs-xl:   20px;
+        --fs-2xl:  25px;
+    }
+
+    .search-box {
+        max-width: 220px !important;
+    }
+
+    .pf-two-col {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .admin-stat-num {
+        font-size: 22px !important;
+    }
+
+    .pf-stat-number {
+        font-size: 22px !important;
+    }
+
+    .pf-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    .s-2col {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}
+
+

@@ -306,3 +306,40 @@ form.querySelectorAll('input').forEach(input => {
         if (btnId) document.getElementById(btnId)?.click();
     });
 });
+
+document.querySelectorAll('.role-radio').forEach(radio => {
+    radio.addEventListener('change', function () {
+        document.querySelectorAll('.role-card').forEach(card => {
+            card.classList.remove('border-primary', 'bg-light-primary');
+            card.classList.add('border-secondary', 'bg-transparent');
+        });
+        document.querySelectorAll('.role-icon-wrap').forEach(wrap => {
+            wrap.classList.remove('bg-primary');
+            wrap.classList.add('bg-secondary');
+        });
+        document.querySelectorAll('.role-icon-wrap svg').forEach(svg => {
+            svg.classList.remove('text-white');
+            svg.classList.add('text-muted');
+        });
+        document.querySelectorAll('.role-label').forEach(label => {
+            label.classList.remove('text-primary');
+            label.classList.add('text-muted');
+        });
+
+        const card = this.closest('label').querySelector('.role-card');
+        card.classList.remove('border-secondary', 'bg-transparent');
+        card.classList.add('border-primary', 'bg-light-primary');
+
+        const wrap = card.querySelector('.role-icon-wrap');
+        wrap.classList.remove('bg-secondary');
+        wrap.classList.add('bg-primary');
+
+        const svg = card.querySelector('.role-icon-wrap svg');
+        svg.classList.remove('text-muted');
+        svg.classList.add('text-white');
+
+        const label = card.querySelector('.role-label');
+        label.classList.remove('text-muted');
+        label.classList.add('text-primary');
+    });
+});

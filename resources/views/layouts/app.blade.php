@@ -130,15 +130,15 @@
 
                             <div class="d-flex align-items-center gap-4 mt-3 mt-md-0">
 
-                                <a href="/hakkimizda" class="text-muted text-hover-primary text-decoration-none fw-semibold fs-7">
+                                <a href="{{ route('corporate') }}" class="text-muted text-hover-primary text-decoration-none fw-semibold fs-7">
                                     Hakkımızda
                                 </a>
 
-                                <a href="/iletisim" class="text-muted text-hover-primary text-decoration-none fw-semibold fs-7">
+                                <a href="{{ route('contact') }}" class="text-muted text-hover-primary text-decoration-none fw-semibold fs-7">
                                     İletişim
                                 </a>
 
-                                <a href="/gizlilik-politikasi" class="text-muted text-hover-primary text-decoration-none fw-semibold fs-7">
+                                <a href="{{ route('privacy') }}" class="text-muted text-hover-primary text-decoration-none fw-semibold fs-7">
                                     Gizlilik Politikası
                                 </a>
 

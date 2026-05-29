@@ -18,48 +18,48 @@
         <div class="mb-6">
             <label class="form-label text-muted fs-7 fw-semibold mb-3">Hesap Türü</label>
             <div class="row g-3">
-                <div class="col-6">
-                    <label class="d-block cursor-pointer">
-                        <input type="radio" name="role" value="buyer" class="d-none role-radio"
-                            {{ old('role', 'buyer') === 'buyer' ? 'checked' : '' }}>
-                        <div class="role-card p-4 rounded-2 text-center border border-dashed
-                            {{ old('role', 'buyer') === 'buyer' ? 'border-primary bg-light-primary' : 'border-secondary bg-transparent' }}">
-                            <div class="symbol symbol-40px mx-auto mb-3">
-                                <div class="symbol-label rounded-circle role-icon-wrap
-                                    {{ old('role', 'buyer') === 'buyer' ? 'bg-primary' : 'bg-secondary' }}">
-                                    <i class="ki-duotone ki-profile-user fs-2
-                                        {{ old('role', 'buyer') === 'buyer' ? 'text-white' : 'text-muted' }}">
-                                        <span class="path1"></span><span class="path2"></span>
-                                        <span class="path3"></span><span class="path4"></span>
-                                    </i>
-                                </div>
-                            </div>
-                            <div class="fw-bold role-label {{ old('role', 'buyer') === 'buyer' ? 'text-primary' : 'text-muted' }}">Alıcı</div>
-                            <div class="text-muted fs-8 mt-1">Teklif ver, satın al</div>
-                        </div>
-                    </label>
+               <div class="col-6">
+    <label class="d-block cursor-pointer">
+        <input type="radio" name="role" value="buyer" class="d-none role-radio"
+            {{ old('role', 'buyer') === 'buyer' ? 'checked' : '' }}>
+        <div class="role-card p-4 rounded-2 text-center border border-dashed
+            {{ old('role', 'buyer') === 'buyer' ? 'border-primary bg-light-primary' : 'border-secondary bg-transparent' }}">
+            <div class="symbol symbol-40px mx-auto mb-3">
+                <div class="symbol-label rounded-circle role-icon-wrap
+                    {{ old('role', 'buyer') === 'buyer' ? 'bg-primary' : 'bg-secondary' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        class="{{ old('role', 'buyer') === 'buyer' ? 'text-white' : 'text-muted' }}"
+                        viewBox="0 0 16 16">
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.029 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                    </svg>
                 </div>
-                <div class="col-6">
-                    <label class="d-block cursor-pointer">
-                        <input type="radio" name="role" value="seller" class="d-none role-radio"
-                            {{ old('role') === 'seller' ? 'checked' : '' }}>
-                        <div class="role-card p-4 rounded-2 text-center border border-dashed
-                            {{ old('role') === 'seller' ? 'border-primary bg-light-primary' : 'border-secondary bg-transparent' }}">
-                            <div class="symbol symbol-40px mx-auto mb-3">
-                                <div class="symbol-label rounded-circle role-icon-wrap
-                                    {{ old('role') === 'seller' ? 'bg-primary' : 'bg-secondary' }}">
-                                    <i class="ki-duotone ki-shop fs-2
-                                        {{ old('role') === 'seller' ? 'text-white' : 'text-muted' }}">
-                                        <span class="path1"></span><span class="path2"></span>
-                                        <span class="path3"></span><span class="path4"></span>
-                                    </i>
-                                </div>
-                            </div>
-                            <div class="fw-bold role-label {{ old('role') === 'seller' ? 'text-primary' : 'text-muted' }}">Satıcı</div>
-                            <div class="text-muted fs-8 mt-1">İlan ver, sat</div>
-                        </div>
-                    </label>
+            </div>
+            <div class="fw-bold role-label {{ old('role', 'buyer') === 'buyer' ? 'text-primary' : 'text-muted' }}">Alıcı</div>
+            <div class="text-muted fs-8 mt-1">Teklif ver, satın al</div>
+        </div>
+    </label>
+</div>
+<div class="col-6">
+    <label class="d-block cursor-pointer">
+        <input type="radio" name="role" value="seller" class="d-none role-radio"
+            {{ old('role') === 'seller' ? 'checked' : '' }}>
+        <div class="role-card p-4 rounded-2 text-center border border-dashed
+            {{ old('role') === 'seller' ? 'border-primary bg-light-primary' : 'border-secondary bg-transparent' }}">
+            <div class="symbol symbol-40px mx-auto mb-3">
+                <div class="symbol-label rounded-circle role-icon-wrap
+                    {{ old('role') === 'seller' ? 'bg-primary' : 'bg-secondary' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        class="{{ old('role') === 'seller' ? 'text-white' : 'text-muted' }}"
+                        viewBox="0 0 16 16">
+                        <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
+                    </svg>
                 </div>
+            </div>
+            <div class="fw-bold role-label {{ old('role') === 'seller' ? 'text-primary' : 'text-muted' }}">Satıcı</div>
+            <div class="text-muted fs-8 mt-1">İlan ver, sat</div>
+        </div>
+    </label>
+</div>
             </div>
             @error('role')
                 <div class="text-danger small mt-2">{{ $message }}</div>
