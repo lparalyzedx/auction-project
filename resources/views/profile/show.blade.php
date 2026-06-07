@@ -55,8 +55,16 @@
                 <div class="pf-stat-label">TEKLİF</div>
             </div>
             <div class="pf-stat">
-                <div class="pf-stat-num">{{ $user->watchlist()->count() }}</div>
-                <div class="pf-stat-label">TAKİP</div>
+                <a href="{{ route('profile.followers', $user->username) }}" class="pf-stat-link">
+                    <div class="pf-stat-num" id="follower-count">{{ $followerCount }}</div>
+                    <div class="pf-stat-label">TAKİPÇİ</div>
+                </a>
+            </div>
+            <div class="pf-stat">
+                <a href="{{ route('profile.following', $user->username) }}" class="pf-stat-link">
+                    <div class="pf-stat-num">{{ $followingCount }}</div>
+                    <div class="pf-stat-label">TAKİP</div>
+                </a>
             </div>
             <div class="pf-stat">
                 <div class="pf-stat-num">4.8</div>
@@ -74,8 +82,18 @@
                 </button>
             @else
                 @auth
-                    <button class="pf-btn-primary">
-                        <i class="bi bi-person-plus me-1"></i> Takip Et
+                    <button
+                        id="follow-btn"
+                        data-url="{{ route('follow.toggle', $user) }}"
+                        class="pf-btn-primary {{ $isFollowing ? 'pf-btn-following' : '' }}"
+                    >
+                        @if($isFollowing)
+                            <i class="bi bi-person-check-fill me-1"></i>
+                            <span>Takibi Bırak</span>
+                        @else
+                            <i class="bi bi-person-plus me-1"></i>
+                            <span>Takip Et</span>
+                        @endif
                     </button>
                     <button class="pf-btn-secondary">
                         <i class="bi bi-chat-dots me-1"></i> Mesaj
@@ -131,27 +149,19 @@
                     </div>
                 </div>
 
-                <div class="pf-two-col">
-                    <div class="pf-field">
-                        <label class="pf-label">Ad <span class="pf-req">*</span></label>
-                        <input class="pf-input" type="text" name="name"
-                               value="{{ old('name', explode(' ', $user->name)[0]) }}"
-                               placeholder="Ad">
-                        @error('name') <div class="pf-error">{{ $message }}</div> @enderror
-                    </div>
-                    <div class="pf-field">
-                        <label class="pf-label">Soyad</label>
-                        <input class="pf-input" type="text" name="surname"
-                               value="{{ old('surname', implode(' ', array_slice(explode(' ', $user->name), 1))) }}"
-                               placeholder="Soyad">
-                    </div>
+                <div class="pf-field">
+                    <label class="pf-label">Ad soyad<span class="pf-req">*</span></label>
+                    <input class="pf-input @error('name') is-invalid @enderror" type="text" name="name"
+                           value="{{ old('name',$user->name) }}"
+                           placeholder="Ad">
+                    @error('name') <div class="pf-error">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="pf-field">
                     <label class="pf-label">Kullanıcı adı <span class="pf-req">*</span></label>
                     <div class="pf-input-pre">
                         <span class="pf-pre-label">@</span>
-                        <input type="text" name="username" id="edit_username"
+                        <input type="text" name="username" id="edit_username" @error('username') class="is-invalid" @enderror
                                value="{{ old('username', $user->username) }}"
                                maxlength="30" placeholder="kullanici_adi">
                     </div>
@@ -164,8 +174,8 @@
                     <div class="pf-input-pre">
                         <span class="pf-pre-label">+90</span>
                         <input type="tel" name="phone"
-                               value="{{ old('phone', $user->phone) }}"
-                               maxlength="15" placeholder="5xx xxx xx xx">
+                               value="{{ old('phone', $user->phone) }}" @error('phone') class="is-invalid" @enderror
+                               maxlength="15" placeholder="5xx xxx xx xx" required>
                     </div>
                     @error('phone') <div class="pf-error">{{ $message }}</div> @enderror
                 </div>
@@ -173,7 +183,7 @@
                 <div class="pf-field">
                     <label class="pf-label">Hakkımda</label>
                     <div style="position:relative;">
-                        <textarea class="pf-input" name="bio" id="bio_input" rows="3"
+                        <textarea class="pf-input" name="bio" id="bio_input" rows="3" @error('bio') class="is-invalid" @enderror
                                   maxlength="300"
                                   oninput="bioCount(this)">{{ old('bio', $user->bio) }}</textarea>
                         <span id="bio_counter" class="pf-char-cnt">{{ strlen(old('bio', $user->bio ?? '')) }}/300</span>
@@ -225,7 +235,7 @@
                     <div class="pf-two-col mb-3">
                         <div class="pf-field" style="margin-bottom:0;">
                             <label class="pf-label">Yeni e-posta <span class="pf-req">*</span></label>
-                            <input class="pf-input" type="email" name="email"
+                            <input class="pf-input" type="email" name="email" @error('email') class="is-invalid" @enderror
                                    placeholder="yeni@eposta.com"
                                    value="{{ old('email') }}">
                             @error('email') <div class="pf-error">{{ $message }}</div> @enderror
@@ -266,14 +276,14 @@
                     @csrf @method('PUT')
                     <div class="pf-field">
                         <label class="pf-label">Mevcut şifre <span class="pf-req">*</span></label>
-                        <input class="pf-input" type="password" name="currentpassword" placeholder="••••••••">
+                        <input class="pf-input" type="password" name="currentpassword" @error('password') class="is-invalid" @enderror placeholder="••••••••">
                         @error('currentpassword') <div class="pf-error">{{ $message }}</div> @enderror
                     </div>
                     <div class="pf-two-col">
                         <div class="pf-field" style="margin-bottom:0;">
                             <label class="pf-label">Yeni şifre <span class="pf-req">*</span></label>
                             <input class="pf-input" type="password" name="password"
-                                   id="new_pass" placeholder="••••••••"
+                                   id="new_pass" @error('password') class="is-invalid" @enderror placeholder="••••••••"
                                    oninput="passStrength(this)">
                             <div class="pf-pass-bars">
                                 <div class="pf-pbar" id="pb1"></div>
@@ -419,9 +429,9 @@
             @if($user->auctions()->count() > 0)
                 <div class="pf-grid">
                     @foreach($user->auctions as $auction)
-                        <a href="{{ route('auctions.show', $auction) }}" class="pf-auction-card">
+                        <a href="{{ route('seller.auctions.show', $auction) }}" class="pf-auction-card">
                             <div class="pf-card-img-wrap">
-                                <img src="{{ $auction->featured_img ?? asset('assets/media/placeholder.png') }}"
+                                <img src="{{ $auction->coverUrl() }}"
                                      alt="{{ $auction->title }}">
                                 <div class="pf-card-price">
                                     {{ number_format($auction->current_bid ?? $auction->start_price, 0, ',', '.') }} ₺
@@ -479,15 +489,28 @@
 
 @push('scripts')
 <script>
+document.querySelector('[aria-label="Paylaş"]')?.addEventListener('click', function () {
+    const url = "{{ route('profile.public',$user->username) }}";
+    navigator.clipboard.writeText(url).then(() => {
+        Swal.fire({ toast:true, position:'top-end', icon:'success', title:'Profil bağlantısı kopyalandı!', showConfirmButton:false, timer:2500, timerProgressBar:true });
+    }).catch(() => {
+        const input = document.createElement('input');
+        input.value = url;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+        Swal.fire({ toast:true, position:'bottom-end', icon:'success', title:'Profil bağlantısı kopyalandı!', showConfirmButton:false, timer:2500, timerProgressBar:true });
+    });
+});
+
 function toggleEdit() {
     const d = document.getElementById('editDrawer');
     const b = document.getElementById('editToggle');
     const open = d.classList.toggle('open');
     b.classList.toggle('active', open);
-    b.innerHTML = open
-        ? '<i class="bi bi-x-lg me-1"></i> Kapat'
-        : '<i class="bi bi-pencil me-1"></i> Profili Düzenle';
-    if (open) d.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    b.innerHTML = open ? '<i class="bi bi-x-lg me-1"></i> Kapat' : '<i class="bi bi-pencil me-1"></i> Profili Düzenle';
+    if (open) d.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
 function switchETab(key, btn) {
@@ -500,7 +523,7 @@ function switchETab(key, btn) {
 function switchPTab(key, btn) {
     document.querySelectorAll('.pf-ptab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    ['vitrin', 'degerlendirmeler', 'aktivite'].forEach(k => {
+    ['vitrin','degerlendirmeler','aktivite'].forEach(k => {
         const el = document.getElementById('pc-' + k);
         if (el) el.style.display = k === key ? '' : 'none';
     });
@@ -514,7 +537,7 @@ function bioCount(el) {
 function passStrength(el) {
     const v = el.value;
     const s = [v.length >= 8, /[A-Z]/.test(v), /[0-9]/.test(v), /[^a-z0-9]/i.test(v)].filter(Boolean).length;
-    const col = ['', '#ef4444', '#f59e0b', '#10b981', '#6366f1'];
+    const col = ['','#ef4444','#f59e0b','#10b981','#6366f1'];
     for (let i = 1; i <= 4; i++) {
         const el = document.getElementById('pb' + i);
         if (el) el.style.background = i <= s ? col[s] : 'var(--border)';
@@ -529,7 +552,7 @@ document.getElementById('profile_image')?.addEventListener('change', function ()
     if (!this.files?.[0]) return;
     const reader = new FileReader();
     reader.onload = e => {
-        ['heroAvatar', 'avatarPreviewSmall'].forEach(id => {
+        ['heroAvatar','avatarPreviewSmall'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.src = e.target.result;
         });
@@ -540,8 +563,37 @@ document.getElementById('profile_image')?.addEventListener('change', function ()
 document.getElementById('edit_username')?.addEventListener('input', function () {
     const pos = this.selectionStart;
     this.value = this.value.toLowerCase().replace(/[^a-z0-9_.]/g, '');
-    try { this.setSelectionRange(pos, pos); } catch (e) {}
+    try { this.setSelectionRange(pos, pos); } catch(e) {}
 });
+
+const followBtn = document.getElementById('follow-btn');
+if (followBtn) {
+    followBtn.addEventListener('click', function () {
+        this.disabled = true;
+        fetch(this.dataset.url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json',
+            }
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) return;
+            const btn = document.getElementById('follow-btn');
+            if (data.following) {
+                btn.innerHTML = '<i class="bi bi-person-check-fill me-1"></i><span>Takibi Bırak</span>';
+                btn.classList.add('pf-btn-following');
+            } else {
+                btn.innerHTML = '<i class="bi bi-person-plus me-1"></i><span>Takip Et</span>';
+                btn.classList.remove('pf-btn-following');
+            }
+            const countEl = document.getElementById('follower-count');
+            if (countEl) countEl.textContent = data.follower_count;
+        })
+        .finally(() => { document.getElementById('follow-btn').disabled = false; });
+    });
+}
 
 @if(session('profile_success') || session('email_success') || session('password_success'))
     document.addEventListener('DOMContentLoaded', () => {
@@ -554,6 +606,41 @@ document.getElementById('edit_username')?.addEventListener('input', function () 
         @endif
     });
 @endif
+
+document.addEventListener('DOMContentLoaded', () => {
+    const fieldTabMap = {
+        name:'genel', surname:'genel', username:'genel', phone:'genel', bio:'genel',
+        email:'guvenlik', confirmemailpassword:'guvenlik', currentpassword:'guvenlik',
+        password:'guvenlik', password_confirmation:'guvenlik',
+        'social[instagram]':'sosyal','social[twitter]':'sosyal',
+        'social[youtube]':'sosyal','social[linkedin]':'sosyal',
+    };
+    const errorFields = @json($errors->keys());
+    if (errorFields.length > 0) {
+        const drawer = document.getElementById('editDrawer');
+        const btn = document.getElementById('editToggle');
+        if (drawer) drawer.classList.add('open');
+        if (btn) { btn.classList.add('active'); btn.innerHTML = '<i class="bi bi-x-lg me-1"></i> Kapat'; }
+        const tabOrder = ['genel','guvenlik','gizlilik','sosyal'];
+        let targetTab = null;
+        for (const tab of tabOrder) {
+            if (errorFields.some(f => fieldTabMap[f] === tab)) { targetTab = tab; break; }
+        }
+        if (targetTab) {
+            switchETab(targetTab, document.querySelector(`.pf-etab:nth-child(${tabOrder.indexOf(targetTab)+1})`));
+        }
+        const firstError = errorFields[0];
+        const input = document.querySelector(`[name="${firstError}"], [name="${firstError.replace(/\./g,'[')}"]`);
+        if (input) {
+            setTimeout(() => {
+                input.scrollIntoView({ behavior:'smooth', block:'center' });
+                input.focus({ preventScroll:true });
+                input.classList.add('pf-input-error-focus');
+                setTimeout(() => input.classList.remove('pf-input-error-focus'), 1200);
+            }, 300);
+        }
+    }
+});
 </script>
 @endpush
 

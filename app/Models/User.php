@@ -4,17 +4,18 @@ namespace App\Models;
 
 use App\Notifications\CustomResetPassword;
 use App\Notifications\CustomVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
-use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Scout\Searchable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, HasRoles, Notifiable, Searchable;
 
     protected $fillable = [
         'name',
@@ -32,14 +33,22 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => (int) $this->id,
+            'name' => $this->name,
+        ];
+    }
+
     public function auctions()
     {
         return $this->hasMany(Auction::class);
     }
 
-   public function isOnline(): bool
+    public function isOnline(): bool
     {
-        return Cache::has('user-is-online-' . $this->id);
+        return Cache::has('user-is-online-'.$this->id);
     }
 
     public function bids()
@@ -89,12 +98,28 @@ class User extends Authenticatable implements MustVerifyEmail
             && $this->sellerProfile->verification_status === 'approved';
     }
 
+    public function followings()
+    {
+        return $this->hasMany(Follow::class, 'follower_id');
+    }
+
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'following_id');
+    }
+
+    public function isFollowing(int $userId): bool
+    {
+        return $this->followings()->where('following_id', $userId)->exists();
+    }
+
     public function getProfileImgAttribute(): string
     {
         if ($this->avatar) {
             return Storage::url($this->avatar);
         }
-        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=009ef7&color=fff&size=160';
+
+        return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&background=009ef7&color=fff&size=160';
     }
 
     public function sendEmailVerificationNotification()
@@ -111,8 +136,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
-            'is_verified'       => 'boolean',
-            'password'          => 'hashed',
+            'is_verified' => 'boolean',
+            'password' => 'hashed',
         ];
     }
 }

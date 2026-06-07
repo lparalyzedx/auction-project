@@ -1,185 +1,260 @@
 <?php
 
+use App\Http\Controllers\Admin\AuctionController as AdminAuctionController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SupportController as AdminSupportController;
 use App\Http\Controllers\Front\PageController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SellerProfileController;
+use App\Http\Controllers\General\BidController;
+use App\Http\Controllers\General\FollowController;
+use App\Http\Controllers\General\HomeController;
+use App\Http\Controllers\General\NotificationController;
+use App\Http\Controllers\General\ProfileController;
+use App\Http\Controllers\General\SearchController;
+use App\Http\Controllers\General\SupportController;
+use App\Http\Controllers\Seller\AuctionController as SellerAuctionController;
+use App\Http\Controllers\Seller\BroadcastController;
+use App\Http\Controllers\Seller\DashboardController as SellerDashboard;
+use App\Http\Controllers\Seller\ProfileController as SellerProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
-|--------------------------------------------------------------------------
-| Genel / Herkese Açık Rotalar
-|--------------------------------------------------------------------------
+|==========================================================================
+| PUBLIC ROUTES
+|==========================================================================
 */
 
-Route::get('/', fn () => view('welcome'))->name('index');
-
-Route::controller(PageController::class)->group(function () {
-    Route::get('/corporate', 'corporate')->name('corporate');
-    Route::get('/contact', 'contact')->name('contact');
-    Route::post('/contact', 'contactSend')->name('contact.send');
-    Route::get('/privacy-policy', 'privacy_policy')->name('privacy');
-});
-
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/live-search', [SearchController::class, 'search'])->name('live.search');
+Route::get('/auctions/{auction:slug}', [BidController::class, 'show'])->name('auctions.show');
 Route::get('/u/{username}', [ProfileController::class, 'show'])
     ->where('username', '[a-z0-9._]+')
     ->name('profile.public');
 
 /*
-|--------------------------------------------------------------------------
-| E-posta Doğrulama
-|--------------------------------------------------------------------------
+| Kurumsal Sayfalar
+*/
+Route::controller(PageController::class)->group(function () {
+    Route::get('/corporate',      'corporate')->name('corporate');
+    Route::get('/contact',        'contact')->name('contact');
+    Route::post('/contact',       'contactSend')->name('contact.send');
+    Route::get('/privacy-policy', 'privacy_policy')->name('privacy');
+});
+
+/*
+|==========================================================================
+| AUTH REQUIRED
+|==========================================================================
 */
 
 Route::middleware('auth')->group(function () {
 
+    /*
+    | E-posta Doğrulama
+    */
     Route::get('/email/verify', function () {
         return auth()->user()->hasVerifiedEmail()
             ? redirect()->route('dashboard')
             : view('auth.verify-email');
     })->name('verification.notice');
 
+    /*
+    | Teklif
+    */
+    Route::post('/auctions/{auction:slug}/bid', [BidController::class, 'store'])->name('bids.store');
+
 });
 
 /*
-|--------------------------------------------------------------------------
-| Kimlik Doğrulanmış Rotalar
-|--------------------------------------------------------------------------
+|==========================================================================
+| AUTH + VERIFIED ROUTES
+|==========================================================================
 */
 
 Route::middleware(['auth', 'verified.account'])->group(function () {
 
-    /*
-    |----------------------------------------------------------------------
-    | Dashboard
-    |----------------------------------------------------------------------
-    */
-
     Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
 
-    Route::get('/notifications', fn () => view('general.notifications'))->name('notifications');
+    /*
+    |--------------------------------------------------------------------------
+    | Profil
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('profile')->name('profile.')->controller(ProfileController::class)->group(function () {
+        Route::get('/',          'edit')->name('edit');
+        Route::put('/',          'update')->name('update');
+        Route::put('email',      'email')->name('email');
+        Route::put('password',   'password')->name('password');
+        Route::put('privacy',    'privacy')->name('privacy');
+        Route::put('social',     'social')->name('social');
+    });
 
     /*
-    |----------------------------------------------------------------------
-    | Profil — /profile
-    |----------------------------------------------------------------------
+    | Takip
     */
+    Route::post('/follow/{user}', [FollowController::class, 'toggle'])->name('follow.toggle');
+    Route::prefix('/u/{username}')->name('profile.')->group(function () {
+        Route::get('followers', [FollowController::class, 'followers'])->name('followers');
+        Route::get('following', [FollowController::class, 'following'])->name('following');
+    });
 
-    Route::prefix('profile')->name('profile.')->group(function () {
+    /*
+    |--------------------------------------------------------------------------
+    | Bildirimler
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('notifications')->name('notifications.')->controller(NotificationController::class)->group(function () {
+        Route::get('/',          'index')->name('index');
+        Route::post('{id}/read', 'markAsRead')->name('read');
+        Route::post('read-all',  'markAllRead')->name('readAll');
+    });
 
-        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
-        Route::put('/', [ProfileController::class, 'update'])->name('update');
-        Route::put('email', [ProfileController::class, 'email'])->name('email');
-        Route::put('password', [ProfileController::class, 'password'])->name('password');
-        Route::put('privacy', [ProfileController::class, 'privacy'])->name('privacy');
-        Route::put('social', [ProfileController::class, 'social'])->name('social');
+    /*
+    |--------------------------------------------------------------------------
+    | Destek
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('support')->name('support.')->controller(SupportController::class)->group(function () {
+        Route::get('/',               'index')->name('index');
+        Route::get('/create',         'create')->name('create');
+        Route::post('/',              'store')->name('store');
+        Route::get('/{ticket}',       'show')->name('show');
+        Route::post('/{ticket}/reply','reply')->name('reply');
+        Route::post('/{ticket}/close','close')->name('close');
+    });
+
+    /*
+    |==========================================================================
+    | SATICI PANELİ
+    |==========================================================================
+    */
+    Route::middleware('role:seller')->prefix('seller')->name('seller.')->group(function () {
+
+        Route::get('dashboard', [SellerDashboard::class, 'index'])->name('dashboard');
+
+        Route::get('auctions/{auction:slug}/broadcast', [BroadcastController::class, 'show'])
+            ->name('auctions.broadcast');
+
+        Route::post('auctions/{auction:slug}/sell', [BroadcastController::class, 'sell'])
+            ->name('auctions.sell');
+
+        Route::post('auctions/{auction:slug}/end-broadcast', [BroadcastController::class, 'endBroadcast'])
+            ->name('auctions.end-broadcast');
+
+        /*
+        | İlanlar
+        */
+        Route::prefix('auctions')->name('auctions.')->controller(SellerAuctionController::class)->group(function () {
+            Route::get('/',                  'index')->name('index');
+            Route::get('create',             'create')->name('create');
+            Route::post('/',                 'store')->name('store');
+            Route::get('{auction:slug}',     'show')->name('show');
+            Route::get('{auction:slug}/edit','edit')->name('edit');
+            Route::put('{auction:slug}',     'update')->name('update');
+            Route::delete('{auction:slug}',  'destroy')->name('destroy');
+        });
+
+        /*
+        | Profil
+        */
+        Route::prefix('profile')->name('profile.')->controller(SellerProfileController::class)->group(function () {
+            Route::get('/',           'edit')->name('edit');
+            Route::put('{section}',   'update')->name('update');
+            Route::post('document',   'uploadDocument')->name('document.upload');
+        });
+
+
 
     });
 
     /*
-    |----------------------------------------------------------------------
-    | Satıcı — /seller
-    |----------------------------------------------------------------------
+    |==========================================================================
+    | ADMİN PANELİ
+    |==========================================================================
     */
+    Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
 
-    Route::prefix('seller')->middleware('role:seller')->name('seller.')->group(function () {
+        Route::get('dashboard', [AdminDashboard::class, 'index'])->name('dashboard');
 
-        // Profil yönetimi
-        Route::prefix('profile')->name('profile.')->group(function () {
+        /*
+        | Kullanıcılar
+        */
+        Route::prefix('users')->name('users.')->controller(UserController::class)->group(function () {
+            Route::get('/',              'index')->name('index');
+            Route::get('{user}',         'show')->name('show');
+            Route::get('{user}/edit',    'edit')->name('edit');
+            Route::put('{user}',         'update')->name('update');
+            Route::delete('{user}',      'destroy')->name('destroy');
+            Route::post('{user}/verify', 'verify')->name('verify');
+            Route::post('{user}/unverify','unverify')->name('unverify');
+        });
 
-            Route::get('/', [SellerProfileController::class, 'edit'])->name('edit');
-            Route::put('{section}', [SellerProfileController::class, 'update'])->name('update');
-            Route::post('document', [SellerProfileController::class, 'uploadDocument'])->name('document.upload');
+        /*
+        | Kategoriler
+        */
+        Route::prefix('categories')->name('categories.')->controller(CategoryController::class)->group(function () {
+            Route::get('/',                'index')->name('index');
+            Route::get('create',           'create')->name('create');
+            Route::post('/',               'store')->name('store');
+            Route::get('{category}',       'show')->name('show');
+            Route::get('{category}/edit',  'edit')->name('edit');
+            Route::put('{category}',       'update')->name('update');
+            Route::delete('{category}',    'destroy')->name('destroy');
+            Route::post('{category}/toggle','toggle')->name('toggle');
+            Route::post('reorder',         'reorder')->name('reorder');
+        });
 
+        /*
+        | İlanlar
+        */
+        Route::prefix('auctions')->name('auctions.')->controller(AdminAuctionController::class)->group(function () {
+            Route::get('/',               'index')->name('index');
+            Route::get('{auction}',       'show')->name('show');
+            Route::get('{auction}/edit',  'edit')->name('edit');
+            Route::put('{auction}',       'update')->name('update');
+            Route::delete('{auction}',    'destroy')->name('destroy');
+            Route::post('{auction}/approve','approve')->name('approve');
+            Route::post('{auction}/reject', 'reject')->name('reject');
+        });
+
+        /*
+        | Destek
+        */
+        Route::prefix('support')->name('support.')->controller(AdminSupportController::class)->group(function () {
+            Route::get('/',                    'index')->name('index');
+            Route::get('/{ticket}',            'show')->name('show');
+            Route::post('/{ticket}/reply',     'reply')->name('reply');
+            Route::patch('/{ticket}/status',   'updateStatus')->name('status');
+        });
+
+        /*
+        | Ayarlar
+        */
+        Route::prefix('settings')->name('settings.')->controller(SettingsController::class)->group(function () {
+            Route::get('/',              'index')->name('index');
+            Route::put('/',              'update')->name('update');
+            Route::post('test-mail',     'testMail')->name('test-mail');
+            Route::post('storage/link',  'storageLink')->name('storage.link');
+            Route::post('optimize',      'optimize')->name('optimize');
+
+            Route::prefix('cache')->name('cache.')->group(function () {
+                Route::post('clear',  'cacheClear')->name('clear');
+                Route::post('config', 'cacheConfig')->name('config');
+                Route::post('route',  'cacheRoute')->name('route');
+                Route::post('view',   'cacheView')->name('view');
+            });
         });
 
     });
-
-    /*
-    |----------------------------------------------------------------------
-    | Admin — /admin
-    |----------------------------------------------------------------------
-    */
-
-    Route::middleware('role:admin')
-        ->prefix('admin')
-        ->name('admin.')
-        ->group(function () {
-
-            /*
-            | Dashboard
-            */
-            Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-            /*
-            | Kullanıcılar — /admin/users
-            */
-            Route::prefix('users')->name('users.')->group(function () {
-
-                Route::get('/', [UserController::class, 'index'])->name('index');
-                Route::get('{user}', [UserController::class, 'show'])->name('show');
-                Route::get('{user}/edit', [UserController::class, 'edit'])->name('edit');
-                Route::put('{user}', [UserController::class, 'update'])->name('update');
-                Route::delete('{user}', [UserController::class, 'destroy'])->name('destroy');
-
-                Route::post('{user}/verify', [UserController::class, 'verify'])->name('verify');
-                Route::post('{user}/unverify', [UserController::class, 'unverify'])->name('unverify');
-
-            });
-
-            /*
-            | Kategoriler — /admin/categories
-            */
-            Route::prefix('categories')->name('categories.')->group(function () {
-
-                Route::get('/', [CategoryController::class, 'index'])->name('index');
-                Route::get('create', [CategoryController::class, 'create'])->name('create');
-                Route::post('/', [CategoryController::class, 'store'])->name('store');
-                Route::get('{category}', [CategoryController::class, 'show'])->name('show');
-                Route::get('{category}/edit', [CategoryController::class, 'edit'])->name('edit');
-                Route::put('{category}', [CategoryController::class, 'update'])->name('update');
-                Route::delete('{category}', [CategoryController::class, 'destroy'])->name('destroy');
-
-                Route::post('{category}/toggle', [CategoryController::class, 'toggle'])->name('toggle');
-                Route::post('reorder', [CategoryController::class, 'reorder'])->name('reorder');
-
-            });
-
-            /*
-            | Ayarlar — /admin/settings
-            */
-            Route::prefix('settings')->name('settings.')->group(function () {
-
-                Route::get('/', [SettingsController::class, 'index'])->name('index');
-                Route::put('/', [SettingsController::class, 'update'])->name('update');
-                Route::post('test-mail', [SettingsController::class, 'testMail'])->name('test-mail');
-
-                // Önbellek işlemleri
-                Route::prefix('cache')->name('cache.')->group(function () {
-
-                    Route::post('clear', [SettingsController::class, 'cacheClear'])->name('clear');
-                    Route::post('config', [SettingsController::class, 'cacheConfig'])->name('config');
-                    Route::post('route', [SettingsController::class, 'cacheRoute'])->name('route');
-                    Route::post('view', [SettingsController::class, 'cacheView'])->name('view');
-
-                });
-
-                Route::post('storage/link', [SettingsController::class, 'storageLink'])->name('storage.link');
-                Route::post('optimize', [SettingsController::class, 'optimize'])->name('optimize');
-
-            });
-
-        });
 
 });
 
 /*
-|--------------------------------------------------------------------------
-| Auth Rotaları (Breeze / Fortify / Jetstream)
-|--------------------------------------------------------------------------
+|==========================================================================
+| AUTH ROUTES
+|==========================================================================
 */
 
 require __DIR__.'/auth.php';

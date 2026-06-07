@@ -1,45 +1,16 @@
 @extends('layouts.app')
-
 @section('title', 'İletişim')
-
 @section('content')
-
-<style>
-    /* ─── Dark Mode Form Elemanları ─────────────────────────────────────── */
-.dark-mode .form-control.form-control-solid,
-.dark-mode .form-select.form-select-solid {
-    background-color: #1e2130;
-    border-color: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
-}
-
-.dark-mode .form-control.form-control-solid::placeholder {
-    color: #4b5675;
-}
-
-.dark-mode .form-control.form-control-solid:focus,
-.dark-mode .form-select.form-select-solid:focus {
-    background-color: #1e2130;
-    border-color: #6366f1;
-    color: #ffffff;
-}
-
-.dark-mode .form-select.form-select-solid option {
-    background-color: #1e2130;
-    color: #ffffff;
-}
-</style>
 
 <div class="container py-6">
 
     <div class="mb-6">
-        <h2 class="fw-bold text-gray-900 mb-1">İletişim</h2>
+        <h2 class="fw-bold text-muted mb-1">İletişim</h2>
         <span class="text-muted fs-6">Sorularınız için aşağıdaki kanallardan bize ulaşabilirsiniz.</span>
     </div>
 
     <div class="row g-5">
 
-        {{-- FORM --}}
         <div class="col-lg-7">
             <div class="auction-card p-5 h-100">
 

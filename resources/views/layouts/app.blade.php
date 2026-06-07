@@ -14,38 +14,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script>
         (function() {
-            const theme = localStorage.getItem("theme") || "dark";
-            document.documentElement.classList.add(theme + "-mode");
+            const theme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.classList.add(theme + '-mode');
         })();
 
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const btn = document.getElementById("themeToggle");
-
-            function setTheme(mode) {
-                document.documentElement.classList.remove("light-mode", "dark-mode");
-                document.documentElement.classList.add(mode + "-mode");
-                localStorage.setItem("theme", mode);
-            }
-
-            let theme = localStorage.getItem("theme") || "dark";
-            setTheme(theme);
-
-            function updateIcon() {
-                btn.innerHTML = document.documentElement.classList.contains("dark-mode") ?
-                    '<i class="bi bi-moon fs-5"></i>' :
-                    '<i class="bi bi-sun fs-5"></i>';
-            }
-
-            updateIcon();
-
-            btn.addEventListener("click", function() {
-                const isDark = document.documentElement.classList.contains("dark-mode");
-                setTheme(isDark ? "light" : "dark");
-                updateIcon();
-            });
-
-        });
 
     </script>
 
@@ -78,37 +50,7 @@
                     <div class="d-flex flex-column flex-column-fluid">
                         <div id="kt_app_content" class="app-content flex-column-fluid">
                             <div id="kt_app_content_container" class="app-container container-xxl">
-
-                                @if (session('success'))
-                                <div class="alert alert-success d-flex align-items-center p-5 mt-5">
-                                    <i class="ki-duotone ki-shield-tick fs-2hx text-success me-4">
-                                        <span class="path1"></span><span class="path2"></span>
-                                    </i>
-                                    <div class="d-flex flex-column">
-                                        <span>{{ session('success') }}</span>
-                                    </div>
-                                    <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
-                                        <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>
-                                    </button>
-                                </div>
-                                @endif
-
-                                @if (session('error'))
-                                <div class="alert alert-danger d-flex align-items-center p-5 mt-5">
-                                    <i class="ki-duotone ki-cross-circle fs-2hx text-danger me-4">
-                                        <span class="path1"></span><span class="path2"></span>
-                                    </i>
-                                    <div class="d-flex flex-column">
-                                        <span>{{ session('error') }}</span>
-                                    </div>
-                                    <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
-                                        <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>
-                                    </button>
-                                </div>
-                                @endif
-
                                 @yield('content')
-
                             </div>
                         </div>
                     </div>
@@ -117,9 +59,9 @@
                         <div class="app-container container-xxl d-flex flex-column flex-md-row align-items-center justify-content-between py-4">
 
                             <div class="d-flex align-items-center text-gray-500 fw-semibold fs-7">
-                                <span>{{ date('Y') }} ©</span>
+                                <span>©{{ date('Y') }}</span>
 
-                                <a href="https://artirdim.com" target="_blank" class="mx-2 text-gray-800 text-hover-primary fw-bold fs-6 text-decoration-none">
+                                <a href="https://artirdim.com" target="_blank" class="mx-2 text-gray-800 text-hover-primary fw-bold fs-7 text-decoration-none">
                                     Artirdim.com
                                 </a>
 
@@ -154,6 +96,9 @@
 
     <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/theme/toggle.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/theme/search.js') }}"></script>
+    <script src="{{ asset('assets/js/custom/theme/notification.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     @stack('scripts')
 </body>

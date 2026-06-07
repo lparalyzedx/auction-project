@@ -1,19 +1,16 @@
 @extends('layouts.app')
-
 @section('title', 'Gizlilik Politikası')
-
 @section('content')
 
 <div class="container py-6">
 
     <div class="mb-6">
-        <h2 class="fw-bold text-gray-900 mb-1">Gizlilik Politikası</h2>
+        <h2 class="fw-bold text-muted mb-1">Gizlilik Politikası</h2>
         <span class="text-muted fs-6">Son güncelleme: <span class="fw-semibold">{{ date('d.m.Y') }}</span></span>
     </div>
 
     <div class="row g-5">
 
-        {{-- İÇİNDEKİLER (desktop) --}}
         <div class="col-lg-3 d-none d-lg-block">
             <div class="auction-card p-4 sticky-top" style="top: 100px;">
                 <div class="text-muted fs-7 fw-bold mb-3 text-uppercase">İçindekiler</div>
@@ -30,16 +27,13 @@
             </div>
         </div>
 
-        {{-- İÇERİK --}}
         <div class="col-lg-9">
             <div class="auction-card p-5 p-md-7">
 
-                {{-- Eğer DB'de kayıtlı bir metin varsa onu göster --}}
                 @if(setting('privacy_text'))
                     {!! setting('privacy_text') !!}
                 @else
 
-                {{-- Yoksa statik içerik --}}
                 <div id="genel" class="mb-7">
                     <p class="text-muted lh-lg">
                         {{ setting('site_name') }} olarak kullanıcılarımızın gizliliğine büyük önem veriyoruz. Bu politika, platformumuzu kullandığınızda hangi verileri topladığımızı, nasıl işlediğimizi ve haklarınızı açıklamaktadır. 6698 sayılı KVKK kapsamında veri sorumlusu sıfatıyla hareket etmekteyiz.

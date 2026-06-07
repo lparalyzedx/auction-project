@@ -1,12 +1,15 @@
 <div id="kt_app_sidebar" class="app-sidebar flex-column" data-kt-drawer="true" data-kt-drawer-name="app-sidebar" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="280px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
 
-    <div class="px-6 py-5 d-flex align-items-center gap-3">
-        <a href="{{ route('index') }}">
-            <img src="{{ asset('assets/media/logos/logo-dark.svg') }}" class="logo-dark" alt="Artirdim Light Logo" height="50">
-
-            <img src="{{ asset('assets/media/logos/logo-light.svg') }}" class="logo-light" alt="Artirdim Dark Logo" height="50">
-        </a>
-    </div>
+    <div class="px-4 py-3 d-flex align-items-center">
+    <a href="{{ route('index') }}" class="d-flex align-items-center gap-2 text-decoration-none">
+        <img src="{{ asset('assets/media/logos/logo-dark.svg') }}"
+             class="logo-dark"
+             height="52">
+        <img src="{{ asset('assets/media/logos/logo-light.svg') }}"
+             class="logo-light"
+             height="52">
+    </a>
+</div>
 
     <div class="px-3 py-3" style="height:calc(100vh - 160px); overflow-y:auto;">
 
@@ -52,15 +55,11 @@
             Kategoriler
         </a>
 
-        <a href="#" class="sidebar-link">
+        <a href="{{ route('admin.auctions.index') }}" class="sidebar-link {{ request()->is('admin/auctions*') ? 'active' : '' }}">
             <i class="bi bi-hammer"></i>
             Müzayede Yönetimi
         </a>
 
-        <a href="#" class="sidebar-link">
-            <i class="bi bi-shield-check"></i>
-            Onay Bekleyenler
-        </a>
         @endrole
 
 
@@ -69,19 +68,14 @@
             Satıcı Paneli
         </div>
 
-        <a href="/seller/dashboard" class="sidebar-link">
+        <a href="{{ route('seller.dashboard') }}" class="sidebar-link {{ request()->is('seller/dashboard*') ? 'active' : '' }}">
             <i class="bi bi-grid"></i>
             Panel
         </a>
 
-        <a href="/seller/auctions" class="sidebar-link">
+        <a href="{{ route('seller.auctions.index') }}" class="sidebar-link {{ request()->is('seller/auctions*') ? 'active' : '' }}">
             <i class="bi bi-hammer"></i>
             İlanlarım
-        </a>
-
-        <a href="/seller/create" class="sidebar-link">
-            <i class="bi bi-plus-circle"></i>
-            İlan Oluştur
         </a>
         @endrole
 
@@ -112,6 +106,18 @@
         </a>
         @endrole
 
+        @role('admin')
+        <a href="{{ route('admin.support.index') }}" class="sidebar-link {{ request()->is('admin/support*') ? 'active' : '' }}">
+            <i class="bi bi-headset"></i>
+            Destek
+        </a>
+        @else
+        <a href="{{ route('support.index') }}" class="sidebar-link {{ request()->is('support*') ? 'active' : '' }}">
+            <i class="bi bi-headset"></i>
+            Destek
+        </a>
+        @endrole
+
 
         <div class="sidebar-title">
             Profil
@@ -121,7 +127,7 @@
             <i class="bi bi-person"></i>
             Profilim
         </a>
-         @role('admin')
+        @role('admin')
 
         <a href="{{ route('admin.settings.index') }}" class="sidebar-link {{ request()->is('admin/settings') ? 'active' : '' }}">
             <i class="bi bi-gear"></i>
@@ -182,19 +188,21 @@
                 <hr class="dropdown-divider">
             </li>
 
+
             <li>
                 <a class="dropdown-item" href="{{route('profile.edit')}}">
                     <i class="bi bi-person"></i>
                     Profilim
                 </a>
             </li>
-
+            @role('seller')
             <li>
-                <a class="dropdown-item" href="/profile/edit">
+                <a class="dropdown-item" href="{{ route('seller.profile.edit') }}">
                     <i class="bi bi-gear"></i>
                     Ayarlar
                 </a>
             </li>
+            @endrole
 
             <li>
                 <hr class="dropdown-divider">

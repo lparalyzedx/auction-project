@@ -7,11 +7,10 @@
 <div class="container py-6">
 
     <div class="mb-6">
-        <h2 class="fw-bold text-gray-900 mb-1">Hakkımızda</h2>
+        <h2 class="fw-bold text-muted mb-1">Hakkımızda</h2>
         <span class="text-muted fs-6">{{ setting('site_description') }}</span>
     </div>
 
-    {{-- MİSYON & VİZYON --}}
     <div class="row g-4 mb-6">
         <div class="col-md-6">
             <div class="auction-card h-100 p-5">
@@ -41,7 +40,6 @@
         </div>
     </div>
 
-    {{-- RAKAMLAR --}}
     <h5 class="section-title mb-4">Rakamlarla {{ setting('site_name') }}</h5>
     <div class="row g-3 mb-6">
         @php
@@ -63,7 +61,6 @@
         @endforeach
     </div>
 
-    {{-- NEDEN BİZ --}}
     <h5 class="section-title mb-4">Neden {{ setting('site_name') }}?</h5>
     <div class="row g-3 mb-6">
         @php
@@ -89,7 +86,6 @@
         @endforeach
     </div>
 
-    {{-- CTA --}}
     <div class="auction-card p-6 text-center">
         <h3 class="text-white fw-bold mb-3">Hemen Başlayın</h3>
         <p class="text-muted mb-4">Ücretsiz hesap oluşturun, binlerce ürün arasından teklif verin.</p>
@@ -98,7 +94,6 @@
             <a href="#" class="btn btn-outline-light px-5">Müzayedeleri Gör</a>
         </div>
     </div>
-
 </div>
 
 @endsection

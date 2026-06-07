@@ -131,7 +131,7 @@
                     @foreach($user->auctions as $auction)
                         <a href="#" class="pf-auction-card">
                             <div class="pf-card-img-wrap">
-                                <img src="{{ $auction->featured_img ?? asset('assets/media/placeholder.png') }}"
+                                <img src="{{ $auction->coverUrl() }}"
                                      alt="{{ $auction->title }}">
                                 <div class="pf-card-price">
                                     {{ number_format($auction->current_price ?? 0, 0, ',', '.') }} ₺

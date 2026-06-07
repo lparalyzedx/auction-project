@@ -1,6 +1,8 @@
 @extends('layouts.app')
-@section('title','Profil')
+@section('title', $user->name . ' — Profil')
+
 @section('content')
+
 @php
     $roleKey   = $user->roles->first()?->name ?? 'user';
     $roleLabel = match($roleKey) { 'admin' => '👑 Admin', 'seller' => '🏪 Onaylı Satıcı', default => '🛍️ Üye' };
@@ -129,27 +131,19 @@
                     </div>
                 </div>
 
-                <div class="pf-two-col">
                     <div class="pf-field">
-                        <label class="pf-label">Ad <span class="pf-req">*</span></label>
-                        <input class="pf-input" type="text" name="name"
-                               value="{{ old('name', explode(' ', $user->name)[0]) }}"
+                        <label class="pf-label">Ad soyad<span class="pf-req">*</span></label>
+                        <input class="pf-input @error('name') is-invalid @enderror" type="text" name="name"
+                               value="{{ old('name',$user->name) }}"
                                placeholder="Ad">
                         @error('name') <div class="pf-error">{{ $message }}</div> @enderror
                     </div>
-                    <div class="pf-field">
-                        <label class="pf-label">Soyad</label>
-                        <input class="pf-input" type="text" name="surname"
-                               value="{{ old('surname', implode(' ', array_slice(explode(' ', $user->name), 1))) }}"
-                               placeholder="Soyad">
-                    </div>
-                </div>
 
                 <div class="pf-field">
                     <label class="pf-label">Kullanıcı adı <span class="pf-req">*</span></label>
                     <div class="pf-input-pre">
                         <span class="pf-pre-label">@</span>
-                        <input type="text" name="username" id="edit_username"
+                        <input type="text" name="username" id="edit_username" @error('username') class="is-invalid" @enderror
                                value="{{ old('username', $user->username) }}"
                                maxlength="30" placeholder="kullanici_adi">
                     </div>
@@ -162,8 +156,8 @@
                     <div class="pf-input-pre">
                         <span class="pf-pre-label">+90</span>
                         <input type="tel" name="phone"
-                               value="{{ old('phone', $user->phone) }}"
-                               maxlength="15" placeholder="5xx xxx xx xx">
+                               value="{{ old('phone', $user->phone) }}" @error('phone') class="is-invalid" @enderror
+                               maxlength="15" placeholder="5xx xxx xx xx" required>
                     </div>
                     @error('phone') <div class="pf-error">{{ $message }}</div> @enderror
                 </div>
@@ -171,7 +165,7 @@
                 <div class="pf-field">
                     <label class="pf-label">Hakkımda</label>
                     <div style="position:relative;">
-                        <textarea class="pf-input" name="bio" id="bio_input" rows="3"
+                        <textarea class="pf-input" name="bio" id="bio_input" rows="3" @error('bio') class="is-invalid" @enderror
                                   maxlength="300"
                                   oninput="bioCount(this)">{{ old('bio', $user->bio) }}</textarea>
                         <span id="bio_counter" class="pf-char-cnt">{{ strlen(old('bio', $user->bio ?? '')) }}/300</span>
@@ -223,7 +217,7 @@
                     <div class="pf-two-col mb-3">
                         <div class="pf-field" style="margin-bottom:0;">
                             <label class="pf-label">Yeni e-posta <span class="pf-req">*</span></label>
-                            <input class="pf-input" type="email" name="email"
+                            <input class="pf-input" type="email" name="email" @error('email') class="is-invalid" @enderror
                                    placeholder="yeni@eposta.com"
                                    value="{{ old('email') }}">
                             @error('email') <div class="pf-error">{{ $message }}</div> @enderror
@@ -264,14 +258,14 @@
                     @csrf @method('PUT')
                     <div class="pf-field">
                         <label class="pf-label">Mevcut şifre <span class="pf-req">*</span></label>
-                        <input class="pf-input" type="password" name="currentpassword" placeholder="••••••••">
+                        <input class="pf-input" type="password" name="currentpassword" @error('password') class="is-invalid" @enderror placeholder="••••••••">
                         @error('currentpassword') <div class="pf-error">{{ $message }}</div> @enderror
                     </div>
                     <div class="pf-two-col">
                         <div class="pf-field" style="margin-bottom:0;">
                             <label class="pf-label">Yeni şifre <span class="pf-req">*</span></label>
                             <input class="pf-input" type="password" name="password"
-                                   id="new_pass" placeholder="••••••••"
+                                   id="new_pass" @error('password') class="is-invalid" @enderror placeholder="••••••••"
                                    oninput="passStrength(this)">
                             <div class="pf-pass-bars">
                                 <div class="pf-pbar" id="pb1"></div>
@@ -417,9 +411,9 @@
             @if($user->auctions()->count() > 0)
                 <div class="pf-grid">
                     @foreach($user->auctions as $auction)
-                        <a href="{{ route('auctions.show', $auction) }}" class="pf-auction-card">
+                        <a href="{{ route('seller.auctions.show', $auction) }}" class="pf-auction-card">
                             <div class="pf-card-img-wrap">
-                                <img src="{{ $auction->featured_img ?? asset('assets/media/placeholder.png') }}"
+                                <img src="{{ $auction->coverUrl() }}"
                                      alt="{{ $auction->title }}">
                                 <div class="pf-card-price">
                                     {{ number_format($auction->current_bid ?? $auction->start_price, 0, ',', '.') }} ₺
@@ -477,7 +471,6 @@
 
 @push('scripts')
 <script>
-
     document.querySelector('[aria-label="Paylaş"]')?.addEventListener('click', function () {
     const url = "{{ route('profile.public',$user->username) }}";
     navigator.clipboard.writeText(url).then(() => {
@@ -529,15 +522,9 @@ function toggleEdit() {
 
 function switchETab(key, btn) {
     document.querySelectorAll('.pf-etab').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    else {
-        document.querySelectorAll('.pf-etab').forEach(b => {
-            if (b.getAttribute('onclick')?.includes("'" + key + "'")) b.classList.add('active');
-        });
-    }
+    btn.classList.add('active');
     document.querySelectorAll('.pf-epanel').forEach(p => p.classList.remove('active'));
-    const panel = document.getElementById('ep-' + key);
-    if (panel) panel.classList.add('active');
+    document.getElementById('ep-' + key).classList.add('active');
 }
 
 function switchPTab(key, btn) {
@@ -559,8 +546,8 @@ function passStrength(el) {
     const s = [v.length >= 8, /[A-Z]/.test(v), /[0-9]/.test(v), /[^a-z0-9]/i.test(v)].filter(Boolean).length;
     const col = ['', '#ef4444', '#f59e0b', '#10b981', '#6366f1'];
     for (let i = 1; i <= 4; i++) {
-        const bar = document.getElementById('pb' + i);
-        if (bar) bar.style.background = i <= s ? col[s] : 'var(--border)';
+        const el = document.getElementById('pb' + i);
+        if (el) el.style.background = i <= s ? col[s] : 'var(--border)';
     }
 }
 
@@ -586,36 +573,54 @@ document.getElementById('edit_username')?.addEventListener('input', function () 
     try { this.setSelectionRange(pos, pos); } catch (e) {}
 });
 
+@if(session('profile_success') || session('email_success') || session('password_success'))
+    document.addEventListener('DOMContentLoaded', () => {
+        const d = document.getElementById('editDrawer');
+        if (d) d.classList.add('open');
+        const b = document.getElementById('editToggle');
+        if (b) { b.classList.add('active'); b.innerHTML = '<i class="bi bi-x-lg me-1"></i> Kapat'; }
+        @if(session('email_success') || session('password_success'))
+            switchETab('guvenlik', document.querySelector('.pf-etab:nth-child(2)'));
+        @endif
+    });
+@endif
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const fieldTabMap = {
-        name:          'genel',
-        surname:       'genel',
-        username:      'genel',
-        phone:         'genel',
-        bio:           'genel',
-        email:                'guvenlik',
+        name: 'genel',
+        surname: 'genel',
+        username: 'genel',
+        phone: 'genel',
+        bio: 'genel',
+
+        email: 'guvenlik',
         confirmemailpassword: 'guvenlik',
-        currentpassword:      'guvenlik',
-        password:             'guvenlik',
-        password_confirmation:'guvenlik',
+        currentpassword: 'guvenlik',
+        password: 'guvenlik',
+        password_confirmation: 'guvenlik',
+
         'social[instagram]': 'sosyal',
-        'social[twitter]':   'sosyal',
-        'social[youtube]':   'sosyal',
-        'social[linkedin]':  'sosyal',
+        'social[twitter]': 'sosyal',
+        'social[youtube]': 'sosyal',
+        'social[linkedin]': 'sosyal',
     };
 
     const errorFields = @json($errors->keys());
 
     if (errorFields.length > 0) {
+
+        // 1) Drawer aç
         const drawer = document.getElementById('editDrawer');
-        const toggleBtn = document.getElementById('editToggle');
+        const btn = document.getElementById('editToggle');
+
         if (drawer) drawer.classList.add('open');
-        if (toggleBtn) {
-            toggleBtn.classList.add('active');
-            toggleBtn.innerHTML = '<i class="bi bi-x-lg me-1"></i> Kapat';
+        if (btn) {
+            btn.classList.add('active');
+            btn.innerHTML = '<i class="bi bi-x-lg me-1"></i> Kapat';
         }
 
+        // 2) doğru tabı bul
         const tabOrder = ['genel', 'guvenlik', 'gizlilik', 'sosyal'];
         let targetTab = null;
 
@@ -626,52 +631,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        const needsEmailForm = errorFields.some(f =>
-            ['email', 'confirmemailpassword'].includes(f)
-        );
-        const needsPassForm = errorFields.some(f =>
-            ['currentpassword', 'password', 'password_confirmation'].includes(f)
-        );
-
         if (targetTab) {
-            switchETab(targetTab, null);
-
-            if (targetTab === 'guvenlik') {
-                if (needsEmailForm) document.getElementById('email-form')?.classList.add('open');
-                if (needsPassForm)  document.getElementById('pass-form')?.classList.add('open');
-            }
+            // mevcut switchETab fonksiyonunu kullan
+            switchETab(targetTab, document.querySelector(`.pf-etab:nth-child(${tabOrder.indexOf(targetTab)+1})`));
         }
 
-        const firstErrorField = errorFields[0];
+        // 3) input’a scroll + focus
+        const firstError = errorFields[0];
+
         const input = document.querySelector(
-            `[name="${firstErrorField}"], [name="${firstErrorField.replace(/\./g, '[')}"]`
+            `[name="${firstError}"], [name="${firstError.replace(/\./g,'[')}"]`
         );
 
         if (input) {
             setTimeout(() => {
                 input.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 input.focus({ preventScroll: true });
+
                 input.classList.add('pf-input-error-focus');
-                setTimeout(() => input.classList.remove('pf-input-error-focus'), 1000);
+                setTimeout(() => input.classList.remove('pf-input-error-focus'), 1200);
             }, 300);
         }
-
-    } else {
-        @if(session('profile_success'))
-            const d = document.getElementById('editDrawer');
-            if (d) d.classList.add('open');
-            const b = document.getElementById('editToggle');
-            if (b) { b.classList.add('active'); b.innerHTML = '<i class="bi bi-x-lg me-1"></i> Kapat'; }
-        @endif
-
-        @if(session('email_success') || session('password_success'))
-            switchETab('guvenlik', null);
-            const d2 = document.getElementById('editDrawer');
-            if (d2) d2.classList.add('open');
-            const b2 = document.getElementById('editToggle');
-            if (b2) { b2.classList.add('active'); b2.innerHTML = '<i class="bi bi-x-lg me-1"></i> Kapat'; }
-        @endif
     }
+
 });
 </script>
 @endpush

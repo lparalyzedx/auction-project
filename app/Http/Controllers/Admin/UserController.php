@@ -57,10 +57,10 @@ class UserController extends Controller
         $user->load('roles')
             ->loadCount(['auctions', 'bids', 'watchlist', 'purchases', 'sales']);
 
-        $user->load([
-            'auctions' => fn ($q) => $q->latest()->take(5)->with('coverImage'),
-            'bids' => fn ($q) => $q->with('auction')->latest()->take(5),
-        ]);
+       $user->load([
+    'auctions' => fn ($q) => $q->latest()->take(5)->with('cover'),
+    'bids' => fn ($q) => $q->with('auction')->latest()->take(5),
+]);
 
         return view('admin.users.show', compact('user'));
     }

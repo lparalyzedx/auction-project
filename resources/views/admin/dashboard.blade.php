@@ -6,7 +6,6 @@
 
 <div class="admin-fade">
 
-    {{-- TOOLBAR --}}
     <div class="admin-toolbar mb-4">
         <div class="d-flex align-items-center justify-content-between">
             <div>
@@ -18,8 +17,7 @@
                 </nav>
             </div>
 
-            <div class="d-flex align-items-center gap-2 px-4 py-2 rounded-pill"
-                 style="background:rgba(145,70,255,.12);border:1px solid rgba(145,70,255,.2)">
+            <div class="d-flex align-items-center gap-2 px-4 py-2 rounded-pill" style="background:rgba(145,70,255,.12);border:1px solid rgba(145,70,255,.2)">
                 <span style="width:8px;height:8px;border-radius:50%;background:var(--primary)"></span>
                 <span style="font-size:13px;font-weight:600;color:var(--primary)">
                     Sistem Aktif
@@ -28,7 +26,6 @@
         </div>
     </div>
 
-    {{-- STATS --}}
     <div class="row g-4 mb-4">
 
         <div class="col-6 col-md-3">
@@ -81,7 +78,6 @@
 
     </div>
 
-    {{-- QUICK ACTIONS --}}
     <div class="admin-card mb-4">
 
         <div class="admin-card-head">
@@ -90,64 +86,60 @@
             </div>
         </div>
 
-       <div class="row g-3">
+        <div class="row g-3">
 
-    <div class="col-12 col-md-4">
-        <a href="{{ route('admin.users.index') }}"
-           class="admin-card d-flex align-items-center justify-content-between p-4 text-decoration-none">
+            <div class="col-12 col-md-4">
+                <a href="{{ route('admin.users.index') }}" class="admin-card d-flex align-items-center justify-content-between p-4 text-decoration-none">
 
-            <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-people fs-2 text-primary"></i>
-                <div>
-                    <div class="fw-semibold text-white">Kullanıcılar</div>
-                    <div class="text-muted fs-8">Tüm kullanıcı yönetimi</div>
-                </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="bi bi-people fs-2 text-primary"></i>
+                        <div>
+                            <div class="fw-semibold text-white">Kullanıcılar</div>
+                            <div class="text-muted fs-8">Tüm kullanıcı yönetimi</div>
+                        </div>
+                    </div>
+
+                    <i class="bi bi-arrow-right text-muted"></i>
+
+                </a>
             </div>
 
-            <i class="bi bi-arrow-right text-muted"></i>
+            <div class="col-12 col-md-4">
+                <a href="#" class="admin-card d-flex align-items-center justify-content-between p-4 text-decoration-none">
 
-        </a>
-    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="bi bi-hammer fs-2 text-warning"></i>
+                        <div>
+                            <div class="fw-semibold text-white">Müzayede</div>
+                            <div class="text-muted fs-8">İlan & teklif yönetimi</div>
+                        </div>
+                    </div>
 
-    <div class="col-12 col-md-4">
-        <a href="#"
-           class="admin-card d-flex align-items-center justify-content-between p-4 text-decoration-none">
+                    <i class="bi bi-arrow-right text-muted"></i>
 
-            <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-hammer fs-2 text-warning"></i>
-                <div>
-                    <div class="fw-semibold text-white">Müzayede</div>
-                    <div class="text-muted fs-8">İlan & teklif yönetimi</div>
-                </div>
+                </a>
             </div>
 
-            <i class="bi bi-arrow-right text-muted"></i>
+            <div class="col-12 col-md-4">
+                <a href="#" class="admin-card d-flex align-items-center justify-content-between p-4 text-decoration-none">
 
-        </a>
-    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="bi bi-shield-check fs-2 text-success"></i>
+                        <div>
+                            <div class="fw-semibold text-white">Onaylar</div>
+                            <div class="text-muted fs-8">Bekleyen işlemler</div>
+                        </div>
+                    </div>
 
-    <div class="col-12 col-md-4">
-        <a href="#"
-           class="admin-card d-flex align-items-center justify-content-between p-4 text-decoration-none">
+                    <i class="bi bi-arrow-right text-muted"></i>
 
-            <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-shield-check fs-2 text-success"></i>
-                <div>
-                    <div class="fw-semibold text-white">Onaylar</div>
-                    <div class="text-muted fs-8">Bekleyen işlemler</div>
-                </div>
+                </a>
             </div>
 
-            <i class="bi bi-arrow-right text-muted"></i>
-
-        </a>
-    </div>
-
-</div>
+        </div>
 
     </div>
 
-    {{-- RECENT ACTIVITY --}}
     <div class="admin-card">
 
         <div class="admin-card-head">
@@ -159,20 +151,20 @@
         <div style="display:flex;flex-direction:column;gap:12px">
 
             @forelse($activities ?? [] as $activity)
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
-                    <div>
-                        <div style="font-weight:600;color:var(--text);font-size:14px">
-                            {{ $activity->title }}
-                        </div>
-                        <div style="font-size:12px;color:var(--muted)">
-                            {{ $activity->created_at->diffForHumans() }}
-                        </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+                <div>
+                    <div style="font-weight:600;color:var(--text);font-size:14px">
+                        {{ $activity->title }}
+                    </div>
+                    <div style="font-size:12px;color:var(--muted)">
+                        {{ $activity->created_at->diffForHumans() }}
                     </div>
                 </div>
+            </div>
             @empty
-                <div style="text-align:center;color:var(--muted);padding:20px">
-                    Aktivite bulunamadı
-                </div>
+            <div style="text-align:center;color:var(--muted);padding:20px">
+                Aktivite bulunamadı
+            </div>
             @endforelse
 
         </div>
