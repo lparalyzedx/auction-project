@@ -261,6 +261,19 @@
                     <p>Satıcı henüz yayın başlatmadı</p>
                 </div>
                 <video id="liveVideo" class="camera-video" autoplay playsinline style="display:none;" muted></video>
+
+                {{-- Satış geri sayım bandı --}}
+                <div id="viewer-sell-bar" style="display:none;position:absolute;bottom:0;left:0;right:0;z-index:15;background:rgba(220,38,38,.88);backdrop-filter:blur(6px);padding:10px 18px;display:none;align-items:center;justify-content:center;gap:10px;font-size:14px;font-weight:700;color:#fff;">
+                    <i class="bi bi-hourglass-split"></i>
+                    <span id="viewer-sell-bar-text">3 saniye sonra satış tamamlanacak…</span>
+                </div>
+
+                {{-- Satıldı overlay --}}
+                <div id="viewer-sold-overlay" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,.82);z-index:20;border-radius:16px;flex-direction:column;align-items:center;justify-content:center;gap:14px;">
+                    <div style="font-size:56px;">🎉</div>
+                    <div style="font-size:26px;font-weight:800;color:#10b981;">Satış Tamamlandı!</div>
+                    <div id="viewer-sold-sub" style="font-size:14px;color:rgba(255,255,255,.65);">—</div>
+                </div>
                 <div class="camera-overlay">
                     <div class="camera-top-bar">
                         <div>
@@ -499,6 +512,58 @@ const IS_AUTH = false;
 
 let currentMin = {{ $auction->current_price + $auction->min_bid_increment }};
 
+/* ─── Satıldı / Geri Sayım ─── */
+let _cdInterval = null;
+
+function _showSellCountdown(seconds) {
+    const bar  = document.getElementById('viewer-sell-bar');
+    const text = document.getElementById('viewer-sell-bar-text');
+    if (!bar) return;
+    bar.style.display = 'flex';
+    let rem = seconds;
+    text.textContent = rem + ' saniye sonra satış tamamlanacak…';
+    clearInterval(_cdInterval);
+    _cdInterval = setInterval(() => {
+        rem--;
+        if (rem <= 0) { clearInterval(_cdInterval); bar.style.display = 'none'; return; }
+        text.textContent = rem + ' saniye sonra satış tamamlanacak…';
+    }, 1000);
+}
+
+function _hideSellCountdown() {
+    clearInterval(_cdInterval);
+    const bar = document.getElementById('viewer-sell-bar');
+    if (bar) bar.style.display = 'none';
+}
+
+function _showSoldUi(buyerName, displayPrice) {
+    _hideSellCountdown();
+    // Overlay
+    const overlay = document.getElementById('viewer-sold-overlay');
+    if (overlay) {
+        document.getElementById('viewer-sold-sub').textContent =
+            (buyerName && displayPrice) ? buyerName + ' — ' + displayPrice : (buyerName || displayPrice || '—');
+        overlay.style.display = 'flex';
+    }
+    // Teklif formunu kapat
+    const formArea = document.querySelector('.bid-form-area');
+    if (formArea) formArea.innerHTML = '<div class="alert alert-success mb-0" style="font-size:13px;border-radius:10px;margin:0;"><i class="bi bi-check-circle me-1"></i> Bu ürün satışa kapatıldı.</div>';
+    // Timer durdur
+    clearInterval(timerInt);
+    ['live-timer','live-timer-mobile'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.textContent = 'Satıldı'; el.classList.remove('timer-critical'); el.style.color = '#10b981'; }
+    });
+    // Mobile sticky bar gizle
+    document.querySelector('.bid-sticky-bar')?.remove();
+    // Swal
+    if (typeof Swal !== 'undefined' && buyerName) {
+        Swal.fire({ toast:true, position:'top-end', icon:'success', title:'🎉 Satış Tamamlandı',
+            text: buyerName + (displayPrice ? ' — ' + displayPrice : ''),
+            showConfirmButton:false, timer:6000, timerProgressBar:true });
+    }
+}
+
 /* ─── WebRTC ─── */
 const ICE_SERVERS = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:stun1.l.google.com:19302' }] };
 let peerConnection  = null;
@@ -507,6 +572,7 @@ let streamMuted     = true;
 
 /* ─── Geri Sayım ─── */
 let remainingSecs = REMAINING_SECS;
+let timerInt = null;
 function _startTimer() {
     const tick = () => {
         if (remainingSecs > 0) remainingSecs--;
@@ -523,7 +589,7 @@ function _startTimer() {
     };
     if (remainingSecs <= 0) { ['live-timer','live-timer-mobile'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent='Bitti'; }); return; }
     tick();
-    const timerInt = setInterval(tick, 1000);
+    timerInt = setInterval(tick, 1000);
 }
 
 /* ─── WebRTC izleyici tarafı ─── */
@@ -687,6 +753,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             })
+            .listen('.auction.sold', (data) => {
+                _showSoldUi(data.buyer_name, data.display_price);
+            })
+            .listenForWhisper('sell-countdown', (data) => {
+                if (data.cancelled) {
+                    _hideSellCountdown();
+                } else {
+                    _showSellCountdown(data.seconds ?? 3);
+                }
+            })
             .listenForWhisper('webrtc-signal', async (data) => {
                 if (data.targetUserId !== CURRENT_USER_ID) return;
                 if (data.type === 'offer') {
@@ -703,6 +779,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('[Auction] Teklif (guest):', data);
                 addBidToFeed(data.bidder_name, data.amount, false);
                 updateStats(data);
+            })
+            .listen('.auction.sold', (data) => {
+                _showSoldUi(data.buyer_name, data.display_price);
             });
         setViewerCount('?');
     }

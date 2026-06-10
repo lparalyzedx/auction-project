@@ -566,6 +566,8 @@ const LB = (() => {
         btn.onclick   = _cancelSell;
         const _updateLabel = (r) => { document.getElementById('sellBtnText').textContent = 'Satılıyor... İptal için tıkla (' + r + ')'; };
         _updateLabel(3);
+        // İzleyicilere geri sayım bildir
+        s.presenceChannel?.whisper('sell-countdown', { seconds: 3, cancelled: false });
         s.sellInterval = setInterval(() => {
             step++;
             cbar.style.width = (step / STEPS * 100) + '%';
@@ -580,6 +582,8 @@ const LB = (() => {
         clearTimeout(s.sellTimeout);   s.sellTimeout  = null;
         s.selling = false;
         document.getElementById('sellCbar').style.width = '0';
+        // İzleyicilere iptal bildir
+        s.presenceChannel?.whisper('sell-countdown', { cancelled: true });
         _resetSellBtn();
     }
 

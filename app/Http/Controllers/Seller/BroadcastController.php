@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Seller;
 
+use App\Events\AuctionSold;
 use App\Http\Controllers\Controller;
 use App\Models\Auction;
 use App\Models\Bid;
@@ -13,6 +14,7 @@ class BroadcastController extends Controller
     public function show(Auction $auction)
     {
         $viewerCount = 0;
+
         return view('auctions', compact('auction', 'viewerCount'));
     }
 
@@ -28,16 +30,23 @@ class BroadcastController extends Controller
 
         DB::transaction(function () use ($auction, $bid) {
             $auction->update([
-                'status'        => 'sold',
+                'status' => 'sold',
                 'winner_bid_id' => $bid->id,
-                'sold_at'       => now(),
+                'sold_at' => now(),
             ]);
         });
 
+        broadcast(new AuctionSold(
+            auction      : $auction,
+            buyerName    : $bid->user->name,
+            amount       : $bid->amount,
+            displayPrice : number_format($bid->amount, 0, ',', '.').' ₺',
+        ));
+
         return response()->json([
-            'success'     => true,
+            'success' => true,
             'winner_name' => $bid->user->name,
-            'amount'      => $bid->amount,
+            'amount' => $bid->amount,
         ]);
     }
 
@@ -47,6 +56,7 @@ class BroadcastController extends Controller
         if ($auction->status === 'active') {
             $auction->update(['status' => 'ended']);
         }
+
         return response()->json(['success' => true]);
     }
 }
