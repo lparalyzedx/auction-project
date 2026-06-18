@@ -4,8 +4,9 @@ use App\Http\Controllers\Admin\AuctionController as AdminAuctionController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SupportController as AdminSupportController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Front\BrowseController;
 use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\General\BidController;
 use App\Http\Controllers\General\FollowController;
@@ -28,6 +29,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/live-search', [SearchController::class, 'search'])->name('live.search');
+
+Route::controller(BrowseController::class)->prefix('browse')->name('browse.')->group(function () {
+    Route::get('/auctions', 'auctions')->name('auctions');
+    Route::get('/live', 'live')->name('live');
+    Route::get('/explore', 'explore')->name('explore');
+});
+
 Route::get('/auctions/{auction:slug}', [BidController::class, 'show'])->name('auctions.show');
 Route::get('/u/{username}', [ProfileController::class, 'show'])
     ->where('username', '[a-z0-9._]+')
@@ -37,9 +45,9 @@ Route::get('/u/{username}', [ProfileController::class, 'show'])
 | Kurumsal Sayfalar
 */
 Route::controller(PageController::class)->group(function () {
-    Route::get('/corporate',      'corporate')->name('corporate');
-    Route::get('/contact',        'contact')->name('contact');
-    Route::post('/contact',       'contactSend')->name('contact.send');
+    Route::get('/corporate', 'corporate')->name('corporate');
+    Route::get('/contact', 'contact')->name('contact');
+    Route::post('/contact', 'contactSend')->name('contact.send');
     Route::get('/privacy-policy', 'privacy_policy')->name('privacy');
 });
 
@@ -83,12 +91,12 @@ Route::middleware(['auth', 'verified.account'])->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::prefix('profile')->name('profile.')->controller(ProfileController::class)->group(function () {
-        Route::get('/',          'edit')->name('edit');
-        Route::put('/',          'update')->name('update');
-        Route::put('email',      'email')->name('email');
-        Route::put('password',   'password')->name('password');
-        Route::put('privacy',    'privacy')->name('privacy');
-        Route::put('social',     'social')->name('social');
+        Route::get('/', 'edit')->name('edit');
+        Route::put('/', 'update')->name('update');
+        Route::put('email', 'email')->name('email');
+        Route::put('password', 'password')->name('password');
+        Route::put('privacy', 'privacy')->name('privacy');
+        Route::put('social', 'social')->name('social');
     });
 
     /*
@@ -106,9 +114,9 @@ Route::middleware(['auth', 'verified.account'])->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::prefix('notifications')->name('notifications.')->controller(NotificationController::class)->group(function () {
-        Route::get('/',          'index')->name('index');
+        Route::get('/', 'index')->name('index');
         Route::post('{id}/read', 'markAsRead')->name('read');
-        Route::post('read-all',  'markAllRead')->name('readAll');
+        Route::post('read-all', 'markAllRead')->name('readAll');
     });
 
     /*
@@ -117,12 +125,12 @@ Route::middleware(['auth', 'verified.account'])->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::prefix('support')->name('support.')->controller(SupportController::class)->group(function () {
-        Route::get('/',               'index')->name('index');
-        Route::get('/create',         'create')->name('create');
-        Route::post('/',              'store')->name('store');
-        Route::get('/{ticket}',       'show')->name('show');
-        Route::post('/{ticket}/reply','reply')->name('reply');
-        Route::post('/{ticket}/close','close')->name('close');
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{ticket}', 'show')->name('show');
+        Route::post('/{ticket}/reply', 'reply')->name('reply');
+        Route::post('/{ticket}/close', 'close')->name('close');
     });
 
     /*
@@ -147,25 +155,23 @@ Route::middleware(['auth', 'verified.account'])->group(function () {
         | İlanlar
         */
         Route::prefix('auctions')->name('auctions.')->controller(SellerAuctionController::class)->group(function () {
-            Route::get('/',                  'index')->name('index');
-            Route::get('create',             'create')->name('create');
-            Route::post('/',                 'store')->name('store');
-            Route::get('{auction:slug}',     'show')->name('show');
-            Route::get('{auction:slug}/edit','edit')->name('edit');
-            Route::put('{auction:slug}',     'update')->name('update');
-            Route::delete('{auction:slug}',  'destroy')->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('{auction:slug}', 'show')->name('show');
+            Route::get('{auction:slug}/edit', 'edit')->name('edit');
+            Route::put('{auction:slug}', 'update')->name('update');
+            Route::delete('{auction:slug}', 'destroy')->name('destroy');
         });
 
         /*
         | Profil
         */
         Route::prefix('profile')->name('profile.')->controller(SellerProfileController::class)->group(function () {
-            Route::get('/',           'edit')->name('edit');
-            Route::put('{section}',   'update')->name('update');
-            Route::post('document',   'uploadDocument')->name('document.upload');
+            Route::get('/', 'edit')->name('edit');
+            Route::put('{section}', 'update')->name('update');
+            Route::post('document', 'uploadDocument')->name('document.upload');
         });
-
-
 
     });
 
@@ -182,40 +188,40 @@ Route::middleware(['auth', 'verified.account'])->group(function () {
         | Kullanıcılar
         */
         Route::prefix('users')->name('users.')->controller(UserController::class)->group(function () {
-            Route::get('/',              'index')->name('index');
-            Route::get('{user}',         'show')->name('show');
-            Route::get('{user}/edit',    'edit')->name('edit');
-            Route::put('{user}',         'update')->name('update');
-            Route::delete('{user}',      'destroy')->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('{user}', 'show')->name('show');
+            Route::get('{user}/edit', 'edit')->name('edit');
+            Route::put('{user}', 'update')->name('update');
+            Route::delete('{user}', 'destroy')->name('destroy');
             Route::post('{user}/verify', 'verify')->name('verify');
-            Route::post('{user}/unverify','unverify')->name('unverify');
+            Route::post('{user}/unverify', 'unverify')->name('unverify');
         });
 
         /*
         | Kategoriler
         */
         Route::prefix('categories')->name('categories.')->controller(CategoryController::class)->group(function () {
-            Route::get('/',                'index')->name('index');
-            Route::get('create',           'create')->name('create');
-            Route::post('/',               'store')->name('store');
-            Route::get('{category}',       'show')->name('show');
-            Route::get('{category}/edit',  'edit')->name('edit');
-            Route::put('{category}',       'update')->name('update');
-            Route::delete('{category}',    'destroy')->name('destroy');
-            Route::post('{category}/toggle','toggle')->name('toggle');
-            Route::post('reorder',         'reorder')->name('reorder');
+            Route::get('/', 'index')->name('index');
+            Route::get('create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('{category}', 'show')->name('show');
+            Route::get('{category}/edit', 'edit')->name('edit');
+            Route::put('{category}', 'update')->name('update');
+            Route::delete('{category}', 'destroy')->name('destroy');
+            Route::post('{category}/toggle', 'toggle')->name('toggle');
+            Route::post('reorder', 'reorder')->name('reorder');
         });
 
         /*
         | İlanlar
         */
         Route::prefix('auctions')->name('auctions.')->controller(AdminAuctionController::class)->group(function () {
-            Route::get('/',               'index')->name('index');
-            Route::get('{auction}',       'show')->name('show');
-            Route::get('{auction}/edit',  'edit')->name('edit');
-            Route::put('{auction}',       'update')->name('update');
-            Route::delete('{auction}',    'destroy')->name('destroy');
-            Route::post('{auction}/approve','approve')->name('approve');
+            Route::get('/', 'index')->name('index');
+            Route::get('{auction}', 'show')->name('show');
+            Route::get('{auction}/edit', 'edit')->name('edit');
+            Route::put('{auction}', 'update')->name('update');
+            Route::delete('{auction}', 'destroy')->name('destroy');
+            Route::post('{auction}/approve', 'approve')->name('approve');
             Route::post('{auction}/reject', 'reject')->name('reject');
         });
 
@@ -223,27 +229,27 @@ Route::middleware(['auth', 'verified.account'])->group(function () {
         | Destek
         */
         Route::prefix('support')->name('support.')->controller(AdminSupportController::class)->group(function () {
-            Route::get('/',                    'index')->name('index');
-            Route::get('/{ticket}',            'show')->name('show');
-            Route::post('/{ticket}/reply',     'reply')->name('reply');
-            Route::patch('/{ticket}/status',   'updateStatus')->name('status');
+            Route::get('/', 'index')->name('index');
+            Route::get('/{ticket}', 'show')->name('show');
+            Route::post('/{ticket}/reply', 'reply')->name('reply');
+            Route::patch('/{ticket}/status', 'updateStatus')->name('status');
         });
 
         /*
         | Ayarlar
         */
         Route::prefix('settings')->name('settings.')->controller(SettingsController::class)->group(function () {
-            Route::get('/',              'index')->name('index');
-            Route::put('/',              'update')->name('update');
-            Route::post('test-mail',     'testMail')->name('test-mail');
-            Route::post('storage/link',  'storageLink')->name('storage.link');
-            Route::post('optimize',      'optimize')->name('optimize');
+            Route::get('/', 'index')->name('index');
+            Route::put('/', 'update')->name('update');
+            Route::post('test-mail', 'testMail')->name('test-mail');
+            Route::post('storage/link', 'storageLink')->name('storage.link');
+            Route::post('optimize', 'optimize')->name('optimize');
 
             Route::prefix('cache')->name('cache.')->group(function () {
-                Route::post('clear',  'cacheClear')->name('clear');
+                Route::post('clear', 'cacheClear')->name('clear');
                 Route::post('config', 'cacheConfig')->name('config');
-                Route::post('route',  'cacheRoute')->name('route');
-                Route::post('view',   'cacheView')->name('view');
+                Route::post('route', 'cacheRoute')->name('route');
+                Route::post('view', 'cacheView')->name('view');
             });
         });
 

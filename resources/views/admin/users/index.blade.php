@@ -15,11 +15,6 @@
                     </ol>
                 </nav>
             </div>
-            <div class="pf-role-badge">
-                <span class="pf-badge pf-badge-cyan py-2 px-3">
-                    <i class="bi bi-people-fill me-1"></i> {{ number_format($stats['total']) }} Üye
-                </span>
-            </div>
         </div>
 
         <div class="row g-3 mt-2">

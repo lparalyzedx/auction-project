@@ -4,13 +4,18 @@
 @section('content')
 <div class="container-fluid py-3">
 
-    <div class="admin-toolbar mb-3">
-        <div>
-            <div class="toolbar-title">Destek Yönetimi</div>
-            <nav><ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{{ route('index') }}" class="pf-breadcrumb-link">Ana Sayfa</a></li>
-                <li class="breadcrumb-item active">Destek</li>
-            </ol></nav>
+    <div class="pf-toolbar mb-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <h1 class="pf-toolbar-title mb-1">Destek Yönetimi</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 pf-breadcrumb-list">
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="pf-breadcrumb-link">Admin</a></li>
+                        <li class="breadcrumb-item active pf-breadcrumb-active">Destek</li>
+                    </ol>
+                </nav>
+            </div>
+
         </div>
     </div>
 

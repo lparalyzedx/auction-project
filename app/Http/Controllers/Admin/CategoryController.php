@@ -68,7 +68,7 @@ class CategoryController extends Controller
         $category = Category::create($data);
 
         return redirect()
-            ->route('admin.categories.show', $category)
+            ->route('admin.categories.index')
             ->with('category_success', $category->name. ' kategorisi oluşturuldu.');
     }
 
@@ -107,7 +107,7 @@ class CategoryController extends Controller
         $category->update($data);
 
         return redirect()
-            ->route('admin.categories.show', $category)
+            ->route('admin.categories.index')
             ->with('category_success', $category->name. ' kategorisi güncellendi.');
     }
 

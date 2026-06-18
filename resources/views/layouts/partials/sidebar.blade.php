@@ -18,17 +18,17 @@
             Ana Sayfa
         </a>
 
-        <a href="/auctions" class="sidebar-link">
+        <a href="{{ route('browse.auctions') }}" class="sidebar-link {{ request()->is('browse/auctions') ? 'active' : '' }}">
             <i class="bi bi-tag"></i>
             Müzayedeler
         </a>
 
-        <a href="/live" class="sidebar-link">
+        <a href="{{ route('browse.live') }}" class="sidebar-link {{ request()->is('browse/live') ? 'active' : '' }}">
             <i class="bi bi-broadcast"></i>
             Canlı Açık Artırma
         </a>
 
-        <a href="/explore" class="sidebar-link">
+        <a href="{{ route('browse.explore') }}" class="sidebar-link {{ request()->is('browse/explore') ? 'active' : '' }}">
             <i class="bi bi-compass"></i>
             Keşfet
         </a>

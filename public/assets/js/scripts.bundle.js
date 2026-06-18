@@ -8276,3 +8276,11 @@ setInterval(function () {
 setInterval(function () {
     $('.notify').fadeIn();
 }, 1000);
+
+document.querySelectorAll('.idx-card-img img').forEach(img => {
+    if (img.complete) {
+        img.classList.add('loaded');
+    } else {
+        img.addEventListener('load', () => img.classList.add('loaded'));
+    }
+});

@@ -58,12 +58,12 @@
         </div>
 
         @if(session('settings_success'))
-        <div style="display:flex;align-items:center;padding:.7rem 1rem;border-radius:10px;margin:1rem 0 0;font-weight:500;background:rgba(16,185,129,.12);color:#10b981;border:1px solid rgba(16,185,129,.25);">
+        <div class="pf-alert-success mt-2">
             <i class="bi bi-check-circle-fill me-2"></i>{{ session('settings_success') }}
         </div>
         @endif
         @if(session('settings_error'))
-        <div style="display:flex;align-items:center;padding:.7rem 1rem;border-radius:10px;margin:1rem 10 0;font-weight:500;background:rgba(239,68,68,.12);color:#ef4444;border:1px solid rgba(239,68,68,.25);">
+        <div class="pf-alert-danger mt-2">
             <i class="bi bi-x-circle-fill me-2"></i>{{ session('settings_error') }}
         </div>
         @endif
