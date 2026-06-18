@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\SupportController as AdminSupportController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Front\BrowseController;
 use App\Http\Controllers\Front\PageController;
+use App\Http\Controllers\General\BalanceController;
 use App\Http\Controllers\General\BidController;
 use App\Http\Controllers\General\FollowController;
 use App\Http\Controllers\General\HomeController;
@@ -254,6 +255,21 @@ Route::middleware(['auth', 'verified.account'])->group(function () {
         });
 
     });
+
+    Route::middleware(['auth', 'role:buyer'])
+    ->prefix('buyer/balance')
+    ->name('general.balance.')
+    ->group(function () {
+
+        Route::get('/',        [BalanceController::class, 'index'])->name('index');
+
+        Route::get('/topup',   [BalanceController::class, 'create'])->name('create');
+
+        Route::post('/topup',  [BalanceController::class, 'store'])->name('store');
+
+        Route::get('/transactions/{transaction}', [BalanceController::class, 'show'])->name('show');
+    });
+
 
 });
 

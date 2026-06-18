@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Notifications\CustomResetPassword;
 use App\Notifications\CustomVerifyEmail;
+use App\Models\BalanceTransaction;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany; // 👈 Hatanın çözümü için bu satır eklendi!
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
@@ -130,6 +132,21 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new CustomResetPassword($token));
+    }
+
+    public function balanceTransactions(): HasMany
+    {
+        return $this->hasMany(BalanceTransaction::class);
+    }
+
+    public function getFormattedBalanceAttribute(): string
+    {
+        return number_format((float) $this->balance, 2, ',', '.') . ' ₺';
+    }
+
+    public function hasEnoughBalance(float $amount): bool
+    {
+        return (float) $this->balance >= $amount;
     }
 
     protected function casts(): array
