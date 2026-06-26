@@ -1,23 +1,19 @@
-/* ═══════════════════════════════════════════════════════════
-   FONT SCALE — buradan kolayca ayarla, her yer otomatik güncellenir
-   ═══════════════════════════════════════════════════════════ */
 :root {
-    --fs-xs:   0.75rem;     /* 12px — badge, meta, breadcrumb           */
-    --fs-sm:   0.8125rem;   /* 13px — hint, label, secondary            */
-    --fs-base: 1.3rem;    /* 14px — gövde, input, genel text          */
-    --fs-md:   1.3rem;        /* 16px — kart başlık, sidebar              */
-    --fs-lg:   1.125rem;    /* 18px — section title                     */
-    --fs-xl:   1.375rem;    /* 22px — sayfa başlığı                     */
-    --fs-2xl:  1.75rem;     /* 28px — büyük stat sayısı                 */
+    --fs-xs:   0.75rem;
+    --fs-sm:   0.8125rem;
+    --fs-base: 1.3rem;
+    --fs-md:   1.3rem;
+    --fs-lg:   1.125rem;
+    --fs-xl:   1.375rem;
+    --fs-2xl:  1.75rem;
 
-    /* ─── Renkler ─────────────────────────────────────────── */
     --bg: #0b0c12;
     --bg-soft: #0f111a;
     --text: #ffffff;
     --muted: rgba(255, 255, 255, 0.6);
     --card: rgba(255, 255, 255, 0.04);
     --border: rgba(255, 255, 255, 0.08);
-    --primary: #9146ff;
+    --primary: #155EEF;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     --header-bg: rgba(11, 12, 20, 0.82);
     --header-border: rgba(255, 255, 255, 0.07);
@@ -38,7 +34,7 @@ body.light-mode {
     --muted: rgba(0, 0, 0, 0.55);
     --card: #ffffff;
     --border: rgba(0, 0, 0, 0.10);
-    --primary: #6a2fff;
+    --primary: #1242C8;
     --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     --header-bg: rgba(255, 255, 255, 0.92);
     --header-border: rgba(0, 0, 0, 0.08);
@@ -58,7 +54,7 @@ body.dark-mode {
     --muted: rgba(255, 255, 255, 0.65);
     --card: rgba(255, 255, 255, 0.04);
     --border: rgba(255, 255, 255, 0.08);
-    --primary: #9146ff;
+    --primary: #155EEF;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     --header-bg: rgba(11, 12, 20, 0.82);
     --header-border: rgba(255, 255, 255, 0.07);
@@ -86,9 +82,6 @@ html, body {
     max-width: 1400px !important;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   HEADER
-   ═══════════════════════════════════════════════════════════ */
 .app-header,
 .modern-header {
     background: var(--header-bg) !important;
@@ -133,7 +126,7 @@ html, body {
 .search-input:focus {
     background: var(--card) !important;
     border-color: var(--primary) !important;
-    box-shadow: 0 0 0 3px rgba(145, 70, 255, 0.15) !important;
+    box-shadow: 0 0 0 3px rgba(21, 94, 239, 0.15) !important;
     outline: none;
 }
 
@@ -158,8 +151,8 @@ html, body {
 }
 
 .modern-icon:hover {
-    background: rgba(145, 70, 255, 0.15) !important;
-    border-color: rgba(145, 70, 255, 0.35) !important;
+    background: rgba(21, 94, 239, 0.15) !important;
+    border-color: rgba(21, 94, 239, 0.35) !important;
     transform: translateY(-1px);
 }
 
@@ -186,8 +179,8 @@ html, body {
 }
 
 .btn-header-login:hover {
-    background: rgba(145, 70, 255, 0.12) !important;
-    border-color: rgba(145, 70, 255, 0.4) !important;
+    background: rgba(21, 94, 239, 0.12) !important;
+    border-color: rgba(21, 94, 239, 0.4) !important;
     transform: translateY(-1px);
 }
 
@@ -200,19 +193,16 @@ html, body {
     background: var(--primary) !important;
     border: none !important;
     color: #fff !important;
-    box-shadow: 0 4px 18px rgba(145, 70, 255, 0.35);
+    box-shadow: 0 4px 18px rgba(21, 94, 239, 0.35);
     transition: opacity .2s ease, transform .2s ease, box-shadow .2s ease;
 }
 
 .btn-header-register:hover {
     opacity: .9;
     transform: translateY(-1px);
-    box-shadow: 0 6px 22px rgba(145, 70, 255, 0.45);
+    box-shadow: 0 6px 22px rgba(21, 94, 239, 0.45);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   SİDEBAR
-   ═══════════════════════════════════════════════════════════ */
 #kt_app_sidebar,
 .app-sidebar {
     background: var(--bg-soft) !important;
@@ -248,14 +238,14 @@ html, body {
 }
 
 .sidebar-link:hover {
-    background: rgba(145, 70, 255, 0.12);
+    background: rgba(21, 94, 239, 0.12);
     transform: translateX(4px);
 }
 
 .sidebar-link.active {
-    background: rgba(145, 70, 255, 0.18);
+    background: rgba(21, 94, 239, 0.18);
     color: var(--primary) !important;
-    box-shadow: inset 0 0 0 1px rgba(145, 70, 255, 0.3);
+    box-shadow: inset 0 0 0 1px rgba(21, 94, 239, 0.3);
 }
 
 .sidebar-link.active i {
@@ -304,7 +294,7 @@ html, body {
 }
 
 .sidebar-dropdown .dropdown-item:hover {
-    background: rgba(145, 70, 255, 0.12) !important;
+    background: rgba(21, 94, 239, 0.12) !important;
     transform: translateX(3px);
 }
 
@@ -324,19 +314,16 @@ html, body {
 }
 
 .menu-link:hover {
-    background: rgba(145, 70, 255, 0.12) !important;
+    background: rgba(21, 94, 239, 0.12) !important;
     transform: translateX(3px);
 }
 
 .menu-item.active > .menu-link {
-    background: rgba(145, 70, 255, 0.18) !important;
+    background: rgba(21, 94, 239, 0.18) !important;
     color: var(--primary) !important;
-    box-shadow: 0 0 20px rgba(145, 70, 255, 0.15);
+    box-shadow: 0 0 20px rgba(21, 94, 239, 0.15);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   DROPDOWN & KART
-   ═══════════════════════════════════════════════════════════ */
 .modern-dropdown,
 .dropdown-menu {
     background: var(--bg-soft) !important;
@@ -358,7 +345,7 @@ html, body {
 }
 
 .dropdown-item:hover {
-    background: rgba(145, 70, 255, 0.12) !important;
+    background: rgba(21, 94, 239, 0.12) !important;
     color: var(--primary) !important;
 }
 
@@ -378,9 +365,6 @@ html, body {
     box-shadow: var(--shadow);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   AUCTİON CARD
-   ═══════════════════════════════════════════════════════════ */
 .auction-card {
     background: var(--card) !important;
     border: 1px solid var(--border) !important;
@@ -392,7 +376,7 @@ html, body {
 
 .auction-card:hover {
     transform: translateY(-6px);
-    border-color: rgba(145, 70, 255, 0.4) !important;
+    border-color: rgba(21, 94, 239, 0.4) !important;
 }
 
 .auction-card,
@@ -425,7 +409,7 @@ html, body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #9146ff, #6a2fff) !important;
+    background: linear-gradient(135deg, #155EEF, #1242C8) !important;
     border: none !important;
     color: #fff !important;
     box-shadow: var(--shadow);
@@ -457,23 +441,17 @@ html, body {
     font-size: var(--fs-sm);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   SCROLLBAR
-   ═══════════════════════════════════════════════════════════ */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(145, 70, 255, 0.7); }
+::-webkit-scrollbar-thumb:hover { background: rgba(21, 94, 239, 0.7); }
 
-/* ═══════════════════════════════════════════════════════════
-   HERO
-   ═══════════════════════════════════════════════════════════ */
 .hero {
     position: relative;
     border-radius: 18px;
     overflow: hidden;
     padding: 60px;
-    background: linear-gradient(135deg, rgba(145, 70, 255, 0.12), rgba(0, 0, 0, 0.7)),
+    background: linear-gradient(135deg, rgba(21, 94, 239, 0.12), rgba(0, 0, 0, 0.7)),
         url('https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&w=1920&q=80');
     background-size: cover;
     background-position: center;
@@ -521,9 +499,6 @@ html, body {
     .search-box { max-width: 180px; }
 }
 
-/* ═══════════════════════════════════════════════════════════
-   LOADING
-   ═══════════════════════════════════════════════════════════ */
 .loading {
     position: fixed;
     inset: 0;
@@ -545,7 +520,7 @@ html, body {
     border-top-color: var(--primary);
     border-right-color: #00d4ff;
     animation: spin 0.9s linear infinite;
-    box-shadow: 0 0 25px rgba(145, 70, 255, 0.25);
+    box-shadow: 0 0 25px rgba(21, 94, 239, 0.25);
 }
 
 .loading::before {
@@ -553,7 +528,7 @@ html, body {
     position: absolute;
     width: 120px;
     height: 120px;
-    background: radial-gradient(circle, rgba(145, 70, 255, 0.2), transparent 70%);
+    background: radial-gradient(circle, rgba(21, 94, 239, 0.2), transparent 70%);
     filter: blur(20px);
     animation: glow-pulse 1.5s ease-in-out infinite;
 }
@@ -574,11 +549,8 @@ body.loaded .loading {
     transition: all .35s ease;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   PROFİL TOOLBAR
-   ═══════════════════════════════════════════════════════════ */
 .profile-toolbar {
-    background: linear-gradient(135deg, var(--bg) 0%, rgba(145, 70, 255, 0.3) 100%);
+    background: linear-gradient(135deg, var(--bg) 0%, rgba(21, 94, 239, 0.3) 100%);
     border-radius: var(--au-radius);
     padding: 24px 32px;
     margin-bottom: 28px;
@@ -608,9 +580,6 @@ body.loaded .loading {
     border-radius: 50%;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   PROFİL SUMMARY CARD
-   ═══════════════════════════════════════════════════════════ */
 .profile-summary-card {
     background: linear-gradient(160deg, var(--au-navy) 0%, #1a2e45 60%, #1565C0 100%);
     border-radius: var(--au-radius);
@@ -696,9 +665,6 @@ body.loaded .loading {
     flex-shrink: 0;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   SETTINGS CARD
-   ═══════════════════════════════════════════════════════════ */
 .settings-card {
     border-radius: var(--au-radius);
     border: 1px solid var(--border);
@@ -747,9 +713,6 @@ body.loaded .loading {
     margin-bottom: 6px;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   INPUT GROUP ICON
-   ═══════════════════════════════════════════════════════════ */
 .input-group-icon { position: relative; }
 
 .input-group-icon .form-control {
@@ -868,15 +831,15 @@ body.loaded .loading {
 
 .btn-outline-primary {
     background: transparent !important;
-    border: 1.5px solid #9146ff !important;
-    color: #9146ff !important;
+    border: 1.5px solid #155EEF !important;
+    color: #155EEF !important;
     font-size: var(--fs-base) !important;
     box-shadow: none !important;
     transition: all .2s ease;
 }
 
 .btn-outline-primary:hover {
-    background: linear-gradient(135deg, #9146ff, #6a2fff) !important;
+    background: linear-gradient(135deg, #155EEF, #1242C8) !important;
     border-color: transparent !important;
     color: #fff !important;
     box-shadow: var(--shadow);
@@ -885,11 +848,8 @@ body.loaded .loading {
 
 .btn-outline-primary:active { transform: translateY(0); box-shadow: none; }
 
-/* ═══════════════════════════════════════════════════════════
-   ADMİN TOOLBAR
-   ═══════════════════════════════════════════════════════════ */
 .admin-toolbar {
-    background: linear-gradient(135deg, var(--bg) 0%, rgba(145, 70, 255, .25) 100%);
+    background: linear-gradient(135deg, var(--bg) 0%, rgba(21, 94, 239, .25) 100%);
     border: 1px solid var(--border);
     border-radius: var(--au-radius);
     padding: 22px 28px;
@@ -906,7 +866,7 @@ body.loaded .loading {
     width: 160px;
     height: 160px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(145, 70, 255, .15) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(21, 94, 239, .15) 0%, transparent 70%);
     pointer-events: none;
 }
 
@@ -938,9 +898,6 @@ body.loaded .loading {
 
 .admin-toolbar .breadcrumb-item + .breadcrumb-item::before { color: var(--muted); }
 
-/* ═══════════════════════════════════════════════════════════
-   ADMİN STAT
-   ═══════════════════════════════════════════════════════════ */
 .admin-stat {
     background: var(--card);
     border: 1px solid var(--border);
@@ -953,7 +910,7 @@ body.loaded .loading {
     height: 100%;
 }
 
-.admin-stat:hover { transform: translateY(-2px); border-color: rgba(145, 70, 255, .3); }
+.admin-stat:hover { transform: translateY(-2px); border-color: rgba(21, 94, 239, .3); }
 
 .admin-stat-icon {
     width: 46px;
@@ -981,9 +938,6 @@ body.loaded .loading {
     font-weight: 500;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ADMİN CARD & TABLE
-   ═══════════════════════════════════════════════════════════ */
 .admin-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -1034,11 +988,8 @@ body.loaded .loading {
 
 .admin-table tr:last-child td { border-bottom: none; }
 .admin-table tbody tr { transition: background .15s; }
-.admin-table tbody tr:hover { background: rgba(145, 70, 255, .05); }
+.admin-table tbody tr:hover { background: rgba(21, 94, 239, .05); }
 
-/* ═══════════════════════════════════════════════════════════
-   BADGE
-   ═══════════════════════════════════════════════════════════ */
 .a-badge {
     display: inline-flex;
     align-items: center;
@@ -1052,7 +1003,7 @@ body.loaded .loading {
 
 .a-badge.admin   { background: rgba(251, 191, 36, .12);  color: #fbbf24; }
 .a-badge.seller  { background: rgba(16, 185, 129, .12);  color: #10b981; }
-.a-badge.buyer   { background: rgba(145, 70, 255, .12);  color: var(--primary); }
+.a-badge.buyer   { background: rgba(21, 94, 239, .12);  color: var(--primary); }
 .a-badge.success { background: rgba(16, 185, 129, .12);  color: #10b981; }
 .a-badge.warning { background: rgba(251, 191, 36, .12);  color: #fbbf24; }
 .a-badge.danger  { background: rgba(248, 113, 113, .12); color: #f87171; }
@@ -1077,13 +1028,10 @@ body.loaded .loading {
     justify-content: center;
     font-size: var(--fs-sm);
     font-weight: 700;
-    background: rgba(145, 70, 255, .15);
+    background: rgba(21, 94, 239, .15);
     color: var(--primary);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ADMİN FILTER / INPUT
-   ═══════════════════════════════════════════════════════════ */
 .admin-input-wrap { position: relative; }
 
 .admin-input-wrap .admin-input-icon {
@@ -1112,7 +1060,7 @@ body.loaded .loading {
 
 .admin-filter-input:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(145, 70, 255, .12);
+    box-shadow: 0 0 0 3px rgba(21, 94, 239, .12);
 }
 
 .admin-filter-select {
@@ -1134,23 +1082,20 @@ body.loaded .loading {
 
 .admin-filter-select:focus { border-color: var(--primary); }
 
-/* ═══════════════════════════════════════════════════════════
-   ADMİN BUTONLARI
-   ═══════════════════════════════════════════════════════════ */
 .btn-admin-pri {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 8px 16px;
     border-radius: 10px;
-    background: linear-gradient(135deg, var(--primary), #6a2fff);
+    background: linear-gradient(135deg, var(--primary), #1242C8);
     color: #fff;
     font-size: var(--fs-sm);
     font-weight: 600;
     border: none;
     cursor: pointer;
     white-space: nowrap;
-    box-shadow: 0 2px 10px rgba(145, 70, 255, .3);
+    box-shadow: 0 2px 10px rgba(21, 94, 239, .3);
     transition: opacity .15s, transform .15s;
     text-decoration: none;
 }
@@ -1174,7 +1119,7 @@ body.loaded .loading {
     transition: background .15s, border-color .15s;
 }
 
-.btn-admin-sec:hover { border-color: rgba(145, 70, 255, .4); color: var(--text); }
+.btn-admin-sec:hover { border-color: rgba(21, 94, 239, .4); color: var(--text); }
 
 .btn-admin-success {
     display: inline-flex;
@@ -1215,9 +1160,6 @@ body.loaded .loading {
 
 .btn-sm-icon { padding: 6px 10px !important; font-size: var(--fs-xs) !important; border-radius: 8px !important; }
 
-/* ═══════════════════════════════════════════════════════════
-   ADMİN FORM INPUT
-   ═══════════════════════════════════════════════════════════ */
 .admin-finput {
     width: 100%;
     height: 48px;
@@ -1236,7 +1178,7 @@ body.loaded .loading {
 
 .admin-finput:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3.5px rgba(145, 70, 255, .12);
+    box-shadow: 0 0 0 3.5px rgba(21, 94, 239, .12);
 }
 
 .admin-finput.is-invalid { border-color: #f87171; }
@@ -1263,7 +1205,7 @@ body.loaded .loading {
 
 .admin-fselect:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3.5px rgba(145, 70, 255, .12);
+    box-shadow: 0 0 0 3.5px rgba(21, 94, 239, .12);
 }
 
 .admin-fwrap { position: relative; }
@@ -1296,9 +1238,6 @@ body.loaded .loading {
     margin-top: 5px;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ADMİN TOGGLE
-   ═══════════════════════════════════════════════════════════ */
 .admin-toggle {
     position: relative;
     width: 44px;
@@ -1332,9 +1271,6 @@ body.loaded .loading {
 .admin-toggle input:checked + .admin-toggle-slider { background: var(--primary); }
 .admin-toggle input:checked + .admin-toggle-slider::before { transform: translateX(20px); }
 
-/* ═══════════════════════════════════════════════════════════
-   ADMİN PAGİNATİON
-   ═══════════════════════════════════════════════════════════ */
 .admin-pages { display: flex; align-items: center; gap: 5px; }
 
 .admin-page {
@@ -1360,9 +1296,6 @@ body.loaded .loading {
     border-color: var(--primary);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ADMİN UPLOAD & HERO
-   ═══════════════════════════════════════════════════════════ */
 .admin-upload {
     display: flex;
     align-items: center;
@@ -1443,9 +1376,6 @@ body.loaded .loading {
 
 .admin-fade { animation: adminFade .3s ease both; }
 
-/* ═══════════════════════════════════════════════════════════
-   SWEETALERT2
-   ═══════════════════════════════════════════════════════════ */
 .swal2-popup {
     background: var(--bg-soft) !important;
     border: 1px solid var(--border) !important;
@@ -1457,7 +1387,7 @@ body.loaded .loading {
 .swal2-html-container { color: var(--muted) !important; font-size: var(--fs-base) !important; }
 
 .swal2-confirm {
-    background: linear-gradient(135deg, var(--primary), #6a2fff) !important;
+    background: linear-gradient(135deg, var(--primary), #1242C8) !important;
     border: none !important;
     border-radius: 10px !important;
     font-size: var(--fs-base) !important;
@@ -1471,9 +1401,6 @@ body.loaded .loading {
     font-size: var(--fs-base) !important;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   HEADER SEARCH
-   ═══════════════════════════════════════════════════════════ */
 .mhdr-search-wrap {
     flex: 1 1 auto;
     min-width: 0;
@@ -1494,9 +1421,6 @@ body.loaded .loading {
     flex-shrink: 0;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   PROFİL SAYFASI — pf-* bileşenleri
-   ═══════════════════════════════════════════════════════════ */
 @keyframes pf-pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
     50%       { opacity: .5; transform: scale(1.5); }
@@ -1510,7 +1434,6 @@ body.loaded .loading {
     gap: 8px;
 }
 
-/* ── Üst kart ── */
 .pf-top {
     background: var(--card);
     border: 1px solid var(--border);
@@ -1520,7 +1443,7 @@ body.loaded .loading {
 
 .pf-cover {
     height: 72px;
-    background: rgba(124, 58, 237, .12);
+    background: linear-gradient(120deg, rgba(21, 94, 239, .22), rgba(18, 66, 200, .35));
     position: relative;
 }
 
@@ -1531,7 +1454,7 @@ body.loaded .loading {
     background: repeating-linear-gradient(
         135deg,
         transparent, transparent 20px,
-        rgba(124, 58, 237, .05) 20px, rgba(124, 58, 237, .05) 21px
+        rgba(255, 255, 255, .06) 20px, rgba(255, 255, 255, .06) 21px
     );
 }
 
@@ -1550,7 +1473,7 @@ body.loaded .loading {
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    background: conic-gradient(var(--primary), #4f46e5, var(--primary));
+    background: conic-gradient(var(--primary), #1242C8, var(--primary));
     padding: 2.5px;
 }
 
@@ -1588,36 +1511,35 @@ body.loaded .loading {
 }
 
 .pf-uname {
-    font-size: var(--fs-lg);     /* 18px — eski 17px */
+    font-size: var(--fs-lg);
     font-weight: 700;
     color: var(--text);
 }
 
 .pf-role-badge {
-    font-size: var(--fs-xs);     /* 12px — eski .78rem */
+    font-size: var(--fs-xs);
     font-weight: 700;
     padding: 3px 10px;
     border-radius: 99px;
-    background: rgba(124, 58, 237, .15);
+    background: rgba(21, 94, 239, .15);
     color: var(--primary);
-    border: 1px solid rgba(124, 58, 237, .3);
+    border: 1px solid rgba(21, 94, 239, .3);
 }
 
 .pf-handle {
-    font-size: var(--fs-sm);     /* 13px — eski .75rem */
+    font-size: var(--fs-sm);
     color: var(--muted);
     margin-top: 2px;
 }
 
 .pf-bio {
-    font-size: var(--fs-sm);     /* 13px — eski .82rem */
+    font-size: var(--fs-sm);
     color: var(--muted);
     margin-top: 8px;
     line-height: 1.6;
     max-width: 480px;
 }
 
-/* ── İstatistik satırı ── */
 .pf-stats-row {
     display: flex;
     border-top: 1px solid var(--border);
@@ -1633,21 +1555,20 @@ body.loaded .loading {
 .pf-stat:last-child { border-right: none; }
 
 .pf-stat-num {
-    font-size: var(--fs-xl);     /* 22px — eski 1.2rem */
+    font-size: var(--fs-xl);
     font-weight: 800;
     color: var(--text);
     line-height: 1;
 }
 
 .pf-stat-label {
-    font-size: var(--fs-xs);     /* 12px — eski .6rem */
+    font-size: var(--fs-xs);
     font-weight: 700;
     letter-spacing: .07em;
     color: var(--muted);
     margin-top: 3px;
 }
 
-/* ── Aksiyon satırı ── */
 .pf-action-row {
     display: flex;
     gap: 8px;
@@ -1662,7 +1583,7 @@ body.loaded .loading {
     border: none;
     background: var(--primary);
     color: #fff;
-    font-size: var(--fs-sm);     /* 13px — eski .82rem */
+    font-size: var(--fs-sm);
     font-weight: 600;
     cursor: pointer;
     transition: opacity .15s;
@@ -1703,8 +1624,8 @@ body.loaded .loading {
 
 .pf-btn-edit:hover,
 .pf-btn-edit.active {
-    background: rgba(124, 58, 237, .12);
-    border-color: rgba(124, 58, 237, .4);
+    background: rgba(21, 94, 239, .12);
+    border-color: rgba(21, 94, 239, .4);
     color: var(--primary);
 }
 
@@ -1725,9 +1646,6 @@ body.loaded .loading {
 
 .pf-btn-icon:hover { background: var(--bg-soft); }
 
-/* ═══════════════════════════════════════════════════════════
-   EDIT DRAWER
-   ═══════════════════════════════════════════════════════════ */
 .pf-edit-drawer {
     background: var(--card);
     border: 1px solid var(--border);
@@ -1748,7 +1666,7 @@ body.loaded .loading {
     padding: 13px 8px;
     border: none;
     background: transparent;
-    font-size: var(--fs-sm);     /* 13px — eski .75rem */
+    font-size: var(--fs-sm);
     font-weight: 600;
     color: var(--muted);
     cursor: pointer;
@@ -1780,7 +1698,7 @@ body.loaded .loading {
 
 .pf-label {
     display: block;
-    font-size: var(--fs-xs);     /* 12px — eski .7rem */
+    font-size: var(--fs-xs);
     font-weight: 700;
     color: var(--muted);
     margin-bottom: 6px;
@@ -1795,9 +1713,9 @@ body.loaded .loading {
     background: var(--bg-soft);
     border: 1px solid var(--border);
     border-radius: 9px;
-    padding: 10px 14px;           /* daha nefes alır */
+    padding: 10px 14px;
     color: var(--text);
-    font-size: var(--fs-base);    /* 14px — eski .82rem */
+    font-size: var(--fs-base);
     font-family: inherit;
     outline: none;
     transition: border-color .15s;
@@ -1827,7 +1745,7 @@ textarea.pf-input {
 
 .pf-pre-label {
     padding: 0 11px;
-    font-size: var(--fs-sm);     /* 13px — eski .75rem */
+    font-size: var(--fs-sm);
     color: var(--muted);
     white-space: nowrap;
     border-right: 1px solid var(--border);
@@ -1850,13 +1768,13 @@ textarea.pf-input {
 .pf-input-pre input::placeholder { color: var(--muted); opacity: .5; }
 
 .pf-hint  {
-    font-size: var(--fs-sm);     /* 13px — eski .7rem */
+    font-size: var(--fs-sm);
     color: var(--muted);
     margin-top: 5px;
 }
 
 .pf-error {
-    font-size: var(--fs-sm);     /* 13px — eski .7rem */
+    font-size: var(--fs-sm);
     color: #ef4444;
     margin-top: 5px;
 }
@@ -1865,7 +1783,7 @@ textarea.pf-input {
     position: absolute;
     bottom: 8px;
     right: 12px;
-    font-size: var(--fs-xs);     /* 12px — eski .65rem */
+    font-size: var(--fs-xs);
     color: var(--muted);
     pointer-events: none;
 }
@@ -1884,7 +1802,6 @@ textarea.pf-input {
     transition: background .2s;
 }
 
-/* ── Avatar upload ── */
 .pf-avatar-upload-row {
     display: flex;
     align-items: center;
@@ -1905,13 +1822,13 @@ textarea.pf-input {
 }
 
 .pf-upload-title {
-    font-size: var(--fs-base);   /* 14px — eski .82rem */
+    font-size: var(--fs-base);
     font-weight: 600;
     color: var(--text);
 }
 
 .pf-upload-desc {
-    font-size: var(--fs-sm);     /* 13px — eski .7rem */
+    font-size: var(--fs-sm);
     color: var(--muted);
     margin-top: 2px;
 }
@@ -1922,14 +1839,13 @@ textarea.pf-input {
     border: 1px solid var(--border);
     background: transparent;
     color: var(--text);
-    font-size: var(--fs-sm);     /* 13px — eski .72rem */
+    font-size: var(--fs-sm);
     cursor: pointer;
     transition: background .15s;
 }
 
 .pf-btn-photo:hover { background: var(--bg-soft); }
 
-/* ── Footer ── */
 .pf-footer {
     display: flex;
     align-items: center;
@@ -1940,7 +1856,7 @@ textarea.pf-input {
 }
 
 .pf-save-info {
-    font-size: var(--fs-sm);     /* 13px — eski .7rem */
+    font-size: var(--fs-sm);
     color: var(--muted);
     display: flex;
     align-items: center;
@@ -1955,7 +1871,7 @@ textarea.pf-input {
     border: 1px solid var(--border);
     background: transparent;
     color: var(--muted);
-    font-size: var(--fs-sm);     /* 13px — eski .78rem */
+    font-size: var(--fs-sm);
     cursor: pointer;
     transition: color .15s;
 }
@@ -1968,7 +1884,7 @@ textarea.pf-input {
     border: none;
     background: var(--primary);
     color: #fff;
-    font-size: var(--fs-sm);     /* 13px — eski .78rem */
+    font-size: var(--fs-sm);
     font-weight: 600;
     cursor: pointer;
     transition: opacity .15s;
@@ -1979,7 +1895,6 @@ textarea.pf-input {
 
 .pf-btn-save:hover { opacity: .85; color: #fff; }
 
-/* ── Güvenlik satırları ── */
 .pf-sec-item {
     display: flex;
     align-items: center;
@@ -2004,13 +1919,13 @@ textarea.pf-input {
 .pf-sec-info { flex: 1; }
 
 .pf-sec-title {
-    font-size: var(--fs-base);   /* 14px — eski .82rem */
+    font-size: var(--fs-base);
     font-weight: 600;
     color: var(--muted);
 }
 
 .pf-sec-sub {
-    font-size: var(--fs-sm);     /* 13px — eski .7rem */
+    font-size: var(--fs-sm);
     color: var(--muted);
     margin-top: 2px;
 }
@@ -2021,7 +1936,7 @@ textarea.pf-input {
     border: 1px solid var(--border);
     background: transparent;
     color: var(--text);
-    font-size: var(--fs-sm);     /* 13px — eski .72rem */
+    font-size: var(--fs-sm);
     cursor: pointer;
     transition: background .15s;
 }
@@ -2039,7 +1954,6 @@ textarea.pf-input {
 
 .pf-inline-form.open { display: block; }
 
-/* ── Gizlilik toggle listesi ── */
 .pf-toggle-list { display: flex; flex-direction: column; }
 
 .pf-trow {
@@ -2054,13 +1968,13 @@ textarea.pf-input {
 .pf-trow:last-child { border-bottom: none; }
 
 .pf-trow-title {
-    font-size: var(--fs-base);   /* 14px — eski .82rem */
+    font-size: var(--fs-base);
     font-weight: 600;
     color: var(--text);
 }
 
 .pf-trow-desc {
-    font-size: var(--fs-sm);     /* 13px — eski .7rem */
+    font-size: var(--fs-sm);
     color: var(--muted);
     margin-top: 3px;
 }
@@ -2094,7 +2008,6 @@ textarea.pf-input {
 .pf-tog-input:checked { background: var(--primary); }
 .pf-tog-input:checked::after { left: 19px; }
 
-/* ── Sosyal linkler ── */
 .pf-social-row {
     display: flex;
     align-items: center;
@@ -2116,7 +2029,6 @@ textarea.pf-input {
     flex-shrink: 0;
 }
 
-/* ── Alert ── */
 .pf-alert-success {
     display: flex;
     align-items: center;
@@ -2125,14 +2037,11 @@ textarea.pf-input {
     border: 1px solid rgba(16, 185, 129, .3);
     border-radius: 8px;
     padding: 11px 16px;
-    font-size: var(--fs-sm);     /* 13px — eski .78rem */
+    font-size: var(--fs-sm);
     color: rgb(50 135 107);
     margin-bottom: 16px;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   PROFİL CONTENT AREA
-   ═══════════════════════════════════════════════════════════ */
 .pf-content-area {
     background: var(--card);
     border: 1px solid var(--border);
@@ -2147,7 +2056,7 @@ textarea.pf-input {
     padding: 13px 0;
     border: none;
     background: transparent;
-    font-size: var(--fs-sm);     /* 13px — eski .75rem */
+    font-size: var(--fs-sm);
     font-weight: 600;
     color: var(--muted);
     cursor: pointer;
@@ -2166,7 +2075,6 @@ textarea.pf-input {
 
 .pf-ptab:hover:not(.active) { color: var(--text); }
 
-/* ── Grid & Kart ── */
 .pf-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -2188,7 +2096,7 @@ textarea.pf-input {
 
 .pf-auction-card:hover {
     transform: translateY(-3px);
-    border-color: rgba(124, 58, 237, .4);
+    border-color: rgba(21, 94, 239, .4);
 }
 
 .pf-card-img-wrap {
@@ -2212,7 +2120,7 @@ textarea.pf-input {
     left: .5rem;
     background: rgba(0, 0, 0, .7);
     color: #fff;
-    font-size: var(--fs-xs);     /* 12px — eski .68rem */
+    font-size: var(--fs-xs);
     font-weight: 700;
     padding: .2rem .5rem;
     border-radius: 7px;
@@ -2225,7 +2133,7 @@ textarea.pf-input {
     background: rgba(16, 185, 129, .15);
     border: 1px solid rgba(16, 185, 129, .35);
     color: #10b981;
-    font-size: var(--fs-xs);     /* 12px — eski .58rem */
+    font-size: var(--fs-xs);
     font-weight: 700;
     padding: .2rem .5rem;
     border-radius: 6px;
@@ -2248,7 +2156,7 @@ textarea.pf-input {
 .pf-card-body { padding: .75rem; }
 
 .pf-card-title {
-    font-size: var(--fs-sm);     /* 13px — eski .75rem */
+    font-size: var(--fs-sm);
     font-weight: 600;
     overflow: hidden;
     display: -webkit-box;
@@ -2261,18 +2169,17 @@ textarea.pf-input {
 .pf-card-meta {
     display: flex;
     justify-content: space-between;
-    font-size: var(--fs-xs);     /* 12px — eski .65rem */
+    font-size: var(--fs-xs);
     color: var(--muted);
 }
 
-/* ── Empty state ── */
 .pf-empty { text-align: center; padding: 52px 24px; }
 
 .pf-empty-icon {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: rgba(124, 58, 237, .1);
+    background: rgba(21, 94, 239, .1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2282,22 +2189,19 @@ textarea.pf-input {
 }
 
 .pf-empty-title {
-    font-size: var(--fs-md);     /* 16px — eski .92rem */
+    font-size: var(--fs-md);
     font-weight: 700;
     color: var(--text);
     margin-bottom: 6px;
 }
 
 .pf-empty-sub {
-    font-size: var(--fs-sm);     /* 13px — eski .78rem */
+    font-size: var(--fs-sm);
     color: var(--muted);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   TOOLBAR / BREADCRUMB
-   ═══════════════════════════════════════════════════════════ */
 .pf-toolbar-title {
-    font-size: var(--fs-xl);     /* 22px */
+    font-size: var(--fs-xl);
     font-weight: 700;
     color: var(--text);
     letter-spacing: -.4px;
@@ -2317,7 +2221,6 @@ textarea.pf-input {
     text-decoration: none;
 }
 
-/* ── Stat card ── */
 .pf-stat-card {
     display: flex;
     align-items: center;
@@ -2341,14 +2244,14 @@ textarea.pf-input {
 .pf-stat-icon-wrapper i { font-size: var(--fs-md); }
 
 .pf-stat-number {
-    font-size: var(--fs-2xl);    /* 28px */
+    font-size: var(--fs-2xl);
     font-weight: 700;
     color: var(--text);
     line-height: 1.1;
 }
 
 .pf-stat-label {
-    font-size: var(--fs-xs);     /* 12px — eski 11px */
+    font-size: var(--fs-xs);
     font-weight: 700;
     letter-spacing: .6px;
     text-transform: uppercase;
@@ -2356,9 +2259,6 @@ textarea.pf-input {
     margin-top: 2px;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   TABLO VE FİLTRE
-   ═══════════════════════════════════════════════════════════ */
 .table-responsive {
     padding: 1rem;
     background-color: var(--card);
@@ -2410,7 +2310,7 @@ textarea.pf-input {
 
 .pf-table th {
     padding: 11px 20px;
-    font-size: var(--fs-xs);     /* 12px — eski 10px */
+    font-size: var(--fs-xs);
     font-weight: 700;
     letter-spacing: .8px;
     text-transform: uppercase;
@@ -2454,7 +2354,6 @@ textarea.pf-input {
 .pf-table-order  { padding: 14px 20px; color: var(--muted); font-size: var(--fs-sm); font-weight: 600; }
 .pf-text-muted-sm { color: var(--muted); font-size: var(--fs-xs); }
 
-/* ── Badge ── */
 .pf-badge {
     padding: 4px 10px;
     border-radius: 20px;
@@ -2469,7 +2368,6 @@ textarea.pf-input {
 .pf-badge-success { background: rgba(16, 185, 129, .12); color: #10b981; }
 .pf-badge-warning { background: rgba(251, 191, 36, .12); color: #fbbf24; }
 
-/* ── Aksiyon butonları ── */
 .pf-actions-wrapper {
     display: flex;
     align-items: center;
@@ -2524,7 +2422,6 @@ textarea.pf-input {
     justify-content: center;
 }
 
-/* ── Pagination ── */
 .pf-empty-container { padding: 52px; }
 
 .pf-pagination-wrapper {
@@ -2564,9 +2461,6 @@ textarea.pf-input {
     border-color: var(--primary);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   YARDIMCI SINIFLAR
-   ═══════════════════════════════════════════════════════════ */
 .status-indicator.verified { color: #10b981; }
 .status-indicator.pending  { color: #fbbf24; }
 
@@ -2771,9 +2665,6 @@ textarea.pf-input {
 .pf-btn-toggle-status.active  { border: 1px solid rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.1); color: #fbbf24; }
 .pf-btn-toggle-status.passive { border: 1px solid rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.1); color: #10b981; }
 
-/* ═══════════════════════════════════════════════════════════
-   VALİDATİON SHAKE ANİMASYONU
-   ═══════════════════════════════════════════════════════════ */
 @keyframes pf-shake {
     0%, 100% { transform: translateX(0); }
     20%       { transform: translateX(-4px); }
@@ -2788,9 +2679,6 @@ textarea.pf-input {
     outline-offset: 1px;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   LOGO LIGHT/DARK
-   ═══════════════════════════════════════════════════════════ */
 .logo-light { display: none; }
 
 body.light-mode .logo-light { display: block !important; }
@@ -2798,9 +2686,6 @@ body.light-mode .logo-dark  { display: none !important; }
 body.dark-mode .logo-dark   { display: block !important; }
 body.dark-mode .logo-light  { display: none !important; }
 
-/* ═══════════════════════════════════════════════════════════
-   RESPONSİVE
-   ═══════════════════════════════════════════════════════════ */
 @media (max-width: 576px) {
     :root {
         --fs-xs:   0.75rem;
@@ -2817,18 +2702,16 @@ body.dark-mode .logo-light  { display: none !important; }
     .pf-grid           { grid-template-columns: repeat(2, 1fr); }
 }
 
-
 :root {
-    --fs-xs:   12px;   /* badge, meta, timestamp */
-    --fs-sm:   14px;   /* hint, label, secondary */
-    --fs-base: 15px;   /* gövde, input           */
-    --fs-md:   16px;   /* sidebar link, dropdown */
-    --fs-lg:   18px;   /* kart başlık            */
-    --fs-xl:   22px;   /* sayfa başlığı          */
-    --fs-2xl:  28px;   /* stat sayısı            */
+    --fs-xs:   12px;
+    --fs-sm:   14px;
+    --fs-base: 15px;
+    --fs-md:   16px;
+    --fs-lg:   18px;
+    --fs-xl:   22px;
+    --fs-2xl:  28px;
 }
 
-/* Sidebar — Metronic'i ezmek için !important şart */
 .sidebar-link,
 .menu-link,
 #kt_app_sidebar .menu-title {
@@ -2845,17 +2728,14 @@ body.dark-mode .logo-light  { display: none !important; }
     font-size: 11px !important;
 }
 
-/* Profil */
 .pf-uname      { font-size: 20px !important; }
 .pf-stat-num   { font-size: 22px !important; }
 .pf-stat-label { font-size: 12px !important; }
 .pf-etab,
 .pf-ptab       { font-size: 14px !important; }
 
-/* Empty state */
 .pf-empty-title { font-size: 17px !important; }
 .pf-empty-sub   { font-size: 14px !important; }
-
 
 .bar-item{
         white-space:nowrap;flex:none;padding:11px 14px;
@@ -2891,7 +2771,7 @@ body.dark-mode .logo-light  { display: none !important; }
 .s-editor   { border:1px solid var(--border); border-radius:10px; overflow:hidden; }
 .s-toolbar  { display:flex; flex-wrap:wrap; gap:2px; padding:5px 8px; background:var(--bg-soft); border-bottom:1px solid var(--border); }
 .s-toolbar button { background:transparent; border:none; padding:3px 7px; border-radius:6px; font-size:.85rem; cursor:pointer; color:var(--text); transition:background .15s; }
-.s-toolbar button:hover { background:rgba(145,70,255,.15); color:var(--primary); }
+.s-toolbar button:hover { background:rgba(21, 94, 239,.15); color:var(--primary); }
 .s-sep      { width:1px; background:var(--border); margin:2px 4px; align-self:stretch; display:inline-block; }
 .s-editable { min-height:180px; padding:.75rem 1rem; font-size:.9rem; line-height:1.7; outline:none; color:var(--text); }
 .s-editable h2 { margin-bottom:.35rem; }
@@ -2905,7 +2785,7 @@ body.dark-mode .logo-light  { display: none !important; }
 
 .s-action-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:.5rem; margin-bottom:.6rem; }
 .s-action-btn  { width:100%; text-align:left; padding:.65rem .8rem; border-radius:10px; cursor:pointer; border:1px solid var(--border); background:var(--bg-soft); transition:border-color .2s,background .2s; display:block; }
-.s-action-btn:hover { background:rgba(145,70,255,.08); border-color:var(--primary); }
+.s-action-btn:hover { background:rgba(21, 94, 239,.08); border-color:var(--primary); }
 
 .pf-trow-border { padding:10px 0; }
 
@@ -2920,13 +2800,6 @@ body.swal2-shown {
     overflow-y: scroll !important;
 }
 
-
-/* ═══════════════════════════════════════════════════════════
-   MOBİL RESPONSIVE — Tüm sayfalar için kapsamlı override
-   Bu bloğu mevcut CSS'inin EN SONUNA ekle
-   ═══════════════════════════════════════════════════════════ */
-
-/* ── Temel font scale — mobilde küçültülmüş ── */
 @media (max-width: 767.98px) {
     :root {
         --fs-xs:   11px;
@@ -2938,13 +2811,11 @@ body.swal2-shown {
         --fs-2xl:  22px;
     }
 
-    /* ── App container ── */
     .app-container {
         max-width: 100% !important;
         padding: 0 !important;
     }
 
-    /* ── Header ── */
     .app-header,
     .modern-header {
         padding: 0 10px !important;
@@ -2981,7 +2852,6 @@ body.swal2-shown {
         margin: 0 2px !important;
     }
 
-    /* ── Hero ── */
     .hero {
         padding: 28px 18px !important;
         border-radius: 12px !important;
@@ -2996,14 +2866,12 @@ body.swal2-shown {
         font-size: 12px !important;
     }
 
-    /* ── Profil Toolbar ── */
     .profile-toolbar {
         padding: 16px 14px !important;
         margin-bottom: 14px !important;
         border-radius: 12px !important;
     }
 
-    /* ── Admin Toolbar ── */
     .admin-toolbar {
         padding: 14px 14px !important;
         margin-bottom: 14px !important;
@@ -3021,7 +2889,6 @@ body.swal2-shown {
         font-size: 11px !important;
     }
 
-    /* ── Admin Stat kartları ── */
     .admin-stat {
         padding: 12px 12px !important;
         border-radius: 10px !important;
@@ -3046,7 +2913,6 @@ body.swal2-shown {
         font-size: 11px !important;
     }
 
-    /* ── Admin Card & Table ── */
     .admin-card {
         border-radius: 12px !important;
     }
@@ -3070,14 +2936,12 @@ body.swal2-shown {
         font-size: 12px !important;
     }
 
-    /* ── Admin Filter ── */
     .admin-filter-input,
     .admin-filter-select {
         height: 34px !important;
         font-size: 12px !important;
     }
 
-    /* ── Admin Butonlar ── */
     .btn-admin-pri,
     .btn-admin-sec,
     .btn-admin-success,
@@ -3087,7 +2951,6 @@ body.swal2-shown {
         border-radius: 8px !important;
     }
 
-    /* ── Admin Form ── */
     .admin-finput,
     .admin-fselect {
         height: 42px !important;
@@ -3098,7 +2961,6 @@ body.swal2-shown {
         font-size: 10px !important;
     }
 
-    /* ── Profil Summary Card ── */
     .profile-summary-card {
         border-radius: 12px !important;
     }
@@ -3113,7 +2975,6 @@ body.swal2-shown {
         border-radius: 10px !important;
     }
 
-    /* ── PF — Üst kart ── */
     .pf-root {
         gap: 6px !important;
     }
@@ -3171,7 +3032,6 @@ body.swal2-shown {
         margin-top: 6px !important;
     }
 
-    /* ── PF Stats ── */
     .pf-stats-row {
         flex-wrap: nowrap !important;
     }
@@ -3188,7 +3048,6 @@ body.swal2-shown {
         font-size: 10px !important;
     }
 
-    /* ── PF Aksiyon satırı ── */
     .pf-action-row {
         padding: 8px 12px !important;
         gap: 6px !important;
@@ -3207,7 +3066,6 @@ body.swal2-shown {
         font-size: 14px !important;
     }
 
-    /* ── PF Edit Drawer ── */
     .pf-edit-drawer {
         border-radius: 0 !important;
         border-left: none !important;
@@ -3249,7 +3107,6 @@ body.swal2-shown {
         font-size: 13px !important;
     }
 
-    /* ── PF Avatar upload ── */
     .pf-avatar-upload-row {
         gap: 12px !important;
         margin-bottom: 14px !important;
@@ -3269,7 +3126,6 @@ body.swal2-shown {
         font-size: 11px !important;
     }
 
-    /* ── PF Footer ── */
     .pf-footer {
         padding: 10px 14px !important;
         flex-wrap: wrap !important;
@@ -3287,7 +3143,6 @@ body.swal2-shown {
         border-radius: 7px !important;
     }
 
-    /* ── PF Content Area ── */
     .pf-content-area {
         border-radius: 0 !important;
         border-left: none !important;
@@ -3313,7 +3168,6 @@ body.swal2-shown {
         font-size: 10px !important;
     }
 
-    /* ── PF Toolbar ── */
     .pf-toolbar-title {
         font-size: 17px !important;
     }
@@ -3328,7 +3182,6 @@ body.swal2-shown {
         font-size: 12px !important;
     }
 
-    /* ── PF Stat Card ── */
     .pf-stat-card {
         padding: 10px 12px !important;
         gap: 10px !important;
@@ -3349,7 +3202,6 @@ body.swal2-shown {
         font-size: 10px !important;
     }
 
-    /* ── PF Table ── */
     .pf-filter-form {
         flex-direction: column !important;
     }
@@ -3397,7 +3249,6 @@ body.swal2-shown {
         font-size: 10px !important;
     }
 
-    /* ── PF Pagination ── */
     .pf-pagination-wrapper {
         padding: 10px 14px !important;
         gap: 6px !important;
@@ -3415,7 +3266,6 @@ body.swal2-shown {
         font-size: 11px !important;
     }
 
-    /* ── PF Güvenlik satırları ── */
     .pf-sec-item {
         padding: 12px 0 !important;
         gap: 10px !important;
@@ -3440,7 +3290,6 @@ body.swal2-shown {
         font-size: 11px !important;
     }
 
-    /* ── PF Toggle list ── */
     .pf-trow {
         padding: 12px 0 !important;
     }
@@ -3453,7 +3302,6 @@ body.swal2-shown {
         font-size: 11px !important;
     }
 
-    /* ── Settings Panel (s-*) ── */
     .s-form {
         padding: 0.4rem 0 !important;
     }
@@ -3519,20 +3367,17 @@ body.swal2-shown {
         height: 52px !important;
     }
 
-    /* ── Bar item (tab bar) ── */
     .bar-item {
         padding: 9px 10px !important;
         font-size: 12px !important;
     }
 
-    /* ── Genel Card ── */
     .card,
     .card-body,
     .card-header {
         border-radius: 10px !important;
     }
 
-    /* ── Auction Card ── */
     .auction-card {
         border-radius: 12px !important;
     }
@@ -3550,7 +3395,6 @@ body.swal2-shown {
         margin: 18px 0 10px !important;
     }
 
-    /* ── Badge & Avatar ── */
     .a-badge {
         padding: 3px 8px !important;
         font-size: 10px !important;
@@ -3563,7 +3407,6 @@ body.swal2-shown {
         border-radius: 8px !important;
     }
 
-    /* ── Admin Pages ── */
     .admin-pages {
         gap: 3px !important;
     }
@@ -3575,7 +3418,6 @@ body.swal2-shown {
         font-size: 11px !important;
     }
 
-    /* ── SweetAlert2 ── */
     .swal2-popup {
         border-radius: 14px !important;
         padding: 1.2rem !important;
@@ -3589,7 +3431,6 @@ body.swal2-shown {
         font-size: 13px !important;
     }
 
-    /* ── Overflow scroll için tablo ── */
     .pf-table-responsive,
     .admin-table,
     .table-responsive {
@@ -3597,7 +3438,6 @@ body.swal2-shown {
         -webkit-overflow-scrolling: touch !important;
     }
 
-    /* ── Profil action row ── */
     .pf-action-row-custom {
         flex-direction: column !important;
     }
@@ -3615,7 +3455,6 @@ body.swal2-shown {
         border-radius: 8px !important;
     }
 
-    /* ── Gizlilik & toggle ── */
     .pf-tog-input {
         width: 36px !important;
         height: 20px !important;
@@ -3630,7 +3469,6 @@ body.swal2-shown {
         left: 16px !important;
     }
 
-    /* ── Admin info row ── */
     .admin-info-row {
         padding: 9px 0 !important;
         gap: 8px !important;
@@ -3650,7 +3488,6 @@ body.swal2-shown {
         font-size: 12px !important;
     }
 
-    /* ── Profil info row ── */
     .profile-info-row {
         padding: 8px 0 !important;
         gap: 8px !important;
@@ -3662,14 +3499,12 @@ body.swal2-shown {
         border-radius: 7px !important;
     }
 
-    /* ── Admin upload ── */
     .admin-upload {
         padding: 10px 12px !important;
         gap: 10px !important;
         border-radius: 10px !important;
     }
 
-    /* ── Empty state ── */
     .pf-empty {
         padding: 36px 16px !important;
     }
@@ -3688,7 +3523,6 @@ body.swal2-shown {
         font-size: 12px !important;
     }
 
-    /* ── Sidebar dropdown ── */
     .sidebar-dropdown {
         min-width: 200px !important;
         border-radius: 10px !important;
@@ -3700,30 +3534,25 @@ body.swal2-shown {
         border-radius: 8px !important;
     }
 
-    /* ── Wrapping bar düzeltme ── */
     .wraping {
         gap: 4px !important;
     }
 
-    /* ── Info panel ── */
     .info-panel-custom,
     .pf-panel-custom {
         padding: 16px !important;
         border-radius: 12px !important;
     }
 
-    /* ── Drawer ── */
     .pf-inline-form {
         padding: 14px !important;
         border-radius: 8px !important;
     }
 
-    /* ── Top padding ── */
     .pf-top-padding {
         padding: 16px 14px 14px !important;
     }
 
-    /* ── Sosyal linkler ── */
     .pf-social-row {
         gap: 6px !important;
         margin-bottom: 8px !important;
@@ -3736,7 +3565,6 @@ body.swal2-shown {
         font-size: 14px !important;
     }
 
-    /* ── Alert ── */
     .alert {
         font-size: 12px !important;
         padding: 10px 12px !important;
@@ -3750,7 +3578,6 @@ body.swal2-shown {
     }
 }
 
-/* ── Tablet arası (768–991px) ── */
 @media (min-width: 768px) and (max-width: 991.98px) {
     :root {
         --fs-xs:   11px;
@@ -3786,11 +3613,6 @@ body.swal2-shown {
         grid-template-columns: 1fr 1fr !important;
     }
 }
-
-
-/* ═══════════════════════════════════════════════════════════
-   AUCTION PAGES
-   ═══════════════════════════════════════════════════════════ */
 
 .au-page-wrap      { margin: 2rem auto; padding: 0 1rem; }
 .au-page-head      { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
@@ -3951,8 +3773,8 @@ body.swal2-shown {
     transition: background .15s, border-color .15s;
 }
 .fl-back:hover {
-    background: rgba(145, 70, 255, 0.12);
-    border-color: rgba(145, 70, 255, 0.35);
+    background: rgba(21, 94, 239, 0.12);
+    border-color: rgba(21, 94, 239, 0.35);
     color: var(--text);
 }
 
@@ -4007,8 +3829,8 @@ body.swal2-shown {
     line-height: 1.6;
 }
 .fl-tab.active .fl-tab-count {
-    background: rgba(145, 70, 255, 0.15);
-    border-color: rgba(145, 70, 255, 0.3);
+    background: rgba(21, 94, 239, 0.15);
+    border-color: rgba(21, 94, 239, 0.3);
     color: var(--primary);
 }
 
@@ -4331,7 +4153,7 @@ body.swal2-shown {
     position: relative;
 }
 .notif-card:hover  { background: var(--search-hover); }
-.notif-card.unread { border-color: #7F77DD44; background: #7F77DD0d; }
+.notif-card.unread { border-color: #1242C844; background: #1242C80d; }
 
 .notif-avatar-wrap {
     position: relative;
@@ -4385,14 +4207,14 @@ body.swal2-shown {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #7F77DD;
+    background: #1242C8;
     flex-shrink: 0;
 }
 
     body.swal2-shown #kt_app_footer {
         position: fixed !important;
         bottom: 0 !important;
-        left: var(--kt-app-sidebar-width, 265px) !important; /* Sol menü genişliğini otomatik korur */
+        left: var(--kt-app-sidebar-width, 265px) !important;
         right: 0 !important;
         z-index: 100 !important;
     }
@@ -4403,8 +4225,6 @@ body.swal2-shown {
     border-color: var(--border);
     color: var(--text);
 }
-
-
 
 .dark-mode .form-control.form-control-solid:focus,
 .dark-mode .form-select.form-select-solid:focus {
@@ -4430,10 +4250,9 @@ body.swal2-shown {
     color: var(--text); white-space: pre-wrap; word-break: break-word;
 }
 .msg-bubble.admin .msg-text {
-    background: rgba(145,70,255,.1); border-color: rgba(145,70,255,.2);
+    background: rgba(21, 94, 239,.1); border-color: rgba(21, 94, 239,.2);
 }
 .msg-meta { font-size: var(--fs-xs); color: var(--muted); margin-top: 5px; }
-
 
 .support-faq-item { border-bottom: 1px solid var(--border); }
 .support-faq-item:last-child { border-bottom: none; }
@@ -4450,8 +4269,6 @@ body.swal2-shown {
 
 .support-textarea-wrap { position: relative; }
 
-
-/* ── Filtre barı ── */
 .idx-filterbar {
     display: flex;
     align-items: center;
@@ -4549,7 +4366,7 @@ body.swal2-shown {
 .idx-sort-btn.active {
     border-color: var(--primary);
     color: var(--primary);
-    background: rgba(145, 70, 255, .08);
+    background: rgba(21, 94, 239, .08);
 }
 
 .idx-filter-count {
@@ -4564,7 +4381,6 @@ body.swal2-shown {
     color: var(--text);
 }
 
-/* ── Section header ── */
 .idx-section-head {
     display: flex;
     align-items: center;
@@ -4602,7 +4418,6 @@ body.swal2-shown {
 
 .idx-see-all:hover { opacity: 1; }
 
-/* ── Auction card ── */
 .idx-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -4619,7 +4434,7 @@ body.swal2-shown {
 
 .idx-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(145, 70, 255, .38);
+    border-color: rgba(21, 94, 239, .38);
     color: var(--text);
 }
 
@@ -4659,7 +4474,6 @@ body.swal2-shown {
     100% { background-position: 400px 0; }
 }
 
-/* Badges */
 .idx-live-badge {
     position: absolute;
     top: 9px;
@@ -4719,7 +4533,6 @@ body.swal2-shown {
     backdrop-filter: blur(6px);
 }
 
-/* Card body */
 .idx-card-body {
     padding: 12px 14px;
     flex: 1;
@@ -4804,7 +4617,6 @@ body.swal2-shown {
 
 @keyframes tblink { 50% { opacity: .55; } }
 
-/* ── Empty state ── */
 .idx-empty {
     text-align: center;
     padding: 56px 20px;
@@ -4821,7 +4633,6 @@ body.swal2-shown {
 
 .idx-empty p { font-size: 13px; margin: 0; }
 
-/* ── No-results state ── */
 #no-results {
     display: none;
     text-align: center;
@@ -4837,7 +4648,6 @@ body.swal2-shown {
     opacity: .2;
 }
 
-/* ── Mobil filtre ── */
 @media (max-width: 767.98px) {
     .idx-filterbar {
         gap: 8px;
@@ -4895,7 +4705,6 @@ body.swal2-shown {
     .idx-sort-btn { padding: 0 12px; }
 }
 
-
 .dsc-hero {
     position: relative;
     height: 180px;
@@ -4913,7 +4722,7 @@ body.swal2-shown {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 60% 50%, rgba(145,70,255,.12) 0%, transparent 70%);
+    background: radial-gradient(ellipse at 60% 50%, rgba(21, 94, 239,.12) 0%, transparent 70%);
 }
 
 .dsc-hero-inner { position: relative; z-index: 1; }
@@ -4977,8 +4786,6 @@ body.swal2-shown {
     gap: .2rem;
     margin-top: .1rem;
 }
-
-
 
 .au-payment-options-modern{
     display:grid;
@@ -5060,14 +4867,12 @@ body.swal2-shown {
     color: var(--muted);
 }
 
-/* ACTIVE STATE (CRITICAL FIX) */
 .payment-tile.active {
     border-color: var(--primary);
     background: var(--primary-soft);
     box-shadow: 0 0 0 3px var(--primary-soft);
 }
 
-/* PRESET BUTTONS FIX */
 .au-preset-btn {
     border: 1px solid var(--border);
     background: var(--card);
@@ -5088,7 +4893,6 @@ body.swal2-shown {
     border-color: var(--primary);
 }
 
-/* INPUT FIX */
 .pf-input,
 .form-control {
     background: var(--card);
@@ -5102,7 +4906,6 @@ body.swal2-shown {
     box-shadow: 0 0 0 3px var(--primary-soft);
 }
 
-/* SMALL IMPROVEMENTS */
 .au-section-label {
     color: var(--text);
     font-weight: 600;
@@ -5112,7 +4915,6 @@ body.swal2-shown {
     color: var(--muted) !important;
 }
 
-/* BALANCE PILL */
 .balance-pill{
     background: var(--search-bg, #fff);
     border: 1px solid var(--search-border, #e5e7eb);
@@ -5132,12 +4934,12 @@ body.swal2-shown {
 
 .balance-pill:hover{
     transform: translateY(-1px);
-    background: rgba(145, 70, 255, 0.15) !important;
-    border-color: rgba(145, 70, 255, 0.35) !important;
+    background: rgba(21, 94, 239, 0.15) !important;
+    border-color: rgba(21, 94, 239, 0.35) !important;
 }
 
 .balance-topup-btn{
-    background: linear-gradient(135deg, #7F77DD, #9b8cff);
+    background: linear-gradient(135deg, #1242C8, #155EEF);
     border: none;
     color: white;
     font-weight: 600;
@@ -5148,13 +4950,12 @@ body.swal2-shown {
 
 .balance-topup-btn:hover{
     transform: translateY(-1px);
-    box-shadow: 0 10px 25px rgba(127,119,221,.25);
+    box-shadow: 0 10px 25px rgba(18,66,200,.25);
 }
 
 .dark-mode .balance-pill{
     color: #f9fafb;
 }
-
 
 .select2-container .select2-selection--single{
     padding: 10px 14px;
@@ -5266,13 +5067,13 @@ body.swal2-shown {
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: rgba(145, 70, 255, 0.08) !important;
+    background-color: rgba(21, 94, 239, 0.08) !important;
     background-color: color-mix(in srgb, var(--text) 8%, transparent) !important;
     color: var(--text) !important;
 }
 
 .select2-container--default .select2-results__option[aria-selected="true"] {
-    background-color: rgba(145, 70, 255, 0.1) !important;
+    background-color: rgba(21, 94, 239, 0.1) !important;
     color: var(--primary) !important;
     font-weight: 600 !important;
 }

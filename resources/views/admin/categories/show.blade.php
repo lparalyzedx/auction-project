@@ -1,10 +1,7 @@
 @extends('layouts.app')
 @section('title', $category->name . ' — Kategori Detay')
 @section('content')
-
 <div class="pf-root">
-
-    {{-- HERO --}}
     <div class="pf-top">
         <div class="pf-cover"></div>
 
@@ -21,7 +18,9 @@
                     <div class="pf-uname-row">
                         <span class="pf-uname">{{ $category->name }}</span>
                         @if($category->is_active)
-                            <span class="pf-role-badge pf-badge-active">✓ Aktif</span>
+                            <span class="pf-role-badge pf-badge-active">
+                                <span class="pf-pulse-dot"></span> Aktif
+                            </span>
                         @else
                             <span class="pf-role-badge pf-badge-passive">⏸ Pasif</span>
                         @endif
@@ -58,7 +57,7 @@
                 <ol class="breadcrumb mb-0 pf-breadcrumb-list">
                     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="pf-link-primary">Admin</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('admin.categories.index') }}" class="pf-link-primary">Kategoriler</a></li>
-                    <li class="breadcrumb-item active" class="pf-text-muted">{{ $category->name }}</li>
+                    <li class="breadcrumb-item active pf-text-muted">{{ $category->name }}</li>
                 </ol>
             </nav>
             <div class="pf-btn-gap">
@@ -74,14 +73,12 @@
         </div>
     </div>
 
-    {{-- FLASH --}}
     @if(session('category_success'))
-    <div class="pf-flash-success">
+    <div class="pf-alert-success">
         <i class="bi bi-check-circle-fill"></i> {{ session('category_success') }}
     </div>
     @endif
 
-    {{-- TABS --}}
     <div class="pf-content-area">
         <div class="pf-tab-bar">
             <button class="pf-ptab active" onclick="switchPTab('bilgiler',this)">
@@ -90,7 +87,7 @@
             <button class="pf-ptab" onclick="switchPTab('altlar',this)">
                 <i class="bi bi-folder2 me-1"></i> Alt Kategoriler
                 @if($category->children_count > 0)
-                    <span class="pf-tab-counter">
+                    <span class="pf-badge pf-badge-cyan ms-1">
                         {{ $category->children_count }}
                     </span>
                 @endif
@@ -100,7 +97,6 @@
             </button>
         </div>
 
-        {{-- BİLGİLER --}}
         <div id="pc-bilgiler">
             <div class="pf-edit-drawer open pf-drawer-clean">
                 <div class="pf-epanel active pf-panel-custom">
@@ -141,8 +137,7 @@
             </div>
         </div>
 
-        {{-- ALT KATEGORİLER --}}
-        <div id="pc-altlar" style="display: none;">
+        <div id="pc-altlar" class="pf-tab-content-hidden">
             @if($category->children->count() > 0)
             <div class="pf-table-responsive">
                 <table class="pf-table-clean">
@@ -204,8 +199,7 @@
             @endif
         </div>
 
-        {{-- İŞLEMLER --}}
-        <div id="pc-islemler" class="pf-actions-tab-padding" style="display: none;">
+        <div id="pc-islemler" class="pf-actions-tab-padding pf-tab-content-hidden">
             <div class="pf-toggle-list">
 
                 <div class="pf-trow pf-trow-border">
@@ -264,7 +258,7 @@ function switchPTab(key, btn) {
     btn.classList.add('active');
     ['bilgiler', 'altlar', 'islemler'].forEach(k => {
         const el = document.getElementById('pc-' + k);
-        if (el) el.style.display = k === key ? '' : 'none';
+        if (el) el.classList.toggle('pf-tab-content-hidden', k !== key);
     });
 }
 
@@ -274,7 +268,7 @@ document.querySelectorAll('.delete-btn').forEach(btn => {
         const children = parseInt(this.dataset.children || 0);
         const form     = this.closest('form');
         const extra    = children > 0
-            ? `<br><span style="color:#f87171;font-size:12px;">⚠️ ${children} alt kategori de silinecek!</span>`
+            ? `<br><span class="pf-text-danger pf-font-size-13">⚠️ ${children} alt kategori de silinecek!</span>`
             : '';
         Swal.fire({
             title: 'Emin misin?',

@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Support\Str;
 
 class Auction extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, InteractsWithMedia;
 
     protected $fillable = [
         'user_id','category_id','title','slug','description',
@@ -69,4 +70,26 @@ class Auction extends Model
     public function isActive(): bool  { return $this->status === 'active' && $this->ends_at->isFuture(); }
     public function isEnding(): bool  { return $this->isActive() && $this->ends_at->diffInHours() < 24; }
     public function bidCount(): int   { return $this->bids()->count(); }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('images')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
+            ->useDisk('public');
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(400)
+            ->height(300)
+            ->format('webp')
+            ->performOnCollections('images');
+
+        $this->addMediaConversion('card')
+            ->width(800)
+            ->height(600)
+            ->format('webp')
+            ->performOnCollections('images');
+    }
 }

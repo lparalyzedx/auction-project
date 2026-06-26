@@ -247,7 +247,7 @@
                         </div>
                     </div>
                     <div class="d-flex gap-2">
-                        <button type="submit" class="pf-btn-save" style="font-size:.8rem;">
+                        <button type="submit" class="pf-btn-save">
                             <i class="bi bi-check me-1"></i> Güncelle
                         </button>
                         <button type="button" class="pf-btn-reset" onclick="toggleInline('email-form')">Vazgeç</button>
@@ -300,7 +300,7 @@
                     </div>
                     <div class="pf-hint mt-2 mb-3">En az 8 karakter, büyük/küçük harf ve sembol içermeli.</div>
                     <div class="d-flex gap-2">
-                        <button type="submit" class="pf-btn-save" style="font-size:.8rem;">
+                        <button type="submit" class="pf-btn-save">
                             <i class="bi bi-check me-1"></i> Güncelle
                         </button>
                         <button type="button" class="pf-btn-reset" onclick="toggleInline('pass-form')">Vazgeç</button>

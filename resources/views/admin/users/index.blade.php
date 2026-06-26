@@ -19,14 +19,13 @@
 
         <div class="row g-3 mt-2">
             @foreach([
-                ['lbl'=>'Toplam Üye',  'num'=>$stats['total'],    'icon'=>'bi-people',        'color'=>'var(--primary)',  'bg'=>'rgba(124,58,237,.1)'],
-                ['lbl'=>'Doğrulanmış', 'num'=>$stats['verified'], 'icon'=>'bi-shield-check',  'color'=>'#10b981',         'bg'=>'rgba(16,185,129,.1)'],
-                ['lbl'=>'Beklemede',   'num'=>$stats['pending'],  'icon'=>'bi-clock',           'color'=>'#fbbf24',         'bg'=>'rgba(251,191,36,.1)'],
-                ['lbl'=>'Satıcı',      'num'=>$stats['sellers'],  'icon'=>'bi-shop',            'color'=>'#06b6d4',         'bg'=>'rgba(6,182,212,.1)'],
-                ['lbl'=>'Alıcı',       'num'=>$stats['buyers'],   'icon'=>'bi-person',          'color'=>'var(--primary)',  'bg'=>'rgba(124,58,237,.08)'],
-                ['lbl'=>'Admin',       'num'=>$stats['admins'],   'icon'=>'bi-star',            'color'=>'#f87171',         'bg'=>'rgba(248,113,113,.1)'],
+                ['lbl'=>'Toplam Üye',  'num'=>$stats['total'],    'icon'=>'bi-people',        'color'=>'var(--primary)',  'bg'=>'rgba(124,58,237,.1)','col' => '12'],
+                ['lbl'=>'Doğrulanmış', 'num'=>$stats['verified'], 'icon'=>'bi-shield-check',  'color'=>'#10b981',         'bg'=>'rgba(16,185,129,.1)', 'col' => '3'],
+                ['lbl'=>'Beklemede',   'num'=>$stats['pending'],  'icon'=>'bi-clock',           'color'=>'#fbbf24',         'bg'=>'rgba(251,191,36,.1)', 'col' => '3'],
+                ['lbl'=>'Satıcı',      'num'=>$stats['sellers'],  'icon'=>'bi-shop',            'color'=>'#06b6d4',         'bg'=>'rgba(6,182,212,.1)', 'col' => '3'],
+                ['lbl'=>'Alıcı',       'num'=>$stats['buyers'],   'icon'=>'bi-person',          'color'=>'var(--primary)',  'bg'=>'rgba(124,58,237,.08)', 'col' => '3'],
             ] as $s)
-            <div class="col-6 col-md-4 col-xl-2">
+            <div class="col-6 col-md-4 col-xl-{{ $s['col'] }}">
                 <div class="pf-stat-card">
                     <div class="pf-stat-icon-wrapper" style="background: {{ $s['bg'] }};">
                         <i class="bi {{ $s['icon'] }}" style="color: {{ $s['color'] }};"></i>
